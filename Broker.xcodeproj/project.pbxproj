@@ -6,14 +6,181 @@
 	objectVersion = 46;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		DB4C0E26143D2F4F0090F5E3 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DB4C0E25143D2F4F0090F5E3 /* Foundation.framework */; };
+		DB4C0E2C143D2F4F0090F5E3 /* Broker.m in Sources */ = {isa = PBXBuildFile; fileRef = DB4C0E2B143D2F4F0090F5E3 /* Broker.m */; };
+		DB4C0E34143D2F4F0090F5E3 /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DB4C0E33143D2F4F0090F5E3 /* SenTestingKit.framework */; };
+		DB4C0E36143D2F4F0090F5E3 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DB4C0E35143D2F4F0090F5E3 /* UIKit.framework */; };
+		DB4C0E37143D2F4F0090F5E3 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DB4C0E25143D2F4F0090F5E3 /* Foundation.framework */; };
+		DB4C0E3A143D2F4F0090F5E3 /* libBroker.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DB4C0E22143D2F4F0090F5E3 /* libBroker.a */; };
+		DB4C0E40143D2F4F0090F5E3 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = DB4C0E3E143D2F4F0090F5E3 /* InfoPlist.strings */; };
+		DB4C0E43143D2F4F0090F5E3 /* BrokerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = DB4C0E42143D2F4F0090F5E3 /* BrokerTests.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		DB4C0E38143D2F4F0090F5E3 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = DB4C0E17143D2E770090F5E3 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = DB4C0E21143D2F4F0090F5E3;
+			remoteInfo = Broker;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		DB4C0E22143D2F4F0090F5E3 /* libBroker.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libBroker.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		DB4C0E25143D2F4F0090F5E3 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		DB4C0E29143D2F4F0090F5E3 /* Broker-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Broker-Prefix.pch"; sourceTree = "<group>"; };
+		DB4C0E2A143D2F4F0090F5E3 /* Broker.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Broker.h; sourceTree = "<group>"; };
+		DB4C0E2B143D2F4F0090F5E3 /* Broker.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Broker.m; sourceTree = "<group>"; };
+		DB4C0E32143D2F4F0090F5E3 /* BrokerTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BrokerTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
+		DB4C0E33143D2F4F0090F5E3 /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
+		DB4C0E35143D2F4F0090F5E3 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = Library/Frameworks/UIKit.framework; sourceTree = DEVELOPER_DIR; };
+		DB4C0E3D143D2F4F0090F5E3 /* BrokerTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "BrokerTests-Info.plist"; sourceTree = "<group>"; };
+		DB4C0E3F143D2F4F0090F5E3 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		DB4C0E41143D2F4F0090F5E3 /* BrokerTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BrokerTests.h; sourceTree = "<group>"; };
+		DB4C0E42143D2F4F0090F5E3 /* BrokerTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BrokerTests.m; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		DB4C0E1F143D2F4F0090F5E3 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DB4C0E26143D2F4F0090F5E3 /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		DB4C0E2E143D2F4F0090F5E3 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DB4C0E34143D2F4F0090F5E3 /* SenTestingKit.framework in Frameworks */,
+				DB4C0E36143D2F4F0090F5E3 /* UIKit.framework in Frameworks */,
+				DB4C0E37143D2F4F0090F5E3 /* Foundation.framework in Frameworks */,
+				DB4C0E3A143D2F4F0090F5E3 /* libBroker.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
 /* Begin PBXGroup section */
 		DB4C0E15143D2E770090F5E3 = {
 			isa = PBXGroup;
 			children = (
+				DB4C0E27143D2F4F0090F5E3 /* Broker */,
+				DB4C0E3B143D2F4F0090F5E3 /* BrokerTests */,
+				DB4C0E24143D2F4F0090F5E3 /* Frameworks */,
+				DB4C0E23143D2F4F0090F5E3 /* Products */,
 			);
 			sourceTree = "<group>";
 		};
+		DB4C0E23143D2F4F0090F5E3 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				DB4C0E22143D2F4F0090F5E3 /* libBroker.a */,
+				DB4C0E32143D2F4F0090F5E3 /* BrokerTests.octest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		DB4C0E24143D2F4F0090F5E3 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				DB4C0E25143D2F4F0090F5E3 /* Foundation.framework */,
+				DB4C0E33143D2F4F0090F5E3 /* SenTestingKit.framework */,
+				DB4C0E35143D2F4F0090F5E3 /* UIKit.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		DB4C0E27143D2F4F0090F5E3 /* Broker */ = {
+			isa = PBXGroup;
+			children = (
+				DB4C0E2A143D2F4F0090F5E3 /* Broker.h */,
+				DB4C0E2B143D2F4F0090F5E3 /* Broker.m */,
+				DB4C0E28143D2F4F0090F5E3 /* Supporting Files */,
+			);
+			path = Broker;
+			sourceTree = "<group>";
+		};
+		DB4C0E28143D2F4F0090F5E3 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				DB4C0E29143D2F4F0090F5E3 /* Broker-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		DB4C0E3B143D2F4F0090F5E3 /* BrokerTests */ = {
+			isa = PBXGroup;
+			children = (
+				DB4C0E41143D2F4F0090F5E3 /* BrokerTests.h */,
+				DB4C0E42143D2F4F0090F5E3 /* BrokerTests.m */,
+				DB4C0E3C143D2F4F0090F5E3 /* Supporting Files */,
+			);
+			path = BrokerTests;
+			sourceTree = "<group>";
+		};
+		DB4C0E3C143D2F4F0090F5E3 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				DB4C0E3D143D2F4F0090F5E3 /* BrokerTests-Info.plist */,
+				DB4C0E3E143D2F4F0090F5E3 /* InfoPlist.strings */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		DB4C0E20143D2F4F0090F5E3 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		DB4C0E21143D2F4F0090F5E3 /* Broker */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = DB4C0E44143D2F4F0090F5E3 /* Build configuration list for PBXNativeTarget "Broker" */;
+			buildPhases = (
+				DB4C0E1E143D2F4F0090F5E3 /* Sources */,
+				DB4C0E1F143D2F4F0090F5E3 /* Frameworks */,
+				DB4C0E20143D2F4F0090F5E3 /* Headers */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Broker;
+			productName = Broker;
+			productReference = DB4C0E22143D2F4F0090F5E3 /* libBroker.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+		DB4C0E31143D2F4F0090F5E3 /* BrokerTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = DB4C0E47143D2F4F0090F5E3 /* Build configuration list for PBXNativeTarget "BrokerTests" */;
+			buildPhases = (
+				DB4C0E2D143D2F4F0090F5E3 /* Sources */,
+				DB4C0E2E143D2F4F0090F5E3 /* Frameworks */,
+				DB4C0E2F143D2F4F0090F5E3 /* Resources */,
+				DB4C0E30143D2F4F0090F5E3 /* ShellScript */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				DB4C0E39143D2F4F0090F5E3 /* PBXTargetDependency */,
+			);
+			name = BrokerTests;
+			productName = BrokerTests;
+			productReference = DB4C0E32143D2F4F0090F5E3 /* BrokerTests.octest */;
+			productType = "com.apple.product-type.bundle";
+		};
+/* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
 		DB4C0E17143D2E770090F5E3 /* Project object */ = {
@@ -29,23 +196,203 @@
 				en,
 			);
 			mainGroup = DB4C0E15143D2E770090F5E3;
+			productRefGroup = DB4C0E23143D2F4F0090F5E3 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
+				DB4C0E21143D2F4F0090F5E3 /* Broker */,
+				DB4C0E31143D2F4F0090F5E3 /* BrokerTests */,
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		DB4C0E2F143D2F4F0090F5E3 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DB4C0E40143D2F4F0090F5E3 /* InfoPlist.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		DB4C0E30143D2F4F0090F5E3 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Run the unit tests in this test bundle.\n\"${SYSTEM_DEVELOPER_DIR}/Tools/RunUnitTests\"\n";
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		DB4C0E1E143D2F4F0090F5E3 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DB4C0E2C143D2F4F0090F5E3 /* Broker.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		DB4C0E2D143D2F4F0090F5E3 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DB4C0E43143D2F4F0090F5E3 /* BrokerTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		DB4C0E39143D2F4F0090F5E3 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = DB4C0E21143D2F4F0090F5E3 /* Broker */;
+			targetProxy = DB4C0E38143D2F4F0090F5E3 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		DB4C0E3E143D2F4F0090F5E3 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				DB4C0E3F143D2F4F0090F5E3 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		DB4C0E1C143D2E770090F5E3 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				SDKROOT = iphoneos;
 			};
 			name = Debug;
 		};
 		DB4C0E1D143D2E770090F5E3 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				SDKROOT = iphoneos;
+			};
+			name = Release;
+		};
+		DB4C0E45143D2F4F0090F5E3 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				COPY_PHASE_STRIP = NO;
+				DSTROOT = /tmp/Broker.dst;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Broker/Broker-Prefix.pch";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		DB4C0E46143D2F4F0090F5E3 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				COPY_PHASE_STRIP = YES;
+				DSTROOT = /tmp/Broker.dst;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Broker/Broker-Prefix.pch";
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		DB4C0E48143D2F4F0090F5E3 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				COPY_PHASE_STRIP = NO;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(DEVELOPER_LIBRARY_DIR)/Frameworks",
+				);
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Broker/Broker-Prefix.pch";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = "BrokerTests/BrokerTests-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				WRAPPER_EXTENSION = octest;
+			};
+			name = Debug;
+		};
+		DB4C0E49143D2F4F0090F5E3 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				COPY_PHASE_STRIP = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(DEVELOPER_LIBRARY_DIR)/Frameworks",
+				);
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Broker/Broker-Prefix.pch";
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = "BrokerTests/BrokerTests-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+				WRAPPER_EXTENSION = octest;
 			};
 			name = Release;
 		};
@@ -60,6 +407,22 @@
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
+		};
+		DB4C0E44143D2F4F0090F5E3 /* Build configuration list for PBXNativeTarget "Broker" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				DB4C0E45143D2F4F0090F5E3 /* Debug */,
+				DB4C0E46143D2F4F0090F5E3 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		DB4C0E47143D2F4F0090F5E3 /* Build configuration list for PBXNativeTarget "BrokerTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				DB4C0E48143D2F4F0090F5E3 /* Debug */,
+				DB4C0E49143D2F4F0090F5E3 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
 		};
 /* End XCConfigurationList section */
 	};
