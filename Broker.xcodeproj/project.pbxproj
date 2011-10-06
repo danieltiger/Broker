@@ -15,6 +15,8 @@
 		DB4C0E3A143D2F4F0090F5E3 /* libBroker.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DB4C0E22143D2F4F0090F5E3 /* libBroker.a */; };
 		DB4C0E40143D2F4F0090F5E3 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = DB4C0E3E143D2F4F0090F5E3 /* InfoPlist.strings */; };
 		DB4C0E43143D2F4F0090F5E3 /* BrokerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = DB4C0E42143D2F4F0090F5E3 /* BrokerTests.m */; };
+		DB4C0E56143D334C0090F5E3 /* BKEntityMap.h in Headers */ = {isa = PBXBuildFile; fileRef = DB4C0E54143D334C0090F5E3 /* BKEntityMap.h */; };
+		DB4C0E57143D334C0090F5E3 /* BKEntityMap.m in Sources */ = {isa = PBXBuildFile; fileRef = DB4C0E55143D334C0090F5E3 /* BKEntityMap.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -40,6 +42,8 @@
 		DB4C0E3F143D2F4F0090F5E3 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		DB4C0E41143D2F4F0090F5E3 /* BrokerTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BrokerTests.h; sourceTree = "<group>"; };
 		DB4C0E42143D2F4F0090F5E3 /* BrokerTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BrokerTests.m; sourceTree = "<group>"; };
+		DB4C0E54143D334C0090F5E3 /* BKEntityMap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BKEntityMap.h; sourceTree = "<group>"; };
+		DB4C0E55143D334C0090F5E3 /* BKEntityMap.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BKEntityMap.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -99,6 +103,8 @@
 			children = (
 				DB4C0E2A143D2F4F0090F5E3 /* Broker.h */,
 				DB4C0E2B143D2F4F0090F5E3 /* Broker.m */,
+				DB4C0E54143D334C0090F5E3 /* BKEntityMap.h */,
+				DB4C0E55143D334C0090F5E3 /* BKEntityMap.m */,
 				DB4C0E28143D2F4F0090F5E3 /* Supporting Files */,
 			);
 			path = Broker;
@@ -138,6 +144,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DB4C0E56143D334C0090F5E3 /* BKEntityMap.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -239,6 +246,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				DB4C0E2C143D2F4F0090F5E3 /* Broker.m in Sources */,
+				DB4C0E57143D334C0090F5E3 /* BKEntityMap.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -309,7 +317,9 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				OTHER_LDFLAGS = "-ObjC";
+				PRIVATE_HEADERS_FOLDER_PATH = include/Broker/Private;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PUBLIC_HEADERS_FOLDER_PATH = include/Broker;
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
 			};
@@ -331,7 +341,9 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				OTHER_LDFLAGS = "-ObjC";
+				PRIVATE_HEADERS_FOLDER_PATH = include/Broker/Private;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PUBLIC_HEADERS_FOLDER_PATH = include/Broker;
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
 				VALIDATE_PRODUCT = YES;
