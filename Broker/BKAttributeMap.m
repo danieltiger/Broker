@@ -6,13 +6,13 @@
 //  Copyright (c) 2011 __MyCompanyName__. All rights reserved.
 //
 
-#import "BKEntityAttributeExceptionsMap.h"
+#import "BKAttributeMap.h"
 
-@implementation BKEntityAttributeExceptionsMap
+@implementation BKAttributeMap
 
 @synthesize entityType, map;
 
-+ (BKEntityAttributeExceptionsMap *)mapFromNetworkAttributes:(NSArray *)networkAttributes toLocalAttributes:(NSArray *)localAttributes {
++ (BKAttributeMap *)mapFromNetworkAttributes:(NSArray *)networkAttributes toLocalAttributes:(NSArray *)localAttributes {
     
     return nil;
 }

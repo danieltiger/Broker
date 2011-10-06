@@ -15,8 +15,8 @@
 		DB4C0E3A143D2F4F0090F5E3 /* libBroker.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DB4C0E22143D2F4F0090F5E3 /* libBroker.a */; };
 		DB4C0E40143D2F4F0090F5E3 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = DB4C0E3E143D2F4F0090F5E3 /* InfoPlist.strings */; };
 		DB4C0E43143D2F4F0090F5E3 /* BrokerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = DB4C0E42143D2F4F0090F5E3 /* BrokerTests.m */; };
-		DB4C0E56143D334C0090F5E3 /* BKEntityAttributeExceptionsMap.h in Headers */ = {isa = PBXBuildFile; fileRef = DB4C0E54143D334C0090F5E3 /* BKEntityAttributeExceptionsMap.h */; };
-		DB4C0E57143D334C0090F5E3 /* BKEntityAttributeExceptionsMap.m in Sources */ = {isa = PBXBuildFile; fileRef = DB4C0E55143D334C0090F5E3 /* BKEntityAttributeExceptionsMap.m */; };
+		DB4C0E56143D334C0090F5E3 /* BKAttributeMap.h in Headers */ = {isa = PBXBuildFile; fileRef = DB4C0E54143D334C0090F5E3 /* BKAttributeMap.h */; };
+		DB4C0E57143D334C0090F5E3 /* BKAttributeMap.m in Sources */ = {isa = PBXBuildFile; fileRef = DB4C0E55143D334C0090F5E3 /* BKAttributeMap.m */; };
 		DB4C0E59143D34E50090F5E3 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DB4C0E58143D34E50090F5E3 /* CoreData.framework */; };
 		DB4C0E5E143D356C0090F5E3 /* JSONKit.h in Headers */ = {isa = PBXBuildFile; fileRef = DB4C0E5C143D356C0090F5E3 /* JSONKit.h */; };
 		DB4C0E5F143D356C0090F5E3 /* JSONKit.m in Sources */ = {isa = PBXBuildFile; fileRef = DB4C0E5D143D356C0090F5E3 /* JSONKit.m */; };
@@ -45,8 +45,8 @@
 		DB4C0E3F143D2F4F0090F5E3 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		DB4C0E41143D2F4F0090F5E3 /* BrokerTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BrokerTests.h; sourceTree = "<group>"; };
 		DB4C0E42143D2F4F0090F5E3 /* BrokerTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BrokerTests.m; sourceTree = "<group>"; };
-		DB4C0E54143D334C0090F5E3 /* BKEntityAttributeExceptionsMap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BKEntityAttributeExceptionsMap.h; sourceTree = "<group>"; };
-		DB4C0E55143D334C0090F5E3 /* BKEntityAttributeExceptionsMap.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BKEntityAttributeExceptionsMap.m; sourceTree = "<group>"; };
+		DB4C0E54143D334C0090F5E3 /* BKAttributeMap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BKAttributeMap.h; sourceTree = "<group>"; };
+		DB4C0E55143D334C0090F5E3 /* BKAttributeMap.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BKAttributeMap.m; sourceTree = "<group>"; };
 		DB4C0E58143D34E50090F5E3 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		DB4C0E5C143D356C0090F5E3 /* JSONKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JSONKit.h; path = Vendors/JSONKit/JSONKit.h; sourceTree = "<group>"; };
 		DB4C0E5D143D356C0090F5E3 /* JSONKit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = JSONKit.m; path = Vendors/JSONKit/JSONKit.m; sourceTree = "<group>"; };
@@ -112,8 +112,8 @@
 			children = (
 				DB4C0E2A143D2F4F0090F5E3 /* Broker.h */,
 				DB4C0E2B143D2F4F0090F5E3 /* Broker.m */,
-				DB4C0E54143D334C0090F5E3 /* BKEntityAttributeExceptionsMap.h */,
-				DB4C0E55143D334C0090F5E3 /* BKEntityAttributeExceptionsMap.m */,
+				DB4C0E54143D334C0090F5E3 /* BKAttributeMap.h */,
+				DB4C0E55143D334C0090F5E3 /* BKAttributeMap.m */,
 				DB4C0E28143D2F4F0090F5E3 /* Supporting Files */,
 			);
 			path = Broker;
@@ -170,7 +170,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DB4C0E56143D334C0090F5E3 /* BKEntityAttributeExceptionsMap.h in Headers */,
+				DB4C0E56143D334C0090F5E3 /* BKAttributeMap.h in Headers */,
 				DB4C0E5E143D356C0090F5E3 /* JSONKit.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -273,7 +273,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				DB4C0E2C143D2F4F0090F5E3 /* Broker.m in Sources */,
-				DB4C0E57143D334C0090F5E3 /* BKEntityAttributeExceptionsMap.m in Sources */,
+				DB4C0E57143D334C0090F5E3 /* BKAttributeMap.m in Sources */,
 				DB4C0E5F143D356C0090F5E3 /* JSONKit.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
