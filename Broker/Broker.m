@@ -10,14 +10,13 @@
 
 @implementation Broker
 
-- (id)init
-{
-    self = [super init];
-    if (self) {
-        // Initialization code here.
-    }
++ (void)registerEntityType:(NSString *)entityType {
     
-    return self;
 }
+
++ (void)registerEntityType:(NSString *)entityType andMapNetworkAttributes:(NSArray *)networkAttribute toLocalAttributes:(NSArray *)localAttributes {
+    
+}
+
 
 @end
