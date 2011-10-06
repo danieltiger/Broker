@@ -41,14 +41,6 @@
  */
 + (void)registerRelationshipsForEntityName:(NSString *)entityName;
 
-/**
- *
- */
-+ (void)setDestinationEntityName:(NSString *)destinationEntityName 
-                 forRelationship:(NSString *)relationship 
-                    onEntityName:(NSString *)entityName 
-                        isToMany:(BOOL)tooMany;
-
 
 ////////////////////////////////////////////////////////////////////////////////
 //                                 Processing                                 //

@@ -10,11 +10,11 @@
 
 @interface BKAttributeMap : NSObject {
 @private
-    NSString *entityType;
+    NSString *entityName;
     NSMutableDictionary *map;
 }
 
-@property (nonatomic, copy) NSString *entityType;
+@property (nonatomic, copy) NSString *entityName;
 @property (nonatomic, retain) NSMutableDictionary *map;
 
 
@@ -23,7 +23,7 @@
  */ 
 + (BKAttributeMap *)mapFromNetworkAttributes:(NSArray *)networkAttributes 
                            toLocalAttributes:(NSArray *)localAttributes
-                               forEntityType:(NSString *)entityType;
+                               forEntityName:(NSString *)entityName;
 
 /**
  * Query to see if network attribute has map

@@ -10,16 +10,24 @@
 
 @implementation BKAttributeMap
 
-@synthesize entityType, map;
+@synthesize entityName, map;
 
-+ (BKAttributeMap *)mapFromNetworkAttributes:(NSArray *)networkAttributes toLocalAttributes:(NSArray *)localAttributes {
+- (void)dealloc {
+    [entityName release], self.entityName = nil;
+    [map release], self.map = nil;
     
+    [super dealloc];
+}
+
++ (BKAttributeMap *)mapFromNetworkAttributes:(NSArray *)networkAttributes 
+                           toLocalAttributes:(NSArray *)localAttributes
+                               forEntityName:(NSString *)entityName {
     return nil;
 }
 
 #pragma mark - Accessors
 
-- (BOOL)hasExceptionForNetworkAttribute:(NSString *)attributeName {
+- (BOOL)hasMapForNetworkAttribute:(NSString *)attributeName {
     return NO;
 }
 

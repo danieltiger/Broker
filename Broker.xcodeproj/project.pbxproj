@@ -20,6 +20,9 @@
 		DB4C0E59143D34E50090F5E3 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DB4C0E58143D34E50090F5E3 /* CoreData.framework */; };
 		DB4C0E5E143D356C0090F5E3 /* JSONKit.h in Headers */ = {isa = PBXBuildFile; fileRef = DB4C0E5C143D356C0090F5E3 /* JSONKit.h */; };
 		DB4C0E5F143D356C0090F5E3 /* JSONKit.m in Sources */ = {isa = PBXBuildFile; fileRef = DB4C0E5D143D356C0090F5E3 /* JSONKit.m */; };
+		DB4C0E78143D84560090F5E3 /* BKRelationshipMap.h in Headers */ = {isa = PBXBuildFile; fileRef = DB4C0E76143D84560090F5E3 /* BKRelationshipMap.h */; };
+		DB4C0E79143D84560090F5E3 /* BKRelationshipMap.m in Sources */ = {isa = PBXBuildFile; fileRef = DB4C0E77143D84560090F5E3 /* BKRelationshipMap.m */; };
+		DBFF95C9143D8D80008511EA /* BrokerTestModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = DBFF95C7143D8D80008511EA /* BrokerTestModel.xcdatamodeld */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -50,6 +53,9 @@
 		DB4C0E58143D34E50090F5E3 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		DB4C0E5C143D356C0090F5E3 /* JSONKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JSONKit.h; path = Vendors/JSONKit/JSONKit.h; sourceTree = "<group>"; };
 		DB4C0E5D143D356C0090F5E3 /* JSONKit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = JSONKit.m; path = Vendors/JSONKit/JSONKit.m; sourceTree = "<group>"; };
+		DB4C0E76143D84560090F5E3 /* BKRelationshipMap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BKRelationshipMap.h; sourceTree = "<group>"; };
+		DB4C0E77143D84560090F5E3 /* BKRelationshipMap.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BKRelationshipMap.m; sourceTree = "<group>"; };
+		DBFF95C8143D8D80008511EA /* BrokerTestModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = BrokerTestModel.xcdatamodel; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -114,6 +120,8 @@
 				DB4C0E2B143D2F4F0090F5E3 /* Broker.m */,
 				DB4C0E54143D334C0090F5E3 /* BKAttributeMap.h */,
 				DB4C0E55143D334C0090F5E3 /* BKAttributeMap.m */,
+				DB4C0E76143D84560090F5E3 /* BKRelationshipMap.h */,
+				DB4C0E77143D84560090F5E3 /* BKRelationshipMap.m */,
 				DB4C0E28143D2F4F0090F5E3 /* Supporting Files */,
 			);
 			path = Broker;
@@ -133,6 +141,7 @@
 				DB4C0E41143D2F4F0090F5E3 /* BrokerTests.h */,
 				DB4C0E42143D2F4F0090F5E3 /* BrokerTests.m */,
 				DB4C0E3C143D2F4F0090F5E3 /* Supporting Files */,
+				DBFF95C7143D8D80008511EA /* BrokerTestModel.xcdatamodeld */,
 			);
 			path = BrokerTests;
 			sourceTree = "<group>";
@@ -172,6 +181,7 @@
 			files = (
 				DB4C0E56143D334C0090F5E3 /* BKAttributeMap.h in Headers */,
 				DB4C0E5E143D356C0090F5E3 /* JSONKit.h in Headers */,
+				DB4C0E78143D84560090F5E3 /* BKRelationshipMap.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -275,6 +285,7 @@
 				DB4C0E2C143D2F4F0090F5E3 /* Broker.m in Sources */,
 				DB4C0E57143D334C0090F5E3 /* BKAttributeMap.m in Sources */,
 				DB4C0E5F143D356C0090F5E3 /* JSONKit.m in Sources */,
+				DB4C0E79143D84560090F5E3 /* BKRelationshipMap.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -283,6 +294,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				DB4C0E43143D2F4F0090F5E3 /* BrokerTests.m in Sources */,
+				DBFF95C9143D8D80008511EA /* BrokerTestModel.xcdatamodeld in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -455,6 +467,7 @@
 				DB4C0E46143D2F4F0090F5E3 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		DB4C0E47143D2F4F0090F5E3 /* Build configuration list for PBXNativeTarget "BrokerTests" */ = {
 			isa = XCConfigurationList;
@@ -463,8 +476,22 @@
 				DB4C0E49143D2F4F0090F5E3 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		DBFF95C7143D8D80008511EA /* BrokerTestModel.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				DBFF95C8143D8D80008511EA /* BrokerTestModel.xcdatamodel */,
+			);
+			currentVersion = DBFF95C8143D8D80008511EA /* BrokerTestModel.xcdatamodel */;
+			path = BrokerTestModel.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = DB4C0E17143D2E770090F5E3 /* Project object */;
 }

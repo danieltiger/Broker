@@ -7,7 +7,13 @@
 //
 
 #import <SenTestingKit/SenTestingKit.h>
+#import <CoreData/CoreData.h>
 
-@interface BrokerTests : SenTestCase
+@interface BrokerTests : SenTestCase {
+    NSPersistentStoreCoordinator *coord;
+    NSManagedObjectContext *context;
+    NSManagedObjectModel *model;
+    NSPersistentStore *store;
+}
 
 @end

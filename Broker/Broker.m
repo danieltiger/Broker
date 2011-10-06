@@ -61,7 +61,15 @@ static NSMutableDictionary    *attributeMaps  = nil;
     for (NSString *relationship in relationships) {
         
         
+        
     }
+    
+}
+
++ (void)setDestinationEntityName:(NSString *)destinationEntityName 
+                 forRelationship:(NSString *)relationship 
+                    onEntityName:(NSString *)entityName 
+                        isToMany:(BOOL)tooMany {
     
 }
 
