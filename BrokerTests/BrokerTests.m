@@ -7,13 +7,14 @@
 //
 
 #import "BrokerTests.h"
+#import "Broker.h"
 
 @implementation BrokerTests
 
 - (void)setUp {
     [super setUp];
     
-    NSString *path = [[NSBundle bundleForClass:[BrokerTests class]] pathForResource:@"CoreJSONTestModel" 
+    NSString *path = [[NSBundle bundleForClass:[BrokerTests class]] pathForResource:@"BrokerTestModel" 
                                                                              ofType:@"momd"];
     
     NSURL *modelURL = [NSURL URLWithString:path];
@@ -31,7 +32,10 @@
                                         error:NULL];
     
     context = [[NSManagedObjectContext alloc] init];
-    [context setPersistentStoreCoordinator:coord];}
+    [context setPersistentStoreCoordinator:coord];
+
+    [Broker setupWithContext:context];
+}
 
 - (void)tearDown {
     [context release], context = nil;
@@ -48,8 +52,11 @@
     [super tearDown];
 }
 
-- (void)testExample {
-    STFail(@"Unit tests are not implemented yet in BrokerTests");
+- (void)testRegisterDepartment {
+
+    [Broker registerEntityName:@"Department"];
+
+    
 }
 
 @end

@@ -23,6 +23,7 @@
 		DB4C0E78143D84560090F5E3 /* BKRelationshipMap.h in Headers */ = {isa = PBXBuildFile; fileRef = DB4C0E76143D84560090F5E3 /* BKRelationshipMap.h */; };
 		DB4C0E79143D84560090F5E3 /* BKRelationshipMap.m in Sources */ = {isa = PBXBuildFile; fileRef = DB4C0E77143D84560090F5E3 /* BKRelationshipMap.m */; };
 		DBFF95C9143D8D80008511EA /* BrokerTestModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = DBFF95C7143D8D80008511EA /* BrokerTestModel.xcdatamodeld */; };
+		DBFF95CD143D9060008511EA /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DB4C0E58143D34E50090F5E3 /* CoreData.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -72,6 +73,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DBFF95CD143D9060008511EA /* CoreData.framework in Frameworks */,
 				DB4C0E34143D2F4F0090F5E3 /* SenTestingKit.framework in Frameworks */,
 				DB4C0E36143D2F4F0090F5E3 /* UIKit.framework in Frameworks */,
 				DB4C0E37143D2F4F0090F5E3 /* Foundation.framework in Frameworks */,

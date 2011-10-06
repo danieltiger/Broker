@@ -8,6 +8,7 @@
 
 #import "Broker.h"
 #import "BKAttributeMap.h"
+#import "BKRelationshipMap.h"
 
 @interface Broker (Private)
 
@@ -17,14 +18,16 @@
 
 #pragma mark - Class Instances
 
-static NSManagedObjectContext *context        = nil;
-static NSMutableDictionary    *attributeMaps  = nil;
+static NSManagedObjectContext *context          = nil;
+static NSMutableDictionary    *attributeMaps    = nil;
+static NSMutableDictionary    *relationshipMaps = nil;
 
 #pragma mark - Setup
 
 + (void)setupWithContext:(NSManagedObjectContext *)aContext {
-    context = aContext;
-    attributeMaps = [[NSMutableDictionary alloc] init];
+    context          = aContext;
+    attributeMaps    = [[NSMutableDictionary alloc] init];
+    relationshipMaps = [[NSMutableDictionary alloc] init];
 }
 
 #pragma mark - Registration
@@ -39,11 +42,13 @@ static NSMutableDictionary    *attributeMaps  = nil;
    andMapNetworkAttributes:(NSArray *)networkAttributes 
          toLocalAttributes:(NSArray *)localAttributes {
     
+    NSAssert(context, @"Broker must be setup with setupWithContext!");
+    
     // Attributes
     if (networkAttributes && localAttributes) {
         BKAttributeMap *map = [BKAttributeMap mapFromNetworkAttributes:networkAttributes 
                                                      toLocalAttributes:localAttributes
-                                                         forEntityType:entityName];
+                                                         forEntityName:entityName];
         [attributeMaps setObject:map forKey:entityName];
     }
     
@@ -60,19 +65,15 @@ static NSMutableDictionary    *attributeMaps  = nil;
     
     for (NSString *relationship in relationships) {
         
+        NSRelationshipDescription *description = (NSRelationshipDescription *)[relationships objectForKey:relationship];
         
+        BKRelationshipMap *map = [BKRelationshipMap mapForRelationshipNamed:relationship
+                                                withRelationshipDescription:description];
         
+        [relationshipMaps setValue:[NSDictionary dictionaryWithObject:map forKey:relationship]
+                            forKey:entityName];
     }
     
 }
-
-+ (void)setDestinationEntityName:(NSString *)destinationEntityName 
-                 forRelationship:(NSString *)relationship 
-                    onEntityName:(NSString *)entityName 
-                        isToMany:(BOOL)tooMany {
-    
-}
-
-
 
 @end

@@ -27,9 +27,9 @@
 
     map.relationshipName = relationshipName;
     map.destinationEntityName = description.destinationEntity.name;
-    map.entityName = description.name;
+    map.entityName = description.entity.name;
     map.isToMany = description.isToMany;
-    
+        
     return map;
 }
 
