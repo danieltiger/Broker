@@ -23,7 +23,6 @@
 @property (nonatomic, assign) BOOL isToMany;
 
 
-+ (BKRelationshipMap *)mapForRelationshipNamed:(NSString *)relationship
-                   withRelationshipDescription:(NSRelationshipDescription *)description;
++ (BKRelationshipMap *)mapWithRelationshipDescription:(NSRelationshipDescription *)description;
 
 @end

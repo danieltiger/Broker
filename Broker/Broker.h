@@ -9,6 +9,10 @@
 #import <Foundation/Foundation.h>
 #import <CoreData/CoreData.h>
 
+#import "BKAttributeMap.h"
+#import "BKRelationshipMap.h"
+
+
 @interface Broker : NSObject
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -47,5 +51,8 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 //+ (void)parseJSONPayload:(id)payload forEntity:(NSString *)entityName;
+
++ (BKRelationshipMap *)mapForRelationship:(NSString *)relationship 
+                             onEntityName:(NSString *)entityName;
 
 @end

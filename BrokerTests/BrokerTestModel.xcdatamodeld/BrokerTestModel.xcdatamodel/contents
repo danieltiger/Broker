@@ -3,7 +3,7 @@
     <entity name="Department" syncable="YES">
         <attribute name="departmentID" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
-        <relationship name="employees" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="Employee" inverseName="department" inverseEntity="Employee" syncable="YES"/>
+        <relationship name="employees" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Employee" inverseName="department" inverseEntity="Employee" syncable="YES"/>
     </entity>
     <entity name="Employee" syncable="YES">
         <attribute name="employeeID" optional="YES" attributeType="Integer 64" defaultValueString="0.0" syncable="YES"/>

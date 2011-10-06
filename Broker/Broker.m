@@ -7,8 +7,6 @@
 //
 
 #import "Broker.h"
-#import "BKAttributeMap.h"
-#import "BKRelationshipMap.h"
 
 @interface Broker (Private)
 
@@ -67,13 +65,24 @@ static NSMutableDictionary    *relationshipMaps = nil;
         
         NSRelationshipDescription *description = (NSRelationshipDescription *)[relationships objectForKey:relationship];
         
-        BKRelationshipMap *map = [BKRelationshipMap mapForRelationshipNamed:relationship
-                                                withRelationshipDescription:description];
+        BKRelationshipMap *map = [BKRelationshipMap mapWithRelationshipDescription:description];
         
         [relationshipMaps setValue:[NSDictionary dictionaryWithObject:map forKey:relationship]
                             forKey:entityName];
     }
     
+}
+
+#pragma mark - Accessors
+
++ (BKRelationshipMap *)mapForRelationship:(NSString *)relationship 
+                             onEntityName:(NSString *)entityName {
+    
+    NSDictionary *dict = [relationshipMaps objectForKey:entityName];
+    if (dict) {
+        return (BKRelationshipMap *)[dict objectForKey:relationship];
+    }
+    return nil;
 }
 
 @end

@@ -9,6 +9,17 @@
 #import "BrokerTests.h"
 #import "Broker.h"
 
+#import "BKAttributeMap.h"
+#import "BKRelationshipMap.h"
+
+// Department
+static NSString *kDepartment = @"Department";
+static NSString *kEmployeesRelationship = @"employees";
+
+// Employee
+static NSString *kEmployee = @"Employee";
+static NSString *kDepartmentRelationship = @"department";
+
 @implementation BrokerTests
 
 - (void)setUp {
@@ -52,11 +63,28 @@
     [super tearDown];
 }
 
-- (void)testRegisterDepartment {
-
-    [Broker registerEntityName:@"Department"];
-
+- (void)testRegisterDepartmentRelationshipMapExists {
     
+    [Broker registerEntityName:kDepartment];
+
+    BKRelationshipMap *map = [Broker mapForRelationship:kEmployeesRelationship 
+                                           onEntityName:kDepartment];
+    
+    STAssertNotNil(map, @"Broker should have an employee relationship map for Department after registration!");
+
+}
+
+- (void)testRegisterDepartmentRelationshipMap {
+    
+    [Broker registerEntityName:kDepartment];
+    
+    BKRelationshipMap *map = [Broker mapForRelationship:kEmployeesRelationship 
+                                           onEntityName:kDepartment];
+    
+    STAssertEqualObjects(map.relationshipName, kEmployeesRelationship, @"Relationship map should be named correctly");    
+    STAssertEqualObjects(map.destinationEntityName, kEmployee, @"Relationship map should have correct destination entity name");
+    STAssertEqualObjects(map.entityName, kDepartment, @"Relationship map should have correct entity name");
+    STAssertTrue(map.isToMany, @"Relationship map should be isToMany");
 }
 
 @end

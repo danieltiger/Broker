@@ -20,16 +20,17 @@
     [super dealloc];
 }
 
-+ (BKRelationshipMap *)mapForRelationshipNamed:(NSString *)relationshipName
-                   withRelationshipDescription:(NSRelationshipDescription *)description {
++ (BKRelationshipMap *)mapWithRelationshipDescription:(NSRelationshipDescription *)description {
     
     BKRelationshipMap *map = [[[BKRelationshipMap alloc] init] autorelease];
 
-    map.relationshipName = relationshipName;
+    map.relationshipName = description.name;
     map.destinationEntityName = description.destinationEntity.name;
     map.entityName = description.entity.name;
     map.isToMany = description.isToMany;
-        
+    
+    NSLog(@"map toMany: %d", map.isToMany);
+    
     return map;
 }
 
