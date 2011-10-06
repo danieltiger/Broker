@@ -17,6 +17,9 @@
 		DB4C0E43143D2F4F0090F5E3 /* BrokerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = DB4C0E42143D2F4F0090F5E3 /* BrokerTests.m */; };
 		DB4C0E56143D334C0090F5E3 /* BKEntityMap.h in Headers */ = {isa = PBXBuildFile; fileRef = DB4C0E54143D334C0090F5E3 /* BKEntityMap.h */; };
 		DB4C0E57143D334C0090F5E3 /* BKEntityMap.m in Sources */ = {isa = PBXBuildFile; fileRef = DB4C0E55143D334C0090F5E3 /* BKEntityMap.m */; };
+		DB4C0E59143D34E50090F5E3 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DB4C0E58143D34E50090F5E3 /* CoreData.framework */; };
+		DB4C0E5E143D356C0090F5E3 /* JSONKit.h in Headers */ = {isa = PBXBuildFile; fileRef = DB4C0E5C143D356C0090F5E3 /* JSONKit.h */; };
+		DB4C0E5F143D356C0090F5E3 /* JSONKit.m in Sources */ = {isa = PBXBuildFile; fileRef = DB4C0E5D143D356C0090F5E3 /* JSONKit.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -44,6 +47,9 @@
 		DB4C0E42143D2F4F0090F5E3 /* BrokerTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BrokerTests.m; sourceTree = "<group>"; };
 		DB4C0E54143D334C0090F5E3 /* BKEntityMap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BKEntityMap.h; sourceTree = "<group>"; };
 		DB4C0E55143D334C0090F5E3 /* BKEntityMap.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BKEntityMap.m; sourceTree = "<group>"; };
+		DB4C0E58143D34E50090F5E3 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
+		DB4C0E5C143D356C0090F5E3 /* JSONKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JSONKit.h; path = Vendors/JSONKit/JSONKit.h; sourceTree = "<group>"; };
+		DB4C0E5D143D356C0090F5E3 /* JSONKit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = JSONKit.m; path = Vendors/JSONKit/JSONKit.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -51,6 +57,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DB4C0E59143D34E50090F5E3 /* CoreData.framework in Frameworks */,
 				DB4C0E26143D2F4F0090F5E3 /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -76,6 +83,7 @@
 				DB4C0E3B143D2F4F0090F5E3 /* BrokerTests */,
 				DB4C0E24143D2F4F0090F5E3 /* Frameworks */,
 				DB4C0E23143D2F4F0090F5E3 /* Products */,
+				DB4C0E5A143D34FE0090F5E3 /* Vendors */,
 			);
 			sourceTree = "<group>";
 		};
@@ -91,6 +99,7 @@
 		DB4C0E24143D2F4F0090F5E3 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				DB4C0E58143D34E50090F5E3 /* CoreData.framework */,
 				DB4C0E25143D2F4F0090F5E3 /* Foundation.framework */,
 				DB4C0E33143D2F4F0090F5E3 /* SenTestingKit.framework */,
 				DB4C0E35143D2F4F0090F5E3 /* UIKit.framework */,
@@ -137,6 +146,23 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		DB4C0E5A143D34FE0090F5E3 /* Vendors */ = {
+			isa = PBXGroup;
+			children = (
+				DB4C0E5B143D35560090F5E3 /* JSONKit */,
+			);
+			name = Vendors;
+			sourceTree = "<group>";
+		};
+		DB4C0E5B143D35560090F5E3 /* JSONKit */ = {
+			isa = PBXGroup;
+			children = (
+				DB4C0E5C143D356C0090F5E3 /* JSONKit.h */,
+				DB4C0E5D143D356C0090F5E3 /* JSONKit.m */,
+			);
+			name = JSONKit;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -145,6 +171,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				DB4C0E56143D334C0090F5E3 /* BKEntityMap.h in Headers */,
+				DB4C0E5E143D356C0090F5E3 /* JSONKit.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -247,6 +274,7 @@
 			files = (
 				DB4C0E2C143D2F4F0090F5E3 /* Broker.m in Sources */,
 				DB4C0E57143D334C0090F5E3 /* BKEntityMap.m in Sources */,
+				DB4C0E5F143D356C0090F5E3 /* JSONKit.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
