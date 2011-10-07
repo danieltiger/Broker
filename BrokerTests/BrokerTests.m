@@ -88,7 +88,7 @@ static NSString *kDepartmentRelationship = @"department";
     BKRelationshipDescription *map = [Broker relationshipMapForRelationship:kEmployeesRelationship 
                                                        onEntityName:kDepartment];
     
-    STAssertEqualObjects(map.relationshipName, kEmployeesRelationship, @"Relationship map should be named correctly");    
+    STAssertEqualObjects(map.localRelationshipName, kEmployeesRelationship, @"Relationship map should be named correctly");    
     STAssertEqualObjects(map.destinationEntityName, kEmployee, @"Relationship map should have correct destination entity name");
     STAssertEqualObjects(map.entityName, kDepartment, @"Relationship map should have correct entity name");
     STAssertTrue(map.isToMany, @"Relationship map should be isToMany");
@@ -107,7 +107,6 @@ static NSString *kDepartmentRelationship = @"department";
     STAssertTrue([[transformedDict objectForKey:@"firstname"] isKindOfClass:[NSString class]], @"Transform dictionary should properly set class type");
     STAssertTrue([[transformedDict objectForKey:@"lastname"] isKindOfClass:[NSString class]], @"Transform dictionary should properly set class type");
     STAssertTrue([[transformedDict objectForKey:@"employeeID"] isKindOfClass:[NSNumber class]], @"Transform dictionary should properly set class type");
-
 }
 
 - (void)testFlatEmployeeJSONProcessing {

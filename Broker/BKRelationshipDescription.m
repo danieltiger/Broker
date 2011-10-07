@@ -10,10 +10,10 @@
 
 @implementation BKRelationshipDescription
 
-@synthesize relationshipName, destinationEntityName, entityName, isToMany;
+@synthesize localRelationshipName, destinationEntityName, entityName, isToMany;
 
 - (void)dealloc {
-    [relationshipName release], self.relationshipName = nil;
+    [localRelationshipName release], self.localRelationshipName = nil;
     [destinationEntityName release], self.destinationEntityName = nil;
     [entityName release], self.entityName = nil;
 
@@ -24,7 +24,7 @@
     
     BKRelationshipDescription *map = [[[BKRelationshipDescription alloc] init] autorelease];
 
-    map.relationshipName = description.name;
+    map.localRelationshipName = description.name;
     map.destinationEntityName = description.destinationEntity.name;
     map.entityName = description.entity.name;
     map.isToMany = description.isToMany;

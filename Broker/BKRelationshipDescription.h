@@ -11,13 +11,14 @@
 
 @interface BKRelationshipDescription : NSObject {
 @private
-    NSString *relationshipName;
+    NSString *localRelationshipName;
+    NSString *networkRelationshipName;
     NSString *destinationEntityName;
     NSString *entityName;
     BOOL isToMany;
 }
 
-@property (nonatomic, copy) NSString *relationshipName;
+@property (nonatomic, copy) NSString *localRelationshipName;
 @property (nonatomic, copy) NSString *destinationEntityName;
 @property (nonatomic, copy) NSString *entityName;
 @property (nonatomic, assign) BOOL isToMany;

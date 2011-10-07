@@ -7,8 +7,6 @@
 //
 
 #import "Broker.h"
-
-#import "NSManagedObject+Broker.h"
 #import "JSONKit.h"
 
 @interface Broker (Private)
@@ -136,8 +134,12 @@ static dispatch_queue_t jsonProcessingQueue = nil;
         
         NSDictionary *transformedDict = [self transformJSONDictionary:(NSDictionary *)jsonObject 
                                              usingEntityPropertiesMap:map];
-                
-        [object setValuesForKeysWithDictionary:transformedDict];
+        
+        // set values on object
+        for (NSString *key in transformedDict) {
+            [object setValue:[transformedDict valueForKey:key]
+                      forKey:key];
+        }
     }
     
     // Collection
