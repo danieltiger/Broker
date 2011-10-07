@@ -16,9 +16,9 @@
             attributeType;
 
 - (void)dealloc {
-    [entityName release], self.entityName = nil;
-    [localAttributeName release], self.localAttributeName = nil;
-    [networkAttributeName release], self.networkAttributeName = nil;
+    [entityName release];
+    [localAttributeName release];
+    [networkAttributeName release];
     
     [super dealloc];
 }
@@ -29,7 +29,7 @@
 }
 
 + (BKAttributeDescription *)descriptionWithAttributeDescription:(NSAttributeDescription *)description
-                        andMapToNetworkAttributeName:(NSString *)networkAttributeName {
+                                   andMapToNetworkAttributeName:(NSString *)networkAttributeName {
     
     BKAttributeDescription *map = [[[BKAttributeDescription alloc] init] autorelease];
     

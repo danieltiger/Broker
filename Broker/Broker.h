@@ -73,9 +73,10 @@
 
 + (BKEntityPropertiesDescription *)entityPropertyMapForEntityName:(NSString *)entityName;
 
-+ (BKAttributeDescription *)attributeMapForEntityName:(NSString *)entityName;
++ (BKAttributeDescription *)attributeDescriptionForProperty:(NSString *)attribute 
+                                               onEntityName:(NSString *)entityName;
 
-+ (BKRelationshipDescription *)relationshipMapForRelationship:(NSString *)relationship 
-                                         onEntityName:(NSString *)entityName;
++ (BKRelationshipDescription *)relationshipDescriptionForProperty:(NSString *)relationship 
+                                                         onEntityName:(NSString *)entityName;
 
 @end

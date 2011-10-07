@@ -18,7 +18,7 @@
 #pragma mark - Class Instances
 
 static NSManagedObjectContext *context = nil;
-static NSMutableDictionary *propertiesMaps = nil;
+static NSMutableDictionary *entityDescriptions = nil;
 
 static JSONDecoder *decoder = nil;
 
@@ -30,7 +30,7 @@ static dispatch_queue_t jsonProcessingQueue = nil;
 + (void)setupWithContext:(NSManagedObjectContext *)aContext {
     context = aContext;
     
-    propertiesMaps = [[NSMutableDictionary alloc] init];
+    entityDescriptions = [[NSMutableDictionary alloc] init];
     
     // takes JSON payload, returns JSON object
     decoder = [[JSONDecoder alloc] initWithParseOptions:JKParseOptionNone];
@@ -55,21 +55,22 @@ static dispatch_queue_t jsonProcessingQueue = nil;
         return;
     }
     
+    // create new object
     NSManagedObject *object = [NSEntityDescription insertNewObjectForEntityForName:entityName 
                                                             inManagedObjectContext:context];
     
-    BKEntityPropertiesDescription *map = [BKEntityPropertiesDescription descriptionForEntityName:entityName 
-                                                    withPropertiesByName:object.entity.propertiesByName
-                                                 andMapNetworkAttributes:networkAttributes
-                                                       toLocalAttributes:localAttributes];
     
-    [propertiesMaps setObject:map forKey:entityName];
-}
-
-+ (void)registerEntityName:(NSString *)entityName withNetworkToLocalAttributeTranslation:(NSDictionary *)networkAttributes {
+    BKEntityPropertiesDescription *desc = [BKEntityPropertiesDescription descriptionForEntityName:entityName 
+                                                                             withPropertiesByName:object.entity.propertiesByName
+                                                                          andMapNetworkProperties:networkAttributes
+                                                                                toLocalProperties:localAttributes];
     
+    // Add to descriptions
+    [entityDescriptions setObject:desc forKey:entityName];
+    
+    // cleanup
+    [context deleteObject:object];
 }
-
 
 #pragma mark - JSON
 
@@ -218,16 +219,29 @@ static dispatch_queue_t jsonProcessingQueue = nil;
 #pragma mark - Accessors
 
 + (BKEntityPropertiesDescription *)entityPropertyMapForEntityName:(NSString *)entityName {
-    return (BKEntityPropertiesDescription *)[propertiesMaps objectForKey:entityName];
+    return (BKEntityPropertiesDescription *)[entityDescriptions objectForKey:entityName];
 }
 
-+ (BKRelationshipDescription *)relationshipMapForRelationship:(NSString *)relationship 
-                                         onEntityName:(NSString *)entityName {
++ (BKAttributeDescription *)attributeDescriptionForProperty:(NSString *)property 
+                                               onEntityName:(NSString *)entityName {
+
+    BKEntityPropertiesDescription *desc = [entityDescriptions objectForKey:entityName];
     
-    BKEntityPropertiesDescription *map = [propertiesMaps objectForKey:entityName];
+    if (desc) {
+        return [desc attributeDescriptionForLocalProperty:property];
+    }
+    
+    return nil;
+}
+
+
++ (BKRelationshipDescription *)relationshipDescriptionForProperty:(NSString *)property 
+                                                     onEntityName:(NSString *)entityName {
+    
+    BKEntityPropertiesDescription *desc = [entityDescriptions objectForKey:entityName];
         
-    if (map) {
-        return [map relationshipMapForProperty:relationship];
+    if (desc) {
+        return [desc relationshipDescriptionForProperty:property];
     }
     
     return nil;

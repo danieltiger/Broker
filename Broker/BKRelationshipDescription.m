@@ -10,12 +10,17 @@
 
 @implementation BKRelationshipDescription
 
-@synthesize localRelationshipName, destinationEntityName, entityName, isToMany;
+@synthesize localRelationshipName,
+            networkRelationshipName,
+            destinationEntityName, 
+            entityName,
+            isToMany;
 
 - (void)dealloc {
-    [localRelationshipName release], self.localRelationshipName = nil;
-    [destinationEntityName release], self.destinationEntityName = nil;
-    [entityName release], self.entityName = nil;
+    [localRelationshipName release];
+    [localRelationshipName release];
+    [destinationEntityName release];
+    [entityName release];
 
     [super dealloc];
 }

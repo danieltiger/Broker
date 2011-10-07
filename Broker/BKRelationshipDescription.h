@@ -19,6 +19,7 @@
 }
 
 @property (nonatomic, copy) NSString *localRelationshipName;
+@property (nonatomic, copy) NSString *networkRelationshipName;
 @property (nonatomic, copy) NSString *destinationEntityName;
 @property (nonatomic, copy) NSString *entityName;
 @property (nonatomic, assign) BOOL isToMany;

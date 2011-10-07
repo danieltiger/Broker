@@ -12,22 +12,29 @@
 
 @implementation BKEntityPropertiesDescription
 
-@synthesize entityName, propertiesDescriptions;
+@synthesize entityName, 
+            propertiesDescriptions,
+            propertiesMap;
 
 - (void)dealloc {
-    [entityName release], self.entityName = nil;
-    [propertiesDescriptions release], self.propertiesDescriptions = nil;
+    [entityName release];
+    [propertiesDescriptions release];
+    [propertiesMap release];
     
     [super dealloc];
 }
 
 + (BKEntityPropertiesDescription *)descriptionForEntityName:(NSString *)entityName 
-                       withPropertiesByName:(NSDictionary *)properties
-                    andMapNetworkAttributes:(NSArray *)networkAttributes
-                          toLocalAttributes:(NSArray *)localAttributes {
+                                       withPropertiesByName:(NSDictionary *)properties
+                                    andMapNetworkProperties:(NSArray *)networkProperties
+                                          toLocalProperties:(NSArray *)localProperties {
     
     BKEntityPropertiesDescription *description = [[[BKEntityPropertiesDescription alloc] init] autorelease];
     description.entityName = entityName;
+    
+    BKEntityPropertiesMap *map = [BKEntityPropertiesMap mapFromNetworkProperties:networkProperties
+                                                               toLocalProperties:localProperties
+                                                                       forEntity:entityName];
     
     NSMutableDictionary *tempPropertiesDescriptions = [[[NSMutableDictionary alloc] init] autorelease];
     
@@ -37,12 +44,20 @@
         id description = [properties objectForKey:property];
         
         if ([description isKindOfClass:[NSAttributeDescription class]]) {
-            BKAttributeDescription *attrDescription = [BKAttributeDescription descriptionWithAttributeDescription:(NSAttributeDescription *)description];
+            BKAttributeDescription *attrDescription = [BKAttributeDescription descriptionWithAttributeDescription:(NSAttributeDescription *)description
+                                                                                     andMapToNetworkAttributeName:[map networkPropertyNameForLocalProperty:property]];
+            
+            if ([property isEqualToString:@"firstname"]) {
+                NSLog(@"break here");
+            }
+            
             [tempPropertiesDescriptions setObject:attrDescription forKey:property];
         }
         
         if ([description isKindOfClass:[NSRelationshipDescription class]]) {
             BKRelationshipDescription *relationshipDescription = [BKRelationshipDescription descriptionWithRelationshipDescription:(NSRelationshipDescription *)description];
+            
+            
             [tempPropertiesDescriptions setObject:relationshipDescription forKey:property];
         }
     }
@@ -70,7 +85,7 @@
     return [self attributeDescriptionForLocalProperty:property];
 }
 
-- (BKRelationshipDescription *)relationshipMapForProperty:(NSString *)property {
+- (BKRelationshipDescription *)relationshipDescriptionForProperty:(NSString *)property {
     
     id description = [self.propertiesDescriptions objectForKey:property];
     

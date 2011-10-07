@@ -20,7 +20,9 @@ static NSString *kEmployeesRelationship = @"employees";
 
 // Employee
 static NSString *kEmployee = @"Employee";
+static NSString *kEmployeeFirstname = @"firstname";
 static NSString *kDepartmentRelationship = @"department";
+
 
 @implementation BrokerTests
 
@@ -69,29 +71,53 @@ static NSString *kDepartmentRelationship = @"department";
 
 #pragma mark - Registration
 
-- (void)testRegisterDepartmentRelationshipMapExists {
+- (void)testRegisterRelationshipDescriptionExists {
     
     [Broker registerEntityName:kDepartment];
-    [Broker registerEntityName:kDepartment];
 
-    BKRelationshipDescription *map = [Broker relationshipMapForRelationship:kEmployeesRelationship 
+    BKRelationshipDescription *map = [Broker relationshipDescriptionForProperty:kEmployeesRelationship 
                                                        onEntityName:kDepartment];
     
     STAssertNotNil(map, @"Broker should have an employee relationship map for Department after registration!");
 
 }
 
-- (void)testRegisterDepartmentRelationshipMap {
+- (void)testRegisterRelationshipDescription {
     
     [Broker registerEntityName:kDepartment];
     
-    BKRelationshipDescription *map = [Broker relationshipMapForRelationship:kEmployeesRelationship 
-                                                       onEntityName:kDepartment];
+    BKRelationshipDescription *desc = [Broker relationshipDescriptionForProperty:kEmployeesRelationship 
+                                                                onEntityName:kDepartment];
     
-    STAssertEqualObjects(map.localRelationshipName, kEmployeesRelationship, @"Relationship map should be named correctly");    
-    STAssertEqualObjects(map.destinationEntityName, kEmployee, @"Relationship map should have correct destination entity name");
-    STAssertEqualObjects(map.entityName, kDepartment, @"Relationship map should have correct entity name");
-    STAssertTrue(map.isToMany, @"Relationship map should be isToMany");
+    STAssertEqualObjects(desc.localRelationshipName, kEmployeesRelationship, @"Relationship map should be named correctly");    
+    STAssertEqualObjects(desc.destinationEntityName, kEmployee, @"Relationship map should have correct destination entity name");
+    STAssertEqualObjects(desc.entityName, kDepartment, @"Relationship map should have correct entity name");
+    STAssertTrue(desc.isToMany, @"Relationship map should be isToMany");
+}
+
+- (void)testRegisterAttributeDescription {
+    
+    [Broker registerEntityName:kEmployee];
+    
+    BKAttributeDescription *desc = [Broker attributeDescriptionForProperty:@"firstname"
+                                                              onEntityName:kEmployee];
+    
+    STAssertEqualObjects(desc.entityName, kEmployee, @"Attribute description entity name should be set correctly");
+    STAssertEqualObjects(desc.localAttributeName, kEmployeeFirstname, @"Attribute description local attribute name should be set correctly");
+    STAssertNil(desc.networkAttributeName, @"Attribute description shouldn't have a network attribute name");
+}
+
+- (void)testRegisterAttributeDescriptionWithPropertyMap {
+    
+    [Broker registerEntityName:kEmployee andMapNetworkAttributes:[NSArray arrayWithObject:@"first-name"]
+                                               toLocalAttributes:[NSArray arrayWithObject:@"firstname"]];
+    
+    BKAttributeDescription *desc = [Broker attributeDescriptionForProperty:@"firstname"
+                                                              onEntityName:kEmployee];
+    
+    STAssertEqualObjects(desc.entityName, kEmployee, @"Attribute description entity name should be set correctly");
+    STAssertEqualObjects(desc.localAttributeName, kEmployeeFirstname, @"Attribute description local attribute name should be set correctly");
+    STAssertEqualObjects(desc.networkAttributeName, @"first-name", @"Attribute description network attribute name should be set correctly");
 }
 
 - (void)testTransformEmployeeJSONDictionary {
