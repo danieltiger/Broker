@@ -21,19 +21,19 @@ Once you have your data model built, the first step is to setup Broker with your
  
 Next is to register entities that you want to send/receive via JSON.
 
-	`[Broker registerEntityNamed:@"Employee"];`
+	[Broker registerEntityNamed:@"Employee"];
 
 You may need to map a property name:
 
-	`[Broker registerEntityNamed:@"Employee" andMapNetworkProperty:@"id" toLocalProperty:@"employeeID"];`
+	[Broker registerEntityNamed:@"Employee" andMapNetworkProperty:@"id" toLocalProperty:@"employeeID"];
 
 Or map multiple property names:
 
-	`[Broker registerEntityNamed:@"Employee" andMapNetworkProperties:[NSArray arrayWithObjects:@"id", @"first_name", nil] toLocalProperties:[NSArray arrayWithObjects:@"employeeID", @"firstname", nil]];`
+	[Broker registerEntityNamed:@"Employee" andMapNetworkProperties:[NSArray arrayWithObjects:@"id", @"first_name", nil] toLocalProperties:[NSArray arrayWithObjects:@"employeeID", @"firstname", nil]];
 
 As far as setup, that's really it.  From here you can take JSON payloads and point them to specific objects saved in your store using object URIs.
 
-	`[Broker parseJSONPayload:jsonPayload targetEntity:employeeURI];`
+	[Broker parseJSONPayload:jsonPayload targetEntity:employeeURI];
 
 This kicks off a couple async queues to both parse the JSON and set property values on the target entity.
 
