@@ -8,6 +8,9 @@
 
 #import "Broker.h"
 
+#import "NSManagedObject+Broker.h"
+#import "JSONKit.h"
+
 @interface Broker (Private)
 
 @end
@@ -17,15 +20,22 @@
 #pragma mark - Class Instances
 
 static NSManagedObjectContext *context          = nil;
-static NSMutableDictionary    *attributeMaps    = nil;
-static NSMutableDictionary    *relationshipMaps = nil;
+static NSMutableDictionary    *propertiesMaps     = nil;
+
+static JSONDecoder            *decoder  = nil;
+
+static dispatch_queue_t jsonParsingQueue = nil;
+static dispatch_queue_t jsonProcessingQueue = nil;
 
 #pragma mark - Setup
 
 + (void)setupWithContext:(NSManagedObjectContext *)aContext {
     context          = aContext;
-    attributeMaps    = [[NSMutableDictionary alloc] init];
-    relationshipMaps = [[NSMutableDictionary alloc] init];
+    
+    propertiesMaps     = [[NSMutableDictionary alloc] init];
+    
+    // takes JSON payload, returns JSON object
+    decoder = [[JSONDecoder alloc] initWithParseOptions:JKParseOptionNone];
 }
 
 #pragma mark - Registration
@@ -42,46 +52,205 @@ static NSMutableDictionary    *relationshipMaps = nil;
     
     NSAssert(context, @"Broker must be setup with setupWithContext!");
     
-    // Attributes
-    if (networkAttributes && localAttributes) {
-        BKAttributeMap *map = [BKAttributeMap mapFromNetworkAttributes:networkAttributes 
-                                                     toLocalAttributes:localAttributes
-                                                         forEntityName:entityName];
-        [attributeMaps setObject:map forKey:entityName];
-    }
-    
-    // Relationships
-    [self registerRelationshipsForEntityName:entityName];
-}
-
-+ (void)registerRelationshipsForEntityName:(NSString *)entityName {
-    
     NSManagedObject *object = [NSEntityDescription insertNewObjectForEntityForName:entityName 
                                                             inManagedObjectContext:context];
+
+    BKEntityPropertiesMap *map = [BKEntityPropertiesMap mapForEntityName:entityName 
+                                                    withPropertiesByName:object.entity.propertiesByName];
     
-    NSDictionary *relationships = [object.entity relationshipsByName];
+    [propertiesMaps setObject:map forKey:entityName];
+}
+
+#pragma mark - JSON
+
++ (void)parseJSONPayload:(id)jsonPayload 
+            targetEntity:(NSURL *)entityURI {
     
-    for (NSString *relationship in relationships) {
+    [self parseJSONPayload:jsonPayload
+              targetEntity:entityURI
+        targetRelationship:nil];
+
+}
+
++ (void)parseJSONPayload:(id)jsonPayload 
+            targetEntity:(NSURL *)entityURI
+      targetRelationship:(NSString *)relationshipName {
+
+    if (!jsonParsingQueue) {
+        jsonParsingQueue = dispatch_queue_create("com.Broker.jsonParsingQueue", NULL);
+    }
+
+    // dispatch parsing on separate thread
+    dispatch_async(jsonParsingQueue, ^{ 
         
-        NSRelationshipDescription *description = (NSRelationshipDescription *)[relationships objectForKey:relationship];
+        // JSONKit decoder
+        id jsonObject = [decoder objectWithData:jsonPayload]; 
         
-        BKRelationshipMap *map = [BKRelationshipMap mapWithRelationshipDescription:description];
+        // process the parsed json
+        [Broker processJSONObject:jsonObject 
+                     targetEntity:entityURI
+               targetRelationship:relationshipName];
+
+    });
+
+    dispatch_release(jsonParsingQueue);
+}
+
++ (void)processJSONObject:(id)jsonObject 
+             targetEntity:(NSURL *)entityURI 
+       targetRelationship:(NSString *)relationshipName {
+    
+    if (!jsonProcessingQueue) {
+        jsonProcessingQueue = dispatch_queue_create("com.Broker.jsonProcessingQueue", NULL);
+    }
+ 
+    dispatch_async(jsonProcessingQueue, ^{
+        [self whateverJSON:jsonObject
+              targetEntity:entityURI
+        targetRelationship:relationshipName];
+    });
+    
+    dispatch_release(jsonProcessingQueue);
+}
+
++ (void)whateverJSON:(id)jsonObject targetEntity:(NSURL *)entityURI targetRelationship:(NSString *)relationshipName {
+    
+    NSManagedObject *object = [self objectWithURI:entityURI];
+    
+    BKEntityPropertiesMap *map = [self entityPropertyMapForEntityName:object.entity.name];
+    
+    // Flat
+    if ([jsonObject isKindOfClass:[NSDictionary class]]) {
         
-        [relationshipMaps setValue:[NSDictionary dictionaryWithObject:map forKey:relationship]
-                            forKey:entityName];
+        NSDictionary *transformedDict = [self transformJSONDictionary:(NSDictionary *)jsonObject 
+                                             usingEntityPropertiesMap:map];
+        
+        [object setValuesForKeysWithDictionary:transformedDict];
     }
     
+    // Collection
+    if ([jsonObject isKindOfClass:[NSArray class]]) {
+        // array
+    }
+    
+}
+
++ (NSDictionary *)transformJSONDictionary:(NSDictionary *)jsonDictionary 
+                       usingEntityPropertiesMap:(BKEntityPropertiesMap *)entityMap {
+ 
+    NSMutableDictionary *transformedDict = [[[NSMutableDictionary alloc] init] autorelease];
+    
+    for (NSString *networkProperty in jsonDictionary) {
+        
+        // Test to see if networkProperty is relationship or attribute
+        if ([entityMap isPropertyRelationship:networkProperty]) {
+            // It's a relationship
+            
+        } else {
+            // It's an attribute
+            
+            // grab the map
+            BKAttributeMap *attrMap = [entityMap attributeMapForNetworkProperty:networkProperty];
+            
+            // get the original value
+            id value = [jsonDictionary valueForKey:networkProperty];
+            
+            // transform it using the attribute map
+            id valueAsObject = [self objectForValue:value 
+                                    ofAttributeType:attrMap.attributeType];
+            
+            // Add it to the transformed dictionary
+            [transformedDict setObject:valueAsObject
+                                forKey:attrMap.localAttributeName];
+        }
+    }
+    
+    return [NSDictionary dictionaryWithDictionary:transformedDict];
+}
+
+#pragma mark - CoreData
+
++ (NSManagedObject *)objectWithURI:(NSURL *)objectURI {
+    NSManagedObjectID *objectID = [[context persistentStoreCoordinator] managedObjectIDForURIRepresentation:objectURI];
+    
+    if (!objectID) return nil;
+    
+    NSManagedObject *objectForID = [context objectWithID:objectID];
+    
+    if (![objectForID isFault]) return objectForID;
+    
+    NSFetchRequest *request = [[[NSFetchRequest alloc] init] autorelease];
+    [request setEntity:[objectID entity]];
+    
+    // Predicate for fetching self.  Code is faster than string predicate equivalent of 
+    // [NSPredicate predicateWithFormat:@"SELF = %@", objectForID];
+    NSPredicate *predicate = [NSComparisonPredicate predicateWithLeftExpression:[NSExpression expressionForEvaluatedObject] 
+                                                                rightExpression:[NSExpression expressionForConstantValue:objectForID]
+                                                                       modifier:NSDirectPredicateModifier
+                                                                           type:NSEqualToPredicateOperatorType
+                                                                        options:0];
+    
+    [request setPredicate:predicate];
+    
+    NSArray *results = [context executeFetchRequest:request error:nil];
+    if ([results count] > 0 ) {
+        return [results objectAtIndex:0];
+    }
+    
+    return nil;
+}
+             
++ (id)objectForValue:(id)value ofAttributeType:(NSAttributeType)type {
+    switch (type) {
+        case NSUndefinedAttributeType:
+            return nil;
+            break;
+        case NSInteger16AttributeType ... NSInteger64AttributeType:
+            return [NSNumber numberWithInt:[value intValue]];
+            break;
+        case NSDecimalAttributeType:
+            return [NSDecimalNumber decimalNumberWithDecimal:[value decimalValue]];
+            break;
+        case NSDoubleAttributeType:
+            return [NSNumber numberWithDouble:[value doubleValue]];
+            break;
+        case NSFloatAttributeType:
+            return [NSNumber numberWithFloat:[value floatValue]];
+        case NSStringAttributeType:
+            return [NSString stringWithString:value];
+            break;
+        case NSBooleanAttributeType:
+            return [NSNumber numberWithBool:[value boolValue]];
+        case NSDateAttributeType:
+            return nil;
+        case NSBinaryDataAttributeType:
+            return nil;
+        case NSTransformableAttributeType:
+            return nil;
+        case NSObjectIDAttributeType:
+            return nil;
+            break;
+        default:
+            return nil;
+            break;
+    }
 }
 
 #pragma mark - Accessors
 
-+ (BKRelationshipMap *)mapForRelationship:(NSString *)relationship 
-                             onEntityName:(NSString *)entityName {
++ (BKEntityPropertiesMap *)entityPropertyMapForEntityName:(NSString *)entityName {
+    return (BKEntityPropertiesMap *)[propertiesMaps objectForKey:entityName];
+}
+
++ (BKRelationshipMap *)relationshipMapForRelationship:(NSString *)relationship 
+                                         onEntityName:(NSString *)entityName {
     
-    NSDictionary *dict = [relationshipMaps objectForKey:entityName];
-    if (dict) {
-        return (BKRelationshipMap *)[dict objectForKey:relationship];
+    BKEntityPropertiesMap *map = [propertiesMaps objectForKey:entityName];
+        
+    if (map) {
+        return [map relationshipMapForProperty:relationship];
     }
+    
     return nil;
 }
 

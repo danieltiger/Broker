@@ -9,6 +9,8 @@
 #import <Foundation/Foundation.h>
 #import <CoreData/CoreData.h>
 
+#import "BKEntityPropertiesMap.h"
+
 #import "BKAttributeMap.h"
 #import "BKRelationshipMap.h"
 
@@ -40,19 +42,40 @@
    andMapNetworkAttributes:(NSArray *)networkAttributes 
          toLocalAttributes:(NSArray *)localAttributes;
 
-/**
- *
- */
-+ (void)registerRelationshipsForEntityName:(NSString *)entityName;
-
-
 ////////////////////////////////////////////////////////////////////////////////
 //                                 Processing                                 //
 ////////////////////////////////////////////////////////////////////////////////
 
-//+ (void)parseJSONPayload:(id)payload forEntity:(NSString *)entityName;
++ (void)parseJSONPayload:(id)jsonPayload 
+            targetEntity:(NSURL *)entityURI;
 
-+ (BKRelationshipMap *)mapForRelationship:(NSString *)relationship 
-                             onEntityName:(NSString *)entityName;
++ (void)parseJSONPayload:(id)jsonPayload 
+            targetEntity:(NSURL *)entityURI
+      targetRelationship:(NSString *)relationshipName;
+
++ (void)processJSONObject:(id)jsonObject 
+             targetEntity:(NSURL *)entityURI 
+       targetRelationship:(NSString *)relationshipName;
+
++ (void)whateverJSON:(id)jsonObject targetEntity:(NSURL *)entityURI targetRelationship:(NSString *)relationshipName;
+
++ (NSDictionary *)transformJSONDictionary:(NSDictionary *)jsonDictionary 
+                       usingEntityPropertiesMap:(BKEntityPropertiesMap *)entityMap;
+
+
++ (NSManagedObject *)objectWithURI:(NSURL *)objectURI;
+
++ (id)objectForValue:(id)value ofAttributeType:(NSAttributeType)type;
+
+////////////////////////////////////////////////////////////////////////////////
+//                                 Accessors                                  //
+////////////////////////////////////////////////////////////////////////////////
+
++ (BKEntityPropertiesMap *)entityPropertyMapForEntityName:(NSString *)entityName;
+
++ (BKAttributeMap *)attributeMapForEntityName:(NSString *)entityName;
+
++ (BKRelationshipMap *)relationshipMapForRelationship:(NSString *)relationship 
+                                         onEntityName:(NSString *)entityName;
 
 @end

@@ -7,7 +7,9 @@
 //
 
 #import "BrokerTests.h"
+
 #import "Broker.h"
+#import "BrokerTestsHelpers.h"
 
 #import "BKAttributeMap.h"
 #import "BKRelationshipMap.h"
@@ -63,12 +65,14 @@ static NSString *kDepartmentRelationship = @"department";
     [super tearDown];
 }
 
+#pragma mark - Registration
+
 - (void)testRegisterDepartmentRelationshipMapExists {
     
     [Broker registerEntityName:kDepartment];
 
-    BKRelationshipMap *map = [Broker mapForRelationship:kEmployeesRelationship 
-                                           onEntityName:kDepartment];
+    BKRelationshipMap *map = [Broker relationshipMapForRelationship:kEmployeesRelationship 
+                                                       onEntityName:kDepartment];
     
     STAssertNotNil(map, @"Broker should have an employee relationship map for Department after registration!");
 
@@ -78,13 +82,63 @@ static NSString *kDepartmentRelationship = @"department";
     
     [Broker registerEntityName:kDepartment];
     
-    BKRelationshipMap *map = [Broker mapForRelationship:kEmployeesRelationship 
-                                           onEntityName:kDepartment];
+    BKRelationshipMap *map = [Broker relationshipMapForRelationship:kEmployeesRelationship 
+                                                       onEntityName:kDepartment];
     
     STAssertEqualObjects(map.relationshipName, kEmployeesRelationship, @"Relationship map should be named correctly");    
     STAssertEqualObjects(map.destinationEntityName, kEmployee, @"Relationship map should have correct destination entity name");
     STAssertEqualObjects(map.entityName, kDepartment, @"Relationship map should have correct entity name");
     STAssertTrue(map.isToMany, @"Relationship map should be isToMany");
+}
+
+- (void)testTransformEmployeeJSONDictionary {
+    
+    [Broker registerEntityName:kEmployee];
+    
+    NSDictionary *fakeJSON = [NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"Andrew", @"Smith", @"5678", nil]
+                                                         forKeys:[NSArray arrayWithObjects:@"firstname", @"lastname", @"employeeID", nil]];
+    
+    NSDictionary *transformedDict = [Broker transformJSONDictionary:fakeJSON 
+                                           usingEntityPropertiesMap:[Broker entityPropertyMapForEntityName:kEmployee]];
+    
+    [transformedDict objectForKey:@"firstname"];
+    
+    STAssertTrue([[transformedDict objectForKey:@"firstname"] isKindOfClass:[NSString class]], @"Transform dictionary should properly set class type");
+    STAssertTrue([[transformedDict objectForKey:@"lastname"] isKindOfClass:[NSString class]], @"Transform dictionary should properly set class type");
+    STAssertTrue([[transformedDict objectForKey:@"employeeID"] isKindOfClass:[NSNumber class]], @"Transform dictionary should properly set class type");
+
+}
+
+- (void)testFlatEmployeeJSONProcessing {
+    
+    NSData *jsonData = DataFromFile(@"employee_flat.json");
+    
+    [Broker registerEntityName:kEmployee];
+    
+    NSManagedObject *employee = [NSEntityDescription insertNewObjectForEntityForName:kEmployee 
+                                                              inManagedObjectContext:context];
+    
+    [Broker parseJSONPayload:jsonData
+                targetEntity:employee.objectID.URIRepresentation
+          targetRelationship:nil];
+    
+    NSLog(@"employee: %@", employee);
+        
+    STAssertEqualObjects([employee valueForKey:@"firstname"], @"Andrew", @"Attributes should be set correctly");
+    STAssertEqualObjects([employee valueForKey:@"lastname"], @"Smith", @"Attributes should be set correctly");
+    STAssertEqualObjects([employee valueForKey:@"employeeID"], [NSNumber numberWithInt:5678], @"Attributes should be set correctly");
+}
+
+#pragma mark - Core Data
+
+- (void)testObjectWithURI {
+    
+    NSManagedObject *department = [NSEntityDescription insertNewObjectForEntityForName:kDepartment 
+                                                                inManagedObjectContext:context];
+    
+    NSManagedObject *fetchedDepartment = [Broker objectWithURI:department.objectID.URIRepresentation];
+     
+    STAssertEqualObjects(department, fetchedDepartment, @"Should get the same object");
 }
 
 @end

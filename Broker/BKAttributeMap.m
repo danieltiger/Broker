@@ -10,30 +10,35 @@
 
 @implementation BKAttributeMap
 
-@synthesize entityName, map;
+@synthesize entityName, 
+            localAttributeName, 
+            networkAttributeName, 
+            attributeType;
 
 - (void)dealloc {
     [entityName release], self.entityName = nil;
-    [map release], self.map = nil;
+    [localAttributeName release], self.localAttributeName = nil;
+    [networkAttributeName release], self.networkAttributeName = nil;
     
     [super dealloc];
 }
 
-+ (BKAttributeMap *)mapFromNetworkAttributes:(NSArray *)networkAttributes 
-                           toLocalAttributes:(NSArray *)localAttributes
-                               forEntityName:(NSString *)entityName {
-    return nil;
-}
-
-#pragma mark - Accessors
-
-- (BOOL)hasMapForNetworkAttribute:(NSString *)attributeName {
-    return NO;
-}
-
-- (NSString *)localAttributeForNetworkAttribute:(NSString *)attributeName {
++ (BKAttributeMap *)mapWithAttributeDescription:(NSAttributeDescription *)description {
     
+    BKAttributeMap *map = [[[BKAttributeMap alloc] init] autorelease];
+    
+    map.entityName = description.entity.name;
+    map.localAttributeName = description.name;
+    map.attributeType = description.attributeType;
+    
+    return map;
+}
+
++ (BKAttributeMap *)mapWithAttributeDescription:(NSAttributeDescription *)description
+                  registerNetworkAttributeNames:(NSArray *)networkNames
+                         forLocalAttributeNames:(NSArray *)localNames {
     return nil;
 }
+
 
 @end

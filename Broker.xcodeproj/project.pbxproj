@@ -24,6 +24,12 @@
 		DB4C0E79143D84560090F5E3 /* BKRelationshipMap.m in Sources */ = {isa = PBXBuildFile; fileRef = DB4C0E77143D84560090F5E3 /* BKRelationshipMap.m */; };
 		DBFF95C9143D8D80008511EA /* BrokerTestModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = DBFF95C7143D8D80008511EA /* BrokerTestModel.xcdatamodeld */; };
 		DBFF95CD143D9060008511EA /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DB4C0E58143D34E50090F5E3 /* CoreData.framework */; };
+		DBFF95D3143E17D9008511EA /* BrokerTestsHelpers.m in Sources */ = {isa = PBXBuildFile; fileRef = DBFF95D2143E17D9008511EA /* BrokerTestsHelpers.m */; };
+		DBFF95D5143E187D008511EA /* TestResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = DBFF95D4143E187D008511EA /* TestResources.bundle */; };
+		DBFF95DD143E4DC2008511EA /* NSManagedObject+Broker.h in Headers */ = {isa = PBXBuildFile; fileRef = DBFF95DB143E4DC2008511EA /* NSManagedObject+Broker.h */; };
+		DBFF95DE143E4DC2008511EA /* NSManagedObject+Broker.m in Sources */ = {isa = PBXBuildFile; fileRef = DBFF95DC143E4DC2008511EA /* NSManagedObject+Broker.m */; };
+		DBFF95EB143E568C008511EA /* BKEntityPropertiesMap.h in Headers */ = {isa = PBXBuildFile; fileRef = DBFF95E9143E568C008511EA /* BKEntityPropertiesMap.h */; };
+		DBFF95EC143E568C008511EA /* BKEntityPropertiesMap.m in Sources */ = {isa = PBXBuildFile; fileRef = DBFF95EA143E568C008511EA /* BKEntityPropertiesMap.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -57,6 +63,13 @@
 		DB4C0E76143D84560090F5E3 /* BKRelationshipMap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BKRelationshipMap.h; sourceTree = "<group>"; };
 		DB4C0E77143D84560090F5E3 /* BKRelationshipMap.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BKRelationshipMap.m; sourceTree = "<group>"; };
 		DBFF95C8143D8D80008511EA /* BrokerTestModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = BrokerTestModel.xcdatamodel; sourceTree = "<group>"; };
+		DBFF95D1143E17D9008511EA /* BrokerTestsHelpers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BrokerTestsHelpers.h; sourceTree = "<group>"; };
+		DBFF95D2143E17D9008511EA /* BrokerTestsHelpers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BrokerTestsHelpers.m; sourceTree = "<group>"; };
+		DBFF95D4143E187D008511EA /* TestResources.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = TestResources.bundle; sourceTree = "<group>"; };
+		DBFF95DB143E4DC2008511EA /* NSManagedObject+Broker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSManagedObject+Broker.h"; sourceTree = "<group>"; };
+		DBFF95DC143E4DC2008511EA /* NSManagedObject+Broker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSManagedObject+Broker.m"; sourceTree = "<group>"; };
+		DBFF95E9143E568C008511EA /* BKEntityPropertiesMap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BKEntityPropertiesMap.h; sourceTree = "<group>"; };
+		DBFF95EA143E568C008511EA /* BKEntityPropertiesMap.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BKEntityPropertiesMap.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -120,10 +133,14 @@
 			children = (
 				DB4C0E2A143D2F4F0090F5E3 /* Broker.h */,
 				DB4C0E2B143D2F4F0090F5E3 /* Broker.m */,
+				DBFF95E9143E568C008511EA /* BKEntityPropertiesMap.h */,
+				DBFF95EA143E568C008511EA /* BKEntityPropertiesMap.m */,
 				DB4C0E54143D334C0090F5E3 /* BKAttributeMap.h */,
 				DB4C0E55143D334C0090F5E3 /* BKAttributeMap.m */,
 				DB4C0E76143D84560090F5E3 /* BKRelationshipMap.h */,
 				DB4C0E77143D84560090F5E3 /* BKRelationshipMap.m */,
+				DBFF95DB143E4DC2008511EA /* NSManagedObject+Broker.h */,
+				DBFF95DC143E4DC2008511EA /* NSManagedObject+Broker.m */,
 				DB4C0E28143D2F4F0090F5E3 /* Supporting Files */,
 			);
 			path = Broker;
@@ -142,8 +159,11 @@
 			children = (
 				DB4C0E41143D2F4F0090F5E3 /* BrokerTests.h */,
 				DB4C0E42143D2F4F0090F5E3 /* BrokerTests.m */,
-				DB4C0E3C143D2F4F0090F5E3 /* Supporting Files */,
+				DBFF95D1143E17D9008511EA /* BrokerTestsHelpers.h */,
+				DBFF95D2143E17D9008511EA /* BrokerTestsHelpers.m */,
 				DBFF95C7143D8D80008511EA /* BrokerTestModel.xcdatamodeld */,
+				DBFF95D4143E187D008511EA /* TestResources.bundle */,
+				DB4C0E3C143D2F4F0090F5E3 /* Supporting Files */,
 			);
 			path = BrokerTests;
 			sourceTree = "<group>";
@@ -184,6 +204,8 @@
 				DB4C0E56143D334C0090F5E3 /* BKAttributeMap.h in Headers */,
 				DB4C0E5E143D356C0090F5E3 /* JSONKit.h in Headers */,
 				DB4C0E78143D84560090F5E3 /* BKRelationshipMap.h in Headers */,
+				DBFF95DD143E4DC2008511EA /* NSManagedObject+Broker.h in Headers */,
+				DBFF95EB143E568C008511EA /* BKEntityPropertiesMap.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -258,6 +280,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				DB4C0E40143D2F4F0090F5E3 /* InfoPlist.strings in Resources */,
+				DBFF95D5143E187D008511EA /* TestResources.bundle in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -288,6 +311,8 @@
 				DB4C0E57143D334C0090F5E3 /* BKAttributeMap.m in Sources */,
 				DB4C0E5F143D356C0090F5E3 /* JSONKit.m in Sources */,
 				DB4C0E79143D84560090F5E3 /* BKRelationshipMap.m in Sources */,
+				DBFF95DE143E4DC2008511EA /* NSManagedObject+Broker.m in Sources */,
+				DBFF95EC143E568C008511EA /* BKEntityPropertiesMap.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -297,6 +322,7 @@
 			files = (
 				DB4C0E43143D2F4F0090F5E3 /* BrokerTests.m in Sources */,
 				DBFF95C9143D8D80008511EA /* BrokerTestModel.xcdatamodeld in Sources */,
+				DBFF95D3143E17D9008511EA /* BrokerTestsHelpers.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -28,9 +28,7 @@
     map.destinationEntityName = description.destinationEntity.name;
     map.entityName = description.entity.name;
     map.isToMany = description.isToMany;
-    
-    NSLog(@"map toMany: %d", map.isToMany);
-    
+        
     return map;
 }
 
