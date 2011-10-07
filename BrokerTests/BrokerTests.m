@@ -73,7 +73,7 @@ static NSString *kDepartmentRelationship = @"department";
 
 - (void)testRegisterRelationshipDescriptionExists {
     
-    [Broker registerEntityName:kDepartment];
+    [Broker registerEntityNamed:kDepartment];
 
     BKRelationshipDescription *map = [Broker relationshipDescriptionForProperty:kEmployeesRelationship 
                                                        onEntityName:kDepartment];
@@ -84,7 +84,7 @@ static NSString *kDepartmentRelationship = @"department";
 
 - (void)testRegisterRelationshipDescription {
     
-    [Broker registerEntityName:kDepartment];
+    [Broker registerEntityNamed:kDepartment];
     
     BKRelationshipDescription *desc = [Broker relationshipDescriptionForProperty:kEmployeesRelationship 
                                                                 onEntityName:kDepartment];
@@ -97,7 +97,7 @@ static NSString *kDepartmentRelationship = @"department";
 
 - (void)testRegisterAttributeDescription {
     
-    [Broker registerEntityName:kEmployee];
+    [Broker registerEntityNamed:kEmployee];
     
     BKAttributeDescription *desc = [Broker attributeDescriptionForProperty:@"firstname"
                                                               onEntityName:kEmployee];
@@ -109,8 +109,8 @@ static NSString *kDepartmentRelationship = @"department";
 
 - (void)testRegisterAttributeDescriptionWithPropertyMap {
     
-    [Broker registerEntityName:kEmployee andMapNetworkAttributes:[NSArray arrayWithObject:@"first-name"]
-                                               toLocalAttributes:[NSArray arrayWithObject:@"firstname"]];
+    [Broker registerEntityNamed:kEmployee andMapNetworkProperties:[NSArray arrayWithObject:@"first-name"]
+                                               toLocalProperties:[NSArray arrayWithObject:@"firstname"]];
     
     BKAttributeDescription *desc = [Broker attributeDescriptionForProperty:@"firstname"
                                                               onEntityName:kEmployee];
@@ -122,7 +122,7 @@ static NSString *kDepartmentRelationship = @"department";
 
 - (void)testTransformEmployeeJSONDictionary {
     
-    [Broker registerEntityName:kEmployee];
+    [Broker registerEntityNamed:kEmployee];
     
     NSDictionary *fakeJSON = [NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"Andrew", @"Smith", @"5678", nil]
                                                          forKeys:[NSArray arrayWithObjects:@"firstname", @"lastname", @"employeeID", nil]];
@@ -139,7 +139,7 @@ static NSString *kDepartmentRelationship = @"department";
     
     NSData *jsonData = DataFromFile(@"employee_flat.json");
     
-    [Broker registerEntityName:kEmployee];
+    [Broker registerEntityNamed:kEmployee];
     
     NSManagedObject *employee = [NSEntityDescription insertNewObjectForEntityForName:kEmployee 
                                                               inManagedObjectContext:context];

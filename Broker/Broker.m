@@ -38,15 +38,26 @@ static dispatch_queue_t jsonProcessingQueue = nil;
 
 #pragma mark - Registration
 
-+ (void)registerEntityName:(NSString *)entityName {
-    [self registerEntityName:entityName 
-     andMapNetworkAttributes:nil 
-           toLocalAttributes:nil];
++ (void)registerEntityNamed:(NSString *)entityName {
+    [self registerEntityNamed:entityName 
+      andMapNetworkProperties:nil 
+            toLocalProperties:nil];
 }
 
-+ (void)registerEntityName:(NSString *)entityName 
-   andMapNetworkAttributes:(NSArray *)networkAttributes 
-         toLocalAttributes:(NSArray *)localAttributes {
++ (void)registerEntityNamed:(NSString *)entityName 
+      andMapNetworkProperty:(NSString *)networkProperty 
+            toLocalProperty:(NSString *)localProperty {
+    
+    [self registerEntityNamed:entityName 
+      andMapNetworkProperties:[NSArray arrayWithObject:networkProperty] 
+            toLocalProperties:[NSArray arrayWithObject:localProperty]];
+    
+}
+
+
++ (void)registerEntityNamed:(NSString *)entityName 
+    andMapNetworkProperties:(NSArray *)networkProperties 
+          toLocalProperties:(NSArray *)localProperties {
     
     NSAssert(context, @"Broker must be setup with setupWithContext!");
     
@@ -62,8 +73,8 @@ static dispatch_queue_t jsonProcessingQueue = nil;
     
     BKEntityPropertiesDescription *desc = [BKEntityPropertiesDescription descriptionForEntityName:entityName 
                                                                              withPropertiesByName:object.entity.propertiesByName
-                                                                          andMapNetworkProperties:networkAttributes
-                                                                                toLocalProperties:localAttributes];
+                                                                          andMapNetworkProperties:networkProperties
+                                                                                toLocalProperties:localProperties];
     
     // Add to descriptions
     [entityDescriptions setObject:desc forKey:entityName];
@@ -79,13 +90,13 @@ static dispatch_queue_t jsonProcessingQueue = nil;
     
     [self parseJSONPayload:jsonPayload
               targetEntity:entityURI
-        forRelationship:nil];
+           forRelationship:nil];
 
 }
 
 + (void)parseJSONPayload:(id)jsonPayload 
             targetEntity:(NSURL *)entityURI
-      forRelationship:(NSString *)relationshipName {
+         forRelationship:(NSString *)relationshipName {
 
     if (!jsonParsingQueue) {
         jsonParsingQueue = dispatch_queue_create("com.Broker.jsonParsingQueue", NULL);

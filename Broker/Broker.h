@@ -31,16 +31,20 @@
  * Regsister object where network attribute names are the same as local 
  * attribute names.
  */
-+ (void)registerEntityName:(NSString *)entityName;
++ (void)registerEntityNamed:(NSString *)entityName;
+
++ (void)registerEntityNamed:(NSString *)entityName 
+      andMapNetworkProperty:(NSString *)networkProperty 
+            toLocalProperty:(NSString *)localProperty;
 
 /**
  * Register object where some of the network attribute names are not the same as
  * local attribute names.  A common excpetion for "MyObject" might be mapping a 
  * network attribute 'id' to local attribute of 'myObjectID.'
  */
-+ (void)registerEntityName:(NSString *)entityName 
-   andMapNetworkAttributes:(NSArray *)networkAttributes 
-         toLocalAttributes:(NSArray *)localAttributes;
++ (void)registerEntityNamed:(NSString *)entityName 
+    andMapNetworkProperties:(NSArray *)networkProperties 
+          toLocalProperties:(NSArray *)localProperties;
 
 ////////////////////////////////////////////////////////////////////////////////
 //                                 Processing                                 //
