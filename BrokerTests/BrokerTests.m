@@ -48,6 +48,8 @@ static NSString *kDepartmentRelationship = @"department";
     [context setPersistentStoreCoordinator:coord];
 
     [Broker setupWithContext:context];
+    
+    decoder = [[JSONDecoder alloc] initWithParseOptions:JKParseOptionNone];
 }
 
 - (void)tearDown {
@@ -100,9 +102,7 @@ static NSString *kDepartmentRelationship = @"department";
     
     NSDictionary *transformedDict = [Broker transformJSONDictionary:fakeJSON 
                                            usingEntityPropertiesMap:[Broker entityPropertyMapForEntityName:kEmployee]];
-    
-    [transformedDict objectForKey:@"firstname"];
-    
+        
     STAssertTrue([[transformedDict objectForKey:@"firstname"] isKindOfClass:[NSString class]], @"Transform dictionary should properly set class type");
     STAssertTrue([[transformedDict objectForKey:@"lastname"] isKindOfClass:[NSString class]], @"Transform dictionary should properly set class type");
     STAssertTrue([[transformedDict objectForKey:@"employeeID"] isKindOfClass:[NSNumber class]], @"Transform dictionary should properly set class type");
@@ -118,12 +118,10 @@ static NSString *kDepartmentRelationship = @"department";
     NSManagedObject *employee = [NSEntityDescription insertNewObjectForEntityForName:kEmployee 
                                                               inManagedObjectContext:context];
     
-    [Broker parseJSONPayload:jsonData
-                targetEntity:employee.objectID.URIRepresentation
-          targetRelationship:nil];
+    id jsonObject = [decoder objectWithData:jsonData]; 
     
-    NSLog(@"employee: %@", employee);
-        
+    [Broker whateverJSON:jsonObject targetEntity:employee.objectID.URIRepresentation targetRelationship:nil];
+
     STAssertEqualObjects([employee valueForKey:@"firstname"], @"Andrew", @"Attributes should be set correctly");
     STAssertEqualObjects([employee valueForKey:@"lastname"], @"Smith", @"Attributes should be set correctly");
     STAssertEqualObjects([employee valueForKey:@"employeeID"], [NSNumber numberWithInt:5678], @"Attributes should be set correctly");

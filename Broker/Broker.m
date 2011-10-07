@@ -124,7 +124,7 @@ static dispatch_queue_t jsonProcessingQueue = nil;
         
         NSDictionary *transformedDict = [self transformJSONDictionary:(NSDictionary *)jsonObject 
                                              usingEntityPropertiesMap:map];
-        
+                
         [object setValuesForKeysWithDictionary:transformedDict];
     }
     
@@ -156,12 +156,13 @@ static dispatch_queue_t jsonProcessingQueue = nil;
             id value = [jsonDictionary valueForKey:networkProperty];
             
             // transform it using the attribute map
-            id valueAsObject = [self objectForValue:value 
-                                    ofAttributeType:attrMap.attributeType];
-            
+            id valueAsObject = [attrMap objectForValue:value];
+                        
             // Add it to the transformed dictionary
-            [transformedDict setObject:valueAsObject
-                                forKey:attrMap.localAttributeName];
+            if (valueAsObject) {
+                [transformedDict setObject:valueAsObject
+                                    forKey:attrMap.localAttributeName];
+            }
         }
     }
     
@@ -198,42 +199,6 @@ static dispatch_queue_t jsonProcessingQueue = nil;
     }
     
     return nil;
-}
-             
-+ (id)objectForValue:(id)value ofAttributeType:(NSAttributeType)type {
-    switch (type) {
-        case NSUndefinedAttributeType:
-            return nil;
-            break;
-        case NSInteger16AttributeType ... NSInteger64AttributeType:
-            return [NSNumber numberWithInt:[value intValue]];
-            break;
-        case NSDecimalAttributeType:
-            return [NSDecimalNumber decimalNumberWithDecimal:[value decimalValue]];
-            break;
-        case NSDoubleAttributeType:
-            return [NSNumber numberWithDouble:[value doubleValue]];
-            break;
-        case NSFloatAttributeType:
-            return [NSNumber numberWithFloat:[value floatValue]];
-        case NSStringAttributeType:
-            return [NSString stringWithString:value];
-            break;
-        case NSBooleanAttributeType:
-            return [NSNumber numberWithBool:[value boolValue]];
-        case NSDateAttributeType:
-            return nil;
-        case NSBinaryDataAttributeType:
-            return nil;
-        case NSTransformableAttributeType:
-            return nil;
-        case NSObjectIDAttributeType:
-            return nil;
-            break;
-        default:
-            return nil;
-            break;
-    }
 }
 
 #pragma mark - Accessors

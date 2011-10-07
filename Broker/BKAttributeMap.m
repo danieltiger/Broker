@@ -40,5 +40,43 @@
     return nil;
 }
 
+- (id)objectForValue:(id)value {
+    
+    NSAttributeType type = [self attributeType];
+    
+    switch (type) {
+        case NSUndefinedAttributeType:
+            return nil;
+            break;
+        case NSInteger16AttributeType ... NSInteger64AttributeType:
+            return [NSNumber numberWithInt:[value intValue]];
+            break;
+        case NSDecimalAttributeType:
+            return [NSDecimalNumber decimalNumberWithDecimal:[value decimalValue]];
+            break;
+        case NSDoubleAttributeType:
+            return [NSNumber numberWithDouble:[value doubleValue]];
+            break;
+        case NSFloatAttributeType:
+            return [NSNumber numberWithFloat:[value floatValue]];
+        case NSStringAttributeType:
+            return [NSString stringWithString:value];
+            break;
+        case NSBooleanAttributeType:
+            return [NSNumber numberWithBool:[value boolValue]];
+        case NSDateAttributeType:
+            return nil;
+        case NSBinaryDataAttributeType:
+            return nil;
+        case NSTransformableAttributeType:
+            return nil;
+        case NSObjectIDAttributeType:
+            return nil;
+            break;
+        default:
+            return nil;
+            break;
+    }
+}
 
 @end

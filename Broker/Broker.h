@@ -57,15 +57,15 @@
              targetEntity:(NSURL *)entityURI 
        targetRelationship:(NSString *)relationshipName;
 
-+ (void)whateverJSON:(id)jsonObject targetEntity:(NSURL *)entityURI targetRelationship:(NSString *)relationshipName;
++ (void)whateverJSON:(id)jsonObject 
+        targetEntity:(NSURL *)entityURI 
+  targetRelationship:(NSString *)relationshipName;
 
 + (NSDictionary *)transformJSONDictionary:(NSDictionary *)jsonDictionary 
-                       usingEntityPropertiesMap:(BKEntityPropertiesMap *)entityMap;
+                 usingEntityPropertiesMap:(BKEntityPropertiesMap *)entityMap;
 
 
 + (NSManagedObject *)objectWithURI:(NSURL *)objectURI;
-
-+ (id)objectForValue:(id)value ofAttributeType:(NSAttributeType)type;
 
 ////////////////////////////////////////////////////////////////////////////////
 //                                 Accessors                                  //

@@ -27,4 +27,6 @@
                   registerNetworkAttributeNames:(NSArray *)networkNames
                          forLocalAttributeNames:(NSArray *)localNames;
 
+- (id)objectForValue:(id)value;
+
 @end

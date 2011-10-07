@@ -8,12 +8,15 @@
 
 #import <SenTestingKit/SenTestingKit.h>
 #import <CoreData/CoreData.h>
+#import "JSONKit.h"
+
 
 @interface BrokerTests : SenTestCase {
     NSPersistentStoreCoordinator *coord;
     NSManagedObjectContext *context;
     NSManagedObjectModel *model;
     NSPersistentStore *store;
+    JSONDecoder *decoder;
 }
 
 @end
