@@ -6,9 +6,9 @@
 //  Copyright (c) 2011 __MyCompanyName__. All rights reserved.
 //
 
-#import "BKAttributeMap.h"
+#import "BKAttributeDescription.h"
 
-@implementation BKAttributeMap
+@implementation BKAttributeDescription
 
 @synthesize entityName, 
             localAttributeName, 
@@ -23,21 +23,22 @@
     [super dealloc];
 }
 
-+ (BKAttributeMap *)mapWithAttributeDescription:(NSAttributeDescription *)description {
++ (BKAttributeDescription *)descriptionWithAttributeDescription:(NSAttributeDescription *)description {
+    return [self descriptionWithAttributeDescription:description
+                     andMapToNetworkAttributeName:nil];
+}
+
++ (BKAttributeDescription *)descriptionWithAttributeDescription:(NSAttributeDescription *)description
+                        andMapToNetworkAttributeName:(NSString *)networkAttributeName {
     
-    BKAttributeMap *map = [[[BKAttributeMap alloc] init] autorelease];
+    BKAttributeDescription *map = [[[BKAttributeDescription alloc] init] autorelease];
     
     map.entityName = description.entity.name;
     map.localAttributeName = description.name;
+    map.networkAttributeName = networkAttributeName;
     map.attributeType = description.attributeType;
     
     return map;
-}
-
-+ (BKAttributeMap *)mapWithAttributeDescription:(NSAttributeDescription *)description
-                  registerNetworkAttributeNames:(NSArray *)networkNames
-                         forLocalAttributeNames:(NSArray *)localNames {
-    return nil;
 }
 
 - (id)objectForValue:(id)value {

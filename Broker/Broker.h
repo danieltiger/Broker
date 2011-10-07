@@ -9,10 +9,10 @@
 #import <Foundation/Foundation.h>
 #import <CoreData/CoreData.h>
 
-#import "BKEntityPropertiesMap.h"
+#import "BKEntityPropertiesDescription.h"
 
-#import "BKAttributeMap.h"
-#import "BKRelationshipMap.h"
+#import "BKAttributeDescription.h"
+#import "BKRelationshipDescription.h"
 
 
 @interface Broker : NSObject
@@ -51,7 +51,7 @@
 
 + (void)parseJSONPayload:(id)jsonPayload 
             targetEntity:(NSURL *)entityURI
-      targetRelationship:(NSString *)relationshipName;
+      forRelationship:(NSString *)relationshipName;
 
 + (void)processJSONObject:(id)jsonObject 
              targetEntity:(NSURL *)entityURI 
@@ -62,7 +62,7 @@
   targetRelationship:(NSString *)relationshipName;
 
 + (NSDictionary *)transformJSONDictionary:(NSDictionary *)jsonDictionary 
-                 usingEntityPropertiesMap:(BKEntityPropertiesMap *)entityMap;
+                 usingEntityPropertiesMap:(BKEntityPropertiesDescription *)entityMap;
 
 
 + (NSManagedObject *)objectWithURI:(NSURL *)objectURI;
@@ -71,11 +71,11 @@
 //                                 Accessors                                  //
 ////////////////////////////////////////////////////////////////////////////////
 
-+ (BKEntityPropertiesMap *)entityPropertyMapForEntityName:(NSString *)entityName;
++ (BKEntityPropertiesDescription *)entityPropertyMapForEntityName:(NSString *)entityName;
 
-+ (BKAttributeMap *)attributeMapForEntityName:(NSString *)entityName;
++ (BKAttributeDescription *)attributeMapForEntityName:(NSString *)entityName;
 
-+ (BKRelationshipMap *)relationshipMapForRelationship:(NSString *)relationship 
++ (BKRelationshipDescription *)relationshipMapForRelationship:(NSString *)relationship 
                                          onEntityName:(NSString *)entityName;
 
 @end

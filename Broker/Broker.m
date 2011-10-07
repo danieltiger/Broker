@@ -19,10 +19,10 @@
 
 #pragma mark - Class Instances
 
-static NSManagedObjectContext *context          = nil;
-static NSMutableDictionary    *propertiesMaps     = nil;
+static NSManagedObjectContext *context = nil;
+static NSMutableDictionary *propertiesMaps = nil;
 
-static JSONDecoder            *decoder  = nil;
+static JSONDecoder *decoder = nil;
 
 static dispatch_queue_t jsonParsingQueue = nil;
 static dispatch_queue_t jsonProcessingQueue = nil;
@@ -30,9 +30,9 @@ static dispatch_queue_t jsonProcessingQueue = nil;
 #pragma mark - Setup
 
 + (void)setupWithContext:(NSManagedObjectContext *)aContext {
-    context          = aContext;
+    context = aContext;
     
-    propertiesMaps     = [[NSMutableDictionary alloc] init];
+    propertiesMaps = [[NSMutableDictionary alloc] init];
     
     // takes JSON payload, returns JSON object
     decoder = [[JSONDecoder alloc] initWithParseOptions:JKParseOptionNone];
@@ -52,14 +52,26 @@ static dispatch_queue_t jsonProcessingQueue = nil;
     
     NSAssert(context, @"Broker must be setup with setupWithContext!");
     
+    if ([self entityPropertyMapForEntityName:entityName]) {
+        WLog(@"Entity named %@ already registered with Broker", entityName);
+        return;
+    }
+    
     NSManagedObject *object = [NSEntityDescription insertNewObjectForEntityForName:entityName 
                                                             inManagedObjectContext:context];
-
-    BKEntityPropertiesMap *map = [BKEntityPropertiesMap mapForEntityName:entityName 
-                                                    withPropertiesByName:object.entity.propertiesByName];
+    
+    BKEntityPropertiesDescription *map = [BKEntityPropertiesDescription descriptionForEntityName:entityName 
+                                                    withPropertiesByName:object.entity.propertiesByName
+                                                 andMapNetworkAttributes:networkAttributes
+                                                       toLocalAttributes:localAttributes];
     
     [propertiesMaps setObject:map forKey:entityName];
 }
+
++ (void)registerEntityName:(NSString *)entityName withNetworkToLocalAttributeTranslation:(NSDictionary *)networkAttributes {
+    
+}
+
 
 #pragma mark - JSON
 
@@ -68,13 +80,13 @@ static dispatch_queue_t jsonProcessingQueue = nil;
     
     [self parseJSONPayload:jsonPayload
               targetEntity:entityURI
-        targetRelationship:nil];
+        forRelationship:nil];
 
 }
 
 + (void)parseJSONPayload:(id)jsonPayload 
             targetEntity:(NSURL *)entityURI
-      targetRelationship:(NSString *)relationshipName {
+      forRelationship:(NSString *)relationshipName {
 
     if (!jsonParsingQueue) {
         jsonParsingQueue = dispatch_queue_create("com.Broker.jsonParsingQueue", NULL);
@@ -117,7 +129,7 @@ static dispatch_queue_t jsonProcessingQueue = nil;
     
     NSManagedObject *object = [self objectWithURI:entityURI];
     
-    BKEntityPropertiesMap *map = [self entityPropertyMapForEntityName:object.entity.name];
+    BKEntityPropertiesDescription *map = [self entityPropertyMapForEntityName:object.entity.name];
     
     // Flat
     if ([jsonObject isKindOfClass:[NSDictionary class]]) {
@@ -136,7 +148,7 @@ static dispatch_queue_t jsonProcessingQueue = nil;
 }
 
 + (NSDictionary *)transformJSONDictionary:(NSDictionary *)jsonDictionary 
-                       usingEntityPropertiesMap:(BKEntityPropertiesMap *)entityMap {
+                       usingEntityPropertiesMap:(BKEntityPropertiesDescription *)entityMap {
  
     NSMutableDictionary *transformedDict = [[[NSMutableDictionary alloc] init] autorelease];
     
@@ -150,7 +162,7 @@ static dispatch_queue_t jsonProcessingQueue = nil;
             // It's an attribute
             
             // grab the map
-            BKAttributeMap *attrMap = [entityMap attributeMapForNetworkProperty:networkProperty];
+            BKAttributeDescription *attrMap = [entityMap attributeDescriptionForNetworkProperty:networkProperty];
             
             // get the original value
             id value = [jsonDictionary valueForKey:networkProperty];
@@ -203,14 +215,14 @@ static dispatch_queue_t jsonProcessingQueue = nil;
 
 #pragma mark - Accessors
 
-+ (BKEntityPropertiesMap *)entityPropertyMapForEntityName:(NSString *)entityName {
-    return (BKEntityPropertiesMap *)[propertiesMaps objectForKey:entityName];
++ (BKEntityPropertiesDescription *)entityPropertyMapForEntityName:(NSString *)entityName {
+    return (BKEntityPropertiesDescription *)[propertiesMaps objectForKey:entityName];
 }
 
-+ (BKRelationshipMap *)relationshipMapForRelationship:(NSString *)relationship 
++ (BKRelationshipDescription *)relationshipMapForRelationship:(NSString *)relationship 
                                          onEntityName:(NSString *)entityName {
     
-    BKEntityPropertiesMap *map = [propertiesMaps objectForKey:entityName];
+    BKEntityPropertiesDescription *map = [propertiesMaps objectForKey:entityName];
         
     if (map) {
         return [map relationshipMapForProperty:relationship];

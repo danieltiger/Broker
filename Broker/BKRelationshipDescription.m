@@ -6,9 +6,9 @@
 //  Copyright (c) 2011 __MyCompanyName__. All rights reserved.
 //
 
-#import "BKRelationshipMap.h"
+#import "BKRelationshipDescription.h"
 
-@implementation BKRelationshipMap
+@implementation BKRelationshipDescription
 
 @synthesize relationshipName, destinationEntityName, entityName, isToMany;
 
@@ -20,9 +20,9 @@
     [super dealloc];
 }
 
-+ (BKRelationshipMap *)mapWithRelationshipDescription:(NSRelationshipDescription *)description {
++ (BKRelationshipDescription *)descriptionWithRelationshipDescription:(NSRelationshipDescription *)description {
     
-    BKRelationshipMap *map = [[[BKRelationshipMap alloc] init] autorelease];
+    BKRelationshipDescription *map = [[[BKRelationshipDescription alloc] init] autorelease];
 
     map.relationshipName = description.name;
     map.destinationEntityName = description.destinationEntity.name;

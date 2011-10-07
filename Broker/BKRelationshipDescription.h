@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 #import <CoreData/CoreData.h>
 
-@interface BKRelationshipMap : NSObject {
+@interface BKRelationshipDescription : NSObject {
 @private
     NSString *relationshipName;
     NSString *destinationEntityName;
@@ -22,7 +22,6 @@
 @property (nonatomic, copy) NSString *entityName;
 @property (nonatomic, assign) BOOL isToMany;
 
-
-+ (BKRelationshipMap *)mapWithRelationshipDescription:(NSRelationshipDescription *)description;
++ (BKRelationshipDescription *)descriptionWithRelationshipDescription:(NSRelationshipDescription *)description;
 
 @end

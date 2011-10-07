@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 #import <CoreData/CoreData.h>
 
-@interface BKAttributeMap : NSObject {
+@interface BKAttributeDescription : NSObject {
 @private
     NSString *entityName;
     NSString *localAttributeName;
@@ -21,11 +21,10 @@
 @property (nonatomic, copy) NSString *networkAttributeName;
 @property (nonatomic, assign) NSAttributeType attributeType;
 
-+ (BKAttributeMap *)mapWithAttributeDescription:(NSAttributeDescription *)description;
++ (BKAttributeDescription *)descriptionWithAttributeDescription:(NSAttributeDescription *)description;
 
-+ (BKAttributeMap *)mapWithAttributeDescription:(NSAttributeDescription *)description
-                  registerNetworkAttributeNames:(NSArray *)networkNames
-                         forLocalAttributeNames:(NSArray *)localNames;
++ (BKAttributeDescription *)descriptionWithAttributeDescription:(NSAttributeDescription *)description
+                                   andMapToNetworkAttributeName:(NSString *)networkAttributeName;
 
 - (id)objectForValue:(id)value;
 

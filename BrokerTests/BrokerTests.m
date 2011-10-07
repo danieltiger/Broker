@@ -11,8 +11,8 @@
 #import "Broker.h"
 #import "BrokerTestsHelpers.h"
 
-#import "BKAttributeMap.h"
-#import "BKRelationshipMap.h"
+#import "BKAttributeDescription.h"
+#import "BKRelationshipDescription.h"
 
 // Department
 static NSString *kDepartment = @"Department";
@@ -72,8 +72,9 @@ static NSString *kDepartmentRelationship = @"department";
 - (void)testRegisterDepartmentRelationshipMapExists {
     
     [Broker registerEntityName:kDepartment];
+    [Broker registerEntityName:kDepartment];
 
-    BKRelationshipMap *map = [Broker relationshipMapForRelationship:kEmployeesRelationship 
+    BKRelationshipDescription *map = [Broker relationshipMapForRelationship:kEmployeesRelationship 
                                                        onEntityName:kDepartment];
     
     STAssertNotNil(map, @"Broker should have an employee relationship map for Department after registration!");
@@ -84,7 +85,7 @@ static NSString *kDepartmentRelationship = @"department";
     
     [Broker registerEntityName:kDepartment];
     
-    BKRelationshipMap *map = [Broker relationshipMapForRelationship:kEmployeesRelationship 
+    BKRelationshipDescription *map = [Broker relationshipMapForRelationship:kEmployeesRelationship 
                                                        onEntityName:kDepartment];
     
     STAssertEqualObjects(map.relationshipName, kEmployeesRelationship, @"Relationship map should be named correctly");    

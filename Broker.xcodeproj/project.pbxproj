@@ -15,21 +15,21 @@
 		DB4C0E3A143D2F4F0090F5E3 /* libBroker.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DB4C0E22143D2F4F0090F5E3 /* libBroker.a */; };
 		DB4C0E40143D2F4F0090F5E3 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = DB4C0E3E143D2F4F0090F5E3 /* InfoPlist.strings */; };
 		DB4C0E43143D2F4F0090F5E3 /* BrokerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = DB4C0E42143D2F4F0090F5E3 /* BrokerTests.m */; };
-		DB4C0E56143D334C0090F5E3 /* BKAttributeMap.h in Headers */ = {isa = PBXBuildFile; fileRef = DB4C0E54143D334C0090F5E3 /* BKAttributeMap.h */; };
-		DB4C0E57143D334C0090F5E3 /* BKAttributeMap.m in Sources */ = {isa = PBXBuildFile; fileRef = DB4C0E55143D334C0090F5E3 /* BKAttributeMap.m */; };
+		DB4C0E56143D334C0090F5E3 /* BKAttributeDescription.h in Headers */ = {isa = PBXBuildFile; fileRef = DB4C0E54143D334C0090F5E3 /* BKAttributeDescription.h */; };
+		DB4C0E57143D334C0090F5E3 /* BKAttributeDescription.m in Sources */ = {isa = PBXBuildFile; fileRef = DB4C0E55143D334C0090F5E3 /* BKAttributeDescription.m */; };
 		DB4C0E59143D34E50090F5E3 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DB4C0E58143D34E50090F5E3 /* CoreData.framework */; };
 		DB4C0E5E143D356C0090F5E3 /* JSONKit.h in Headers */ = {isa = PBXBuildFile; fileRef = DB4C0E5C143D356C0090F5E3 /* JSONKit.h */; };
 		DB4C0E5F143D356C0090F5E3 /* JSONKit.m in Sources */ = {isa = PBXBuildFile; fileRef = DB4C0E5D143D356C0090F5E3 /* JSONKit.m */; };
-		DB4C0E78143D84560090F5E3 /* BKRelationshipMap.h in Headers */ = {isa = PBXBuildFile; fileRef = DB4C0E76143D84560090F5E3 /* BKRelationshipMap.h */; };
-		DB4C0E79143D84560090F5E3 /* BKRelationshipMap.m in Sources */ = {isa = PBXBuildFile; fileRef = DB4C0E77143D84560090F5E3 /* BKRelationshipMap.m */; };
+		DB4C0E78143D84560090F5E3 /* BKRelationshipDescription.h in Headers */ = {isa = PBXBuildFile; fileRef = DB4C0E76143D84560090F5E3 /* BKRelationshipDescription.h */; };
+		DB4C0E79143D84560090F5E3 /* BKRelationshipDescription.m in Sources */ = {isa = PBXBuildFile; fileRef = DB4C0E77143D84560090F5E3 /* BKRelationshipDescription.m */; };
 		DBFF95C9143D8D80008511EA /* BrokerTestModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = DBFF95C7143D8D80008511EA /* BrokerTestModel.xcdatamodeld */; };
 		DBFF95CD143D9060008511EA /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DB4C0E58143D34E50090F5E3 /* CoreData.framework */; };
 		DBFF95D3143E17D9008511EA /* BrokerTestsHelpers.m in Sources */ = {isa = PBXBuildFile; fileRef = DBFF95D2143E17D9008511EA /* BrokerTestsHelpers.m */; };
 		DBFF95D5143E187D008511EA /* TestResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = DBFF95D4143E187D008511EA /* TestResources.bundle */; };
 		DBFF95DD143E4DC2008511EA /* NSManagedObject+Broker.h in Headers */ = {isa = PBXBuildFile; fileRef = DBFF95DB143E4DC2008511EA /* NSManagedObject+Broker.h */; };
 		DBFF95DE143E4DC2008511EA /* NSManagedObject+Broker.m in Sources */ = {isa = PBXBuildFile; fileRef = DBFF95DC143E4DC2008511EA /* NSManagedObject+Broker.m */; };
-		DBFF95EB143E568C008511EA /* BKEntityPropertiesMap.h in Headers */ = {isa = PBXBuildFile; fileRef = DBFF95E9143E568C008511EA /* BKEntityPropertiesMap.h */; };
-		DBFF95EC143E568C008511EA /* BKEntityPropertiesMap.m in Sources */ = {isa = PBXBuildFile; fileRef = DBFF95EA143E568C008511EA /* BKEntityPropertiesMap.m */; };
+		DBFF95EB143E568C008511EA /* BKEntityPropertiesDescription.h in Headers */ = {isa = PBXBuildFile; fileRef = DBFF95E9143E568C008511EA /* BKEntityPropertiesDescription.h */; };
+		DBFF95EC143E568C008511EA /* BKEntityPropertiesDescription.m in Sources */ = {isa = PBXBuildFile; fileRef = DBFF95EA143E568C008511EA /* BKEntityPropertiesDescription.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -55,21 +55,21 @@
 		DB4C0E3F143D2F4F0090F5E3 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		DB4C0E41143D2F4F0090F5E3 /* BrokerTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BrokerTests.h; sourceTree = "<group>"; };
 		DB4C0E42143D2F4F0090F5E3 /* BrokerTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BrokerTests.m; sourceTree = "<group>"; };
-		DB4C0E54143D334C0090F5E3 /* BKAttributeMap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BKAttributeMap.h; sourceTree = "<group>"; };
-		DB4C0E55143D334C0090F5E3 /* BKAttributeMap.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BKAttributeMap.m; sourceTree = "<group>"; };
+		DB4C0E54143D334C0090F5E3 /* BKAttributeDescription.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BKAttributeDescription.h; sourceTree = "<group>"; };
+		DB4C0E55143D334C0090F5E3 /* BKAttributeDescription.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BKAttributeDescription.m; sourceTree = "<group>"; };
 		DB4C0E58143D34E50090F5E3 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		DB4C0E5C143D356C0090F5E3 /* JSONKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JSONKit.h; path = Vendors/JSONKit/JSONKit.h; sourceTree = "<group>"; };
 		DB4C0E5D143D356C0090F5E3 /* JSONKit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = JSONKit.m; path = Vendors/JSONKit/JSONKit.m; sourceTree = "<group>"; };
-		DB4C0E76143D84560090F5E3 /* BKRelationshipMap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BKRelationshipMap.h; sourceTree = "<group>"; };
-		DB4C0E77143D84560090F5E3 /* BKRelationshipMap.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BKRelationshipMap.m; sourceTree = "<group>"; };
+		DB4C0E76143D84560090F5E3 /* BKRelationshipDescription.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BKRelationshipDescription.h; sourceTree = "<group>"; };
+		DB4C0E77143D84560090F5E3 /* BKRelationshipDescription.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BKRelationshipDescription.m; sourceTree = "<group>"; };
 		DBFF95C8143D8D80008511EA /* BrokerTestModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = BrokerTestModel.xcdatamodel; sourceTree = "<group>"; };
 		DBFF95D1143E17D9008511EA /* BrokerTestsHelpers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BrokerTestsHelpers.h; sourceTree = "<group>"; };
 		DBFF95D2143E17D9008511EA /* BrokerTestsHelpers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BrokerTestsHelpers.m; sourceTree = "<group>"; };
 		DBFF95D4143E187D008511EA /* TestResources.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = TestResources.bundle; sourceTree = "<group>"; };
 		DBFF95DB143E4DC2008511EA /* NSManagedObject+Broker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSManagedObject+Broker.h"; sourceTree = "<group>"; };
 		DBFF95DC143E4DC2008511EA /* NSManagedObject+Broker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSManagedObject+Broker.m"; sourceTree = "<group>"; };
-		DBFF95E9143E568C008511EA /* BKEntityPropertiesMap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BKEntityPropertiesMap.h; sourceTree = "<group>"; };
-		DBFF95EA143E568C008511EA /* BKEntityPropertiesMap.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BKEntityPropertiesMap.m; sourceTree = "<group>"; };
+		DBFF95E9143E568C008511EA /* BKEntityPropertiesDescription.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BKEntityPropertiesDescription.h; sourceTree = "<group>"; };
+		DBFF95EA143E568C008511EA /* BKEntityPropertiesDescription.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BKEntityPropertiesDescription.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -133,12 +133,12 @@
 			children = (
 				DB4C0E2A143D2F4F0090F5E3 /* Broker.h */,
 				DB4C0E2B143D2F4F0090F5E3 /* Broker.m */,
-				DBFF95E9143E568C008511EA /* BKEntityPropertiesMap.h */,
-				DBFF95EA143E568C008511EA /* BKEntityPropertiesMap.m */,
-				DB4C0E54143D334C0090F5E3 /* BKAttributeMap.h */,
-				DB4C0E55143D334C0090F5E3 /* BKAttributeMap.m */,
-				DB4C0E76143D84560090F5E3 /* BKRelationshipMap.h */,
-				DB4C0E77143D84560090F5E3 /* BKRelationshipMap.m */,
+				DBFF95E9143E568C008511EA /* BKEntityPropertiesDescription.h */,
+				DBFF95EA143E568C008511EA /* BKEntityPropertiesDescription.m */,
+				DB4C0E54143D334C0090F5E3 /* BKAttributeDescription.h */,
+				DB4C0E55143D334C0090F5E3 /* BKAttributeDescription.m */,
+				DB4C0E76143D84560090F5E3 /* BKRelationshipDescription.h */,
+				DB4C0E77143D84560090F5E3 /* BKRelationshipDescription.m */,
 				DBFF95DB143E4DC2008511EA /* NSManagedObject+Broker.h */,
 				DBFF95DC143E4DC2008511EA /* NSManagedObject+Broker.m */,
 				DB4C0E28143D2F4F0090F5E3 /* Supporting Files */,
@@ -201,11 +201,11 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DB4C0E56143D334C0090F5E3 /* BKAttributeMap.h in Headers */,
+				DB4C0E56143D334C0090F5E3 /* BKAttributeDescription.h in Headers */,
 				DB4C0E5E143D356C0090F5E3 /* JSONKit.h in Headers */,
-				DB4C0E78143D84560090F5E3 /* BKRelationshipMap.h in Headers */,
+				DB4C0E78143D84560090F5E3 /* BKRelationshipDescription.h in Headers */,
 				DBFF95DD143E4DC2008511EA /* NSManagedObject+Broker.h in Headers */,
-				DBFF95EB143E568C008511EA /* BKEntityPropertiesMap.h in Headers */,
+				DBFF95EB143E568C008511EA /* BKEntityPropertiesDescription.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -308,11 +308,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				DB4C0E2C143D2F4F0090F5E3 /* Broker.m in Sources */,
-				DB4C0E57143D334C0090F5E3 /* BKAttributeMap.m in Sources */,
+				DB4C0E57143D334C0090F5E3 /* BKAttributeDescription.m in Sources */,
 				DB4C0E5F143D356C0090F5E3 /* JSONKit.m in Sources */,
-				DB4C0E79143D84560090F5E3 /* BKRelationshipMap.m in Sources */,
+				DB4C0E79143D84560090F5E3 /* BKRelationshipDescription.m in Sources */,
 				DBFF95DE143E4DC2008511EA /* NSManagedObject+Broker.m in Sources */,
-				DBFF95EC143E568C008511EA /* BKEntityPropertiesMap.m in Sources */,
+				DBFF95EC143E568C008511EA /* BKEntityPropertiesDescription.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -403,6 +403,7 @@
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Broker/Broker-Prefix.pch";
+				GCC_PREPROCESSOR_DEFINITIONS = "";
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
