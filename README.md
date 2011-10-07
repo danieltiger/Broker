@@ -17,7 +17,7 @@ JSON is a great way to send and receive information when communicating with REST
 ## How To Use Broker
 Once you have your data model built, the first step is to setup Broker with your models managed object context.
 
-	`[Broker setupWithContext:myContext];`
+	[Broker setupWithContext:myContext];
  
 Next is to register entities that you want to send/receive via JSON.
 
