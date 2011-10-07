@@ -11,8 +11,19 @@
 @interface BKEntityPropertiesMap : NSObject{
 @private
     NSString *entityName;
+    NSMutableDictionary *networkToLocalMap;
+    NSMutableDictionary *localToNetworkMap;
 }
 
 @property (nonatomic, copy) NSString *entityName;
+@property (nonatomic, retain) NSMutableDictionary *networkToLocalMap;
+@property (nonatomic, retain) NSMutableDictionary *localToNetworkMap;
+
++ (BKEntityPropertiesMap *)mapFromNetworkProperties:(NSArray *)networkProperties 
+                                  toLocalProperties:(NSArray *)localProperties 
+                                          forEntity:(NSString *)entityName;
+
+- (NSString *)networkPropertyNameForLocalProperty:(NSString *)localProperty;
+- (NSString *)localPropertyNameForNetworkProperty:(NSString *)networkProperty;
 
 @end
