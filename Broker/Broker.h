@@ -50,26 +50,14 @@
 //                                 Processing                                 //
 ////////////////////////////////////////////////////////////////////////////////
 
-+ (void)parseJSONPayload:(id)jsonPayload 
-            targetEntity:(NSURL *)entityURI;
-
-+ (void)parseJSONPayload:(id)jsonPayload 
++ (void)processJSONPayload:(id)jsonPayload 
             targetEntity:(NSURL *)entityURI
-      forRelationship:(NSString *)relationshipName;
+     withCompletionBlock:(void (^)())CompletionBlock;
 
-+ (void)processJSONObject:(id)jsonObject 
-             targetEntity:(NSURL *)entityURI 
-       targetRelationship:(NSString *)relationshipName;
-
-+ (void)whateverJSON:(id)jsonObject 
-        targetEntity:(NSURL *)entityURI 
-  targetRelationship:(NSString *)relationshipName;
-
-+ (NSDictionary *)transformJSONDictionary:(NSDictionary *)jsonDictionary 
-                 usingEntityPropertiesMap:(BKEntityPropertiesDescription *)entityMap;
-
-
-+ (NSManagedObject *)objectWithURI:(NSURL *)objectURI;
++ (void)processJSONPayload:(id)jsonPayload 
+              targetEntity:(NSURL *)entityURI
+           forRelationship:(NSString *)relationshipName
+       withCompletionBlock:(void (^)())CompletionBlock;
 
 ////////////////////////////////////////////////////////////////////////////////
 //                                 Accessors                                  //

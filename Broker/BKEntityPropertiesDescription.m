@@ -46,11 +46,7 @@
         if ([description isKindOfClass:[NSAttributeDescription class]]) {
             BKAttributeDescription *attrDescription = [BKAttributeDescription descriptionWithAttributeDescription:(NSAttributeDescription *)description
                                                                                      andMapToNetworkAttributeName:[map networkPropertyNameForLocalProperty:property]];
-            
-            if ([property isEqualToString:@"firstname"]) {
-                NSLog(@"break here");
-            }
-            
+                        
             [tempPropertiesDescriptions setObject:attrDescription forKey:property];
         }
         

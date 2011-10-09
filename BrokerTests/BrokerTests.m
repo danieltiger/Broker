@@ -9,6 +9,8 @@
 #import "BrokerTests.h"
 
 #import "Broker.h"
+#import "Broker+Private.h"
+
 #import "BrokerTestsHelpers.h"
 
 #import "BKAttributeDescription.h"
@@ -143,11 +145,18 @@ static NSString *kDepartmentRelationship = @"department";
     
     NSManagedObject *employee = [NSEntityDescription insertNewObjectForEntityForName:kEmployee 
                                                               inManagedObjectContext:context];
-    
-    id jsonObject = [decoder objectWithData:jsonData]; 
-    
-    [Broker whateverJSON:jsonObject targetEntity:employee.objectID.URIRepresentation targetRelationship:nil];
 
+    dispatch_semaphore_t sema = dispatch_semaphore_create(0);
+
+    void (^CompletionBlock)(void) = ^{dispatch_semaphore_signal(sema);}; 
+
+    [Broker processJSONPayload:jsonData
+                  targetEntity:employee.objectID.URIRepresentation
+           withCompletionBlock:CompletionBlock];
+    
+    dispatch_semaphore_wait(sema, DISPATCH_TIME_FOREVER);
+    dispatch_release(sema);
+    
     STAssertEqualObjects([employee valueForKey:@"firstname"], @"Andrew", @"Attributes should be set correctly");
     STAssertEqualObjects([employee valueForKey:@"lastname"], @"Smith", @"Attributes should be set correctly");
     STAssertEqualObjects([employee valueForKey:@"employeeID"], [NSNumber numberWithInt:5678], @"Attributes should be set correctly");
@@ -160,7 +169,8 @@ static NSString *kDepartmentRelationship = @"department";
     NSManagedObject *department = [NSEntityDescription insertNewObjectForEntityForName:kDepartment 
                                                                 inManagedObjectContext:context];
     
-    NSManagedObject *fetchedDepartment = [Broker objectWithURI:department.objectID.URIRepresentation];
+    NSManagedObject *fetchedDepartment = [Broker objectWithURI:department.objectID.URIRepresentation 
+                                                     inContext:context];
      
     STAssertEqualObjects(department, fetchedDepartment, @"Should get the same object");
 }

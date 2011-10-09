@@ -24,6 +24,8 @@
 		DB4C0E79143D84560090F5E3 /* BKRelationshipDescription.m in Sources */ = {isa = PBXBuildFile; fileRef = DB4C0E77143D84560090F5E3 /* BKRelationshipDescription.m */; };
 		DBCD6737143F61ED000FD78D /* BKEntityPropertiesMap.h in Headers */ = {isa = PBXBuildFile; fileRef = DBCD6735143F61EC000FD78D /* BKEntityPropertiesMap.h */; };
 		DBCD6738143F61ED000FD78D /* BKEntityPropertiesMap.m in Sources */ = {isa = PBXBuildFile; fileRef = DBCD6736143F61EC000FD78D /* BKEntityPropertiesMap.m */; };
+		DBCD673E1441036F000FD78D /* Broker+Private.h in Headers */ = {isa = PBXBuildFile; fileRef = DBCD673C1441036F000FD78D /* Broker+Private.h */; };
+		DBCD673F1441036F000FD78D /* Broker+Private.m in Sources */ = {isa = PBXBuildFile; fileRef = DBCD673D1441036F000FD78D /* Broker+Private.m */; };
 		DBFF95C9143D8D80008511EA /* BrokerTestModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = DBFF95C7143D8D80008511EA /* BrokerTestModel.xcdatamodeld */; };
 		DBFF95CD143D9060008511EA /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DB4C0E58143D34E50090F5E3 /* CoreData.framework */; };
 		DBFF95D3143E17D9008511EA /* BrokerTestsHelpers.m in Sources */ = {isa = PBXBuildFile; fileRef = DBFF95D2143E17D9008511EA /* BrokerTestsHelpers.m */; };
@@ -64,6 +66,8 @@
 		DB4C0E77143D84560090F5E3 /* BKRelationshipDescription.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BKRelationshipDescription.m; sourceTree = "<group>"; };
 		DBCD6735143F61EC000FD78D /* BKEntityPropertiesMap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BKEntityPropertiesMap.h; sourceTree = "<group>"; };
 		DBCD6736143F61EC000FD78D /* BKEntityPropertiesMap.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BKEntityPropertiesMap.m; sourceTree = "<group>"; };
+		DBCD673C1441036F000FD78D /* Broker+Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Broker+Private.h"; sourceTree = "<group>"; };
+		DBCD673D1441036F000FD78D /* Broker+Private.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "Broker+Private.m"; sourceTree = "<group>"; };
 		DBFF95C8143D8D80008511EA /* BrokerTestModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = BrokerTestModel.xcdatamodel; sourceTree = "<group>"; };
 		DBFF95D1143E17D9008511EA /* BrokerTestsHelpers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BrokerTestsHelpers.h; sourceTree = "<group>"; };
 		DBFF95D2143E17D9008511EA /* BrokerTestsHelpers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BrokerTestsHelpers.m; sourceTree = "<group>"; };
@@ -133,6 +137,8 @@
 			children = (
 				DB4C0E2A143D2F4F0090F5E3 /* Broker.h */,
 				DB4C0E2B143D2F4F0090F5E3 /* Broker.m */,
+				DBCD673C1441036F000FD78D /* Broker+Private.h */,
+				DBCD673D1441036F000FD78D /* Broker+Private.m */,
 				DBFF95E9143E568C008511EA /* BKEntityPropertiesDescription.h */,
 				DBFF95EA143E568C008511EA /* BKEntityPropertiesDescription.m */,
 				DB4C0E54143D334C0090F5E3 /* BKAttributeDescription.h */,
@@ -206,6 +212,7 @@
 				DB4C0E78143D84560090F5E3 /* BKRelationshipDescription.h in Headers */,
 				DBFF95EB143E568C008511EA /* BKEntityPropertiesDescription.h in Headers */,
 				DBCD6737143F61ED000FD78D /* BKEntityPropertiesMap.h in Headers */,
+				DBCD673E1441036F000FD78D /* Broker+Private.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -313,6 +320,7 @@
 				DB4C0E79143D84560090F5E3 /* BKRelationshipDescription.m in Sources */,
 				DBFF95EC143E568C008511EA /* BKEntityPropertiesDescription.m in Sources */,
 				DBCD6738143F61ED000FD78D /* BKEntityPropertiesMap.m in Sources */,
+				DBCD673F1441036F000FD78D /* Broker+Private.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -445,6 +453,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				INFOPLIST_FILE = "BrokerTests/BrokerTests-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
 				WRAPPER_EXTENSION = octest;
@@ -470,6 +479,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				INFOPLIST_FILE = "BrokerTests/BrokerTests-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
