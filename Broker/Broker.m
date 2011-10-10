@@ -26,9 +26,10 @@ static dispatch_queue_t jsonParsingQueue = nil;
 + (void)setupWithContext:(NSManagedObjectContext *)aContext {
     context = aContext;
     
+    // All entity descriptions
     entityDescriptions = [[NSMutableDictionary alloc] init];
     
-    // takes JSON payload, returns JSON object
+    // JSONKit Decoder
     decoder = [[JSONDecoder alloc] initWithParseOptions:JKParseOptionNone];
 }
 
@@ -66,6 +67,7 @@ static dispatch_queue_t jsonParsingQueue = nil;
                                                             inManagedObjectContext:context];
     
     
+    // Build description of entity properties
     BKEntityPropertiesDescription *desc = [BKEntityPropertiesDescription descriptionForEntityName:entityName 
                                                                              withPropertiesByName:object.entity.propertiesByName
                                                                           andMapNetworkProperties:networkProperties
@@ -106,16 +108,52 @@ static dispatch_queue_t jsonParsingQueue = nil;
         // JSONKit decoder
         id jsonObject = [decoder objectWithData:jsonPayload]; 
         
-        // process the parsed json
+        // process the parsed json in new context
         [Broker asyncProcessJSONObject:jsonObject 
                           targetEntity:entityURI
                     targetRelationship:relationshipName
-                             inContext:context
+                             inContext:[self newMainStoreManagedObjectContext]
                    withCompletionBlock:CompletionBlock];
 
     });
 
     dispatch_release(jsonParsingQueue);
+}
+
+#pragma mark - CoreData
+
++ (void)contextDidSave:(NSNotification *)notification {
+    SEL selector = @selector(mergeChangesFromContextDidSaveNotification:);
+
+    NSManagedObjectContext *threadContext = (NSManagedObjectContext *)notification.object;
+    WLog(@"MOC changes: %d",threadContext.hasChanges);
+    
+    [context performSelectorOnMainThread:selector withObject:notification waitUntilDone:NO];
+
+    [[NSNotificationCenter defaultCenter] removeObserver:self 
+                                                    name:NSManagedObjectContextDidSaveNotification 
+                                                  object:notification];
+}
+
++ (NSManagedObjectContext *)newMainStoreManagedObjectContext {
+    
+    // Grab the main coordinator
+    NSPersistentStoreCoordinator *coord = [context persistentStoreCoordinator];
+
+    // Create new context with default concurrency type
+    NSManagedObjectContext *newContext = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSConfinementConcurrencyType];
+    [newContext setPersistentStoreCoordinator:coord];
+    
+    // Optimization
+    [newContext setUndoManager:nil];
+    
+    // Observer saves from this context
+    [[NSNotificationCenter defaultCenter] addObserver:self 
+                                             selector:@selector(contextDidSave:) 
+                                                 name:NSManagedObjectContextDidSaveNotification 
+                                               object:newContext];
+    
+    return [newContext autorelease];
 }
 
 #pragma mark - Accessors

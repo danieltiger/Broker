@@ -31,43 +31,47 @@ static NSString *kDepartmentRelationship = @"department";
 - (void)setUp {
     [super setUp];
     
-    NSString *path = [[NSBundle bundleForClass:[BrokerTests class]] pathForResource:@"BrokerTestModel" 
-                                                                             ofType:@"momd"];
-    
-    NSURL *modelURL = [NSURL URLWithString:path];
-    
-    model = [[NSManagedObjectModel alloc] initWithContentsOfURL:modelURL];
+    // Build Model
+    model = [[NSManagedObjectModel alloc] initWithContentsOfURL:DataModelURL()];
     
     STAssertNotNil(model, @"Managed Object Model should exist");
     
+    // Build persistent store coordinator
     coord = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel:model];
     
-    store = [coord addPersistentStoreWithType:NSInMemoryStoreType
+    // Build Store
+    NSError *error = nil;
+    store = [coord addPersistentStoreWithType:NSSQLiteStoreType
                                 configuration:nil
-                                          URL:nil
+                                          URL:DataStoreURL()
                                       options:nil 
-                                        error:NULL];
-    
+                                        error:&error];
+
+    // Build context
     context = [[NSManagedObjectContext alloc] init];
     [context setPersistentStoreCoordinator:coord];
 
+    // Setup Broker
     [Broker setupWithContext:context];
     
+    // Setup JSONKit
     decoder = [[JSONDecoder alloc] initWithParseOptions:JKParseOptionNone];
 }
 
 - (void)tearDown {
+    
     [context release], context = nil;
     
     NSError *error = nil;
-    STAssertTrue([coord removePersistentStore: store error: &error], 
+    STAssertTrue([coord removePersistentStore:store error:&error], 
                  @"couldn't remove persistent store: %@", error);
     
     store = nil;
-    
     [coord release], coord = nil;
+    [model release], model = nil;  
     
-    [model release], model = nil;    
+    DeleteDataStore();
+    
     [super tearDown];
 }
 
@@ -143,20 +147,27 @@ static NSString *kDepartmentRelationship = @"department";
     
     [Broker registerEntityNamed:kEmployee];
     
-    NSManagedObject *employee = [NSEntityDescription insertNewObjectForEntityForName:kEmployee 
-                                                              inManagedObjectContext:context];
-
+    // Add a new Employee to the store
+    NSURL *employeeURI = [BrokerTestsHelpers createNewEmployeeInStore:context];
+    
+    // Use to hold main thread while bg tasks complete
     dispatch_semaphore_t sema = dispatch_semaphore_create(0);
-
     void (^CompletionBlock)(void) = ^{dispatch_semaphore_signal(sema);}; 
 
+    // Chunk dat
     [Broker processJSONPayload:jsonData
-                  targetEntity:employee.objectID.URIRepresentation
+                  targetEntity:employeeURI
            withCompletionBlock:CompletionBlock];
     
+    // Wait for async code to finish
     dispatch_semaphore_wait(sema, DISPATCH_TIME_FOREVER);
     dispatch_release(sema);
     
+    // Re-fetch
+    NSManagedObject *employee = [Broker objectWithURI:employeeURI inContext:context];
+    
+    [context refreshObject:employee mergeChanges:YES];
+        
     STAssertEqualObjects([employee valueForKey:@"firstname"], @"Andrew", @"Attributes should be set correctly");
     STAssertEqualObjects([employee valueForKey:@"lastname"], @"Smith", @"Attributes should be set correctly");
     STAssertEqualObjects([employee valueForKey:@"employeeID"], [NSNumber numberWithInt:5678], @"Attributes should be set correctly");

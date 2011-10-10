@@ -54,6 +54,7 @@ static dispatch_queue_t jsonProcessingQueue = nil;
             [object setValue:[transformedDict valueForKey:key]
                       forKey:key];
         }
+        
     }
     
     // Collection
@@ -61,6 +62,15 @@ static dispatch_queue_t jsonProcessingQueue = nil;
         // array
     }
     
+    // Save context
+    if (aContext.hasChanges) {
+        NSError *error = nil;
+        [aContext save:&error];
+    } else {
+        WLog(@"Didnt save!");
+    }
+    
+    // Execute completion block
     if (CompletionBlock) {
         CompletionBlock();
     }

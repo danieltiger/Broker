@@ -13,7 +13,7 @@
         <relationship name="department" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="Department" inverseName="employees" inverseEntity="Department" syncable="YES"/>
     </entity>
     <elements>
-        <element name="Department" positionX="160" positionY="192" width="128" height="90"/>
-        <element name="Employee" positionX="450" positionY="210" width="128" height="105"/>
+        <element name="Department" positionX="2527" positionY="-213" width="128" height="90"/>
+        <element name="Employee" positionX="2797" positionY="-249" width="128" height="105"/>
     </elements>
 </model>
