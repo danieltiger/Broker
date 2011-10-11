@@ -41,38 +41,86 @@ static dispatch_queue_t jsonProcessingQueue = nil;
     
     NSManagedObject *object = [self objectWithURI:entityURI inContext:aContext];
     
-    BKEntityPropertiesDescription *map = [self entityPropertyMapForEntityName:object.entity.name];
+    BKEntityPropertiesDescription *description = [self entityPropertyMapForEntityName:object.entity.name];
+    
+    NSMutableSet *bucket = [[NSMutableSet alloc] init];
     
     // Flat
     if ([jsonObject isKindOfClass:[NSDictionary class]]) {
-        
+
+        // Transform
         NSDictionary *transformedDict = [self transformJSONDictionary:(NSDictionary *)jsonObject 
-                                             usingEntityPropertiesMap:map];
+                                             usingEntityPropertiesMap:description];
         
-        // set values on object
-        for (NSString *key in transformedDict) {
-            [object setValue:[transformedDict valueForKey:key]
-                      forKey:key];
+        for (NSString *property in transformedDict) {
+            
+            if ([description isPropertyRelationship:property]) {
+                // Relationship!
+            } else {
+                [object setValue:[transformedDict valueForKey:property]
+                          forKey:property];        
+            }
         }
         
     }
     
     // Collection
     if ([jsonObject isKindOfClass:[NSArray class]]) {
-        // array
+        
+        NSString *entityName = nil;
+        
+        if (relationshipName) {
+            entityName = [description destinationEntityNameForRelationship:relationshipName];
+        } else {
+            entityName = description.entityName;
+        }
+        
+        [self processCollection:(NSArray *)jsonObject
+                ofEntitiesNamed:entityName
+                withDescription:description
+                   objectBucket:bucket];
+        
     }
     
     // Save context
     if (aContext.hasChanges) {
         NSError *error = nil;
         [aContext save:&error];
-    } else {
-        WLog(@"Didnt save!");
     }
     
     // Execute completion block
     if (CompletionBlock) {
         CompletionBlock();
+    }
+}
+
++ (void)processCollection:(NSArray *)collection
+          ofEntitiesNamed:entityName
+          withDescription:(BKEntityPropertiesDescription *)description2
+             objectBucket:(NSMutableSet *)bucket {
+    
+    // Destination entity description
+    BKEntityPropertiesDescription *description = [self entityPropertyMapForEntityName:entityName];
+    
+    for (id object in collection) {
+     
+        NSAssert([object isKindOfClass:[NSDictionary class]], @"Collection object must be a dictionary");
+        if (![object isKindOfClass:[NSDictionary class]]) continue;
+        
+        // Transform
+        NSDictionary *transformedDict = [self transformJSONDictionary:(NSDictionary *)object 
+                                             usingEntityPropertiesMap:description];
+
+        for (NSString *property in transformedDict) {
+            
+            if ([description isPropertyRelationship:property]) {
+                // Relationship!
+            } else {
+                [object setValue:[transformedDict valueForKey:property]
+                          forKey:property];        
+            }
+        }
+
     }
 }
 

@@ -22,6 +22,15 @@
                     inContext:(NSManagedObjectContext *)aContext
           withCompletionBlock:(void (^)())CompletionBlock;
 
++ (void)processCollection:(NSArray *)collection
+          ofEntitiesNamed:(NSString *)entityName
+          withDescription:(BKEntityPropertiesDescription *)description
+             objectBucket:(NSMutableSet *)bucket;
+
+
+
+
+
 + (NSDictionary *)transformJSONDictionary:(NSDictionary *)jsonDictionary 
                  usingEntityPropertiesMap:(BKEntityPropertiesDescription *)entityMap;
 

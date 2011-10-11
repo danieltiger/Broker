@@ -105,4 +105,9 @@
                 
 }
 
+- (NSString *)destinationEntityNameForRelationship:(NSString *)relationship {
+    BKRelationshipDescription *desc = [self relationshipDescriptionForProperty:relationship];
+    return desc.destinationEntityName;
+}
+
 @end

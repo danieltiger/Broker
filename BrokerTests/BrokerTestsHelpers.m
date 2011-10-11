@@ -10,11 +10,18 @@
 
 @implementation BrokerTestsHelpers
 
-+ (NSURL *)createNewEmployeeInStore:(NSManagedObjectContext *)context {
++ (NSURL *)createNewEmployee:(NSManagedObjectContext *)context {
     NSManagedObject *employee = [NSEntityDescription insertNewObjectForEntityForName:@"Employee" 
                                                               inManagedObjectContext:context];
     [context save:nil];
     return employee.objectID.URIRepresentation;
+}
+
++ (NSURL *)createNewDepartment:(NSManagedObjectContext *)context {
+    NSManagedObject *dept = [NSEntityDescription insertNewObjectForEntityForName:@"Department" 
+                                                              inManagedObjectContext:context];
+    [context save:nil];
+    return dept.objectID.URIRepresentation;
 }
 
 NSString *PathForTestResource(NSString *resouce) {

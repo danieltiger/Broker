@@ -148,7 +148,7 @@ static NSString *kDepartmentRelationship = @"department";
     [Broker registerEntityNamed:kEmployee];
     
     // Add a new Employee to the store
-    NSURL *employeeURI = [BrokerTestsHelpers createNewEmployeeInStore:context];
+    NSURL *employeeURI = [BrokerTestsHelpers createNewEmployee:context];
     
     // Use to hold main thread while bg tasks complete
     dispatch_semaphore_t sema = dispatch_semaphore_create(0);
@@ -171,6 +171,71 @@ static NSString *kDepartmentRelationship = @"department";
     STAssertEqualObjects([employee valueForKey:@"firstname"], @"Andrew", @"Attributes should be set correctly");
     STAssertEqualObjects([employee valueForKey:@"lastname"], @"Smith", @"Attributes should be set correctly");
     STAssertEqualObjects([employee valueForKey:@"employeeID"], [NSNumber numberWithInt:5678], @"Attributes should be set correctly");
+}
+
+- (void)testNestedDepartmentJSONProcessing {
+    
+    NSData *jsonData = DataFromFile(@"department_nested.json");
+    
+    // Register Entities
+    [Broker registerEntityNamed:kDepartment];
+    [Broker registerEntityNamed:kEmployee];
+    
+    // Build Deparment
+    NSURL *departmentURI = [BrokerTestsHelpers createNewDepartment:context];
+    
+    // Use to hold main thread while bg tasks complete
+    dispatch_semaphore_t sema = dispatch_semaphore_create(0);
+    void (^CompletionBlock)(void) = ^{dispatch_semaphore_signal(sema);}; 
+    
+    // Chunk dat
+    [Broker processJSONPayload:jsonData
+                  targetEntity:departmentURI
+           withCompletionBlock:CompletionBlock];
+    
+    // Wait for async code to finish
+    dispatch_semaphore_wait(sema, DISPATCH_TIME_FOREVER);
+    dispatch_release(sema);
+    
+    // Re-fetch
+    NSManagedObject *dept = [Broker objectWithURI:departmentURI inContext:context];
+    
+    [context refreshObject:dept mergeChanges:YES];
+    
+    STFail(@"Implement this test bitch!");
+}
+
+- (void)testDepartmentEmployeesJSON {
+    
+    NSData *jsonData = DataFromFile(@"department_employees.json");
+    
+    // Register Entities
+    [Broker registerEntityNamed:kDepartment];
+    [Broker registerEntityNamed:kEmployee];
+    
+    // Build Deparment
+    NSURL *departmentURI = [BrokerTestsHelpers createNewDepartment:context];
+    
+    // Use to hold main thread while bg tasks complete
+    dispatch_semaphore_t sema = dispatch_semaphore_create(0);
+    void (^CompletionBlock)(void) = ^{dispatch_semaphore_signal(sema);}; 
+    
+    // Chunk dat
+    [Broker processJSONPayload:jsonData 
+                  targetEntity:departmentURI 
+               forRelationship:@"employees" 
+           withCompletionBlock:CompletionBlock];
+    
+    // Wait for async code to finish
+    dispatch_semaphore_wait(sema, DISPATCH_TIME_FOREVER);
+    dispatch_release(sema);
+    
+    // Re-fetch
+    NSManagedObject *dept = [Broker objectWithURI:departmentURI inContext:context];
+    
+    [context refreshObject:dept mergeChanges:YES];
+    
+    STFail(@"Implement this test bitch!");
 }
 
 #pragma mark - Core Data

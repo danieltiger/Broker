@@ -55,4 +55,6 @@
  */
 - (BOOL)isPropertyRelationship:(NSString *)property;
 
+- (NSString *)destinationEntityNameForRelationship:(NSString *)relationship;
+
 @end
