@@ -1,0 +1,38 @@
+[
+    {
+        "firstname": "Andrew",
+        "lastname": "Smith",
+        "employeeID": 1,
+        "startDate": "2011/10/06 00:51:10 -0700"
+    },
+    {
+        "firstname": "Eric",
+        "lastname": "Feeny",
+        "employeeID": 2,
+        "startDate": "2011/10/06 00:51:10 -0700"
+    },
+    {
+        "firstname": "Will",
+        "lastname": "Chan",
+        "employeeID": 3,
+        "startDate": "2011/10/06 00:51:10 -0700"
+    },
+    {
+        "firstname": "Erem",
+        "lastname": "Boto",
+        "employeeID": 4,
+        "startDate": "2011/10/06 00:51:10 -0700"
+    },
+    {
+        "firstname": "David",
+        "lastname": "Auld",
+        "employeeID": 5,
+        "startDate": "2011/10/06 00:51:10 -0700"
+    },
+    {
+        "firstname": "Kevin",
+        "lastname": "Bacon",
+        "employeeID": 6,
+        "startDate": "2011/10/06 00:51:10 -0700"
+    }
+]

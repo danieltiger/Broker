@@ -10,17 +10,13 @@
 
 @implementation Broker (Private)
 
-static dispatch_queue_t jsonProcessingQueue = nil;
-
 + (void)asyncProcessJSONObject:(id)jsonObject 
                   targetEntity:(NSURL *)entityURI 
             targetRelationship:(NSString *)relationshipName
                      inContext:(NSManagedObjectContext *)aContext
            withCompletionBlock:(void (^)())CompletionBlock {
     
-    if (!jsonProcessingQueue) {
-        jsonProcessingQueue = dispatch_queue_create("com.Broker.jsonProcessingQueue", NULL);
-    }
+    dispatch_queue_t jsonProcessingQueue = dispatch_queue_create("com.Broker.jsonProcessingQueue", NULL);
     
     dispatch_async(jsonProcessingQueue, ^{
         [self syncProcessJSONObject:jsonObject
@@ -30,7 +26,7 @@ static dispatch_queue_t jsonProcessingQueue = nil;
                 withCompletionBlock:CompletionBlock];
     });
     
-    dispatch_release(jsonProcessingQueue);
+    //dispatch_release(jsonProcessingQueue);
 }
 
 + (void)syncProcessJSONObject:(id)jsonObject 
@@ -41,33 +37,43 @@ static dispatch_queue_t jsonProcessingQueue = nil;
     
     NSManagedObject *object = [self objectWithURI:entityURI inContext:aContext];
     
-    BKEntityPropertiesDescription *map = [self entityPropertyMapForEntityName:object.entity.name];
-    
+    BKEntityPropertiesDescription *description = [self entityPropertyDescriptionForEntityName:object.entity.name];
+        
     // Flat
     if ([jsonObject isKindOfClass:[NSDictionary class]]) {
-        
+
+        // Transform
         NSDictionary *transformedDict = [self transformJSONDictionary:(NSDictionary *)jsonObject 
-                                             usingEntityPropertiesMap:map];
+                                             usingEntityPropertiesDescription:description];
         
-        // set values on object
-        for (NSString *key in transformedDict) {
-            [object setValue:[transformedDict valueForKey:key]
-                      forKey:key];
-        }
-        
+        [self processSubJSONObject:transformedDict
+                         forObject:object
+                   withDescription:description
+                         inContext:aContext];        
     }
     
     // Collection
     if ([jsonObject isKindOfClass:[NSArray class]]) {
-        // array
+        
+        NSString *entityName = nil;
+        
+        if (relationshipName) {
+            entityName = [description destinationEntityNameForRelationship:relationshipName];
+        } else {
+            entityName = description.entityName;
+        }
+        
+        [self processJSONCollection:jsonObject
+                          forObject:object
+              withEntityDescription:description
+                    forRelationship:relationshipName
+                          inContext:aContext];
     }
     
     // Save context
     if (aContext.hasChanges) {
         NSError *error = nil;
         [aContext save:&error];
-    } else {
-        WLog(@"Didnt save!");
     }
     
     // Execute completion block
@@ -76,35 +82,139 @@ static dispatch_queue_t jsonProcessingQueue = nil;
     }
 }
 
-+ (NSDictionary *)transformJSONDictionary:(NSDictionary *)jsonDictionary 
-                 usingEntityPropertiesMap:(BKEntityPropertiesDescription *)entityMap {
++ (void)processJSONCollection:(NSArray *)collection
+                    forObject:(NSManagedObject *)object
+        withEntityDescription:(BKEntityPropertiesDescription *)description
+              forRelationship:(NSString *)relationship 
+                    inContext:(NSManagedObjectContext *)aContext {
     
-    NSMutableDictionary *transformedDict = [[[NSMutableDictionary alloc] init] autorelease];
+    NSString *destinationEntityName = nil;
+    if (relationship) {
+        destinationEntityName = [description destinationEntityNameForRelationship:relationship];
+    } else {
+        destinationEntityName = description.entityName;
+    }
     
-    for (NSString *networkProperty in jsonDictionary) {
+    BKEntityPropertiesDescription *destinationEntityDesc = [self entityPropertyDescriptionForEntityName:destinationEntityName];
+
+    NSMutableSet *relationshipObjects = [object mutableSetValueForKey:relationship];
+    
+    for (id dictionary in collection) {
         
-        // Test to see if networkProperty is relationship or attribute
-        if ([entityMap isPropertyRelationship:networkProperty]) {
-            // It's a relationship
+        NSAssert([dictionary isKindOfClass:[NSDictionary class]], @"Collection object must be a dictionary");
+        if (![dictionary isKindOfClass:[NSDictionary class]]) continue;
+        
+        // Transform
+        NSDictionary *transformedDict = [self transformJSONDictionary:(NSDictionary *)dictionary 
+                                     usingEntityPropertiesDescription:destinationEntityDesc];
+        
+        // Get the primary key value
+        id value = [transformedDict objectForKey:destinationEntityDesc.primaryKey];
+        
+        NSManagedObject *collectionObject = [Broker findOrCreateObjectForEntityDescribedBy:destinationEntityDesc 
+                                                                       withPrimaryKeyValue:value
+                                                                                 inContext:aContext
+                                                                              shouldCreate:YES];
+        
+        [self processSubJSONObject:transformedDict
+                         forObject:collectionObject
+                   withDescription:destinationEntityDesc
+                         inContext:aContext];
+        
+        if (collectionObject) {
+            [relationshipObjects addObject:collectionObject];
+        }
+    }
+}
+
++ (void)processSubJSONObject:(NSDictionary *)subDictionary 
+                   forObject:(NSManagedObject *)object 
+             withDescription:(BKEntityPropertiesDescription *)description 
+                   inContext:(NSManagedObjectContext *)aContext {
+    
+    for (NSString *property in subDictionary) {
+        if ([description isPropertyRelationship:property]) {
+            
+            id value = [subDictionary valueForKey:property];            
+            
+            BKEntityPropertiesDescription *destinationEntityDesc = [self destinationEntityPropertiesDescriptionForRelationship:property
+                                                                                                                 onEntityNamed:object.entity.name];
+            
+            // Flat
+            if ([value isKindOfClass:[NSDictionary class]]) {
+                                
+                NSDictionary *transformedDict = [self transformJSONDictionary:value 
+                                             usingEntityPropertiesDescription:destinationEntityDesc];
+                
+                // Get the primary key value
+                id primaryKeyValue = [transformedDict objectForKey:destinationEntityDesc.primaryKey];
+                
+                NSManagedObject *relationshipObject = [Broker findOrCreateObjectForEntityDescribedBy:destinationEntityDesc 
+                                                                                 withPrimaryKeyValue:primaryKeyValue
+                                                                                           inContext:aContext
+                                                                                        shouldCreate:YES];                
+                [self processSubJSONObject:transformedDict
+                                 forObject:relationshipObject
+                           withDescription:destinationEntityDesc
+                                 inContext:aContext];
+                
+                // Set the destination object
+                [object setValue:relationshipObject forKey:property];
+            }
+            
+            // Collection
+            if ([value isKindOfClass:[NSArray class]]) {
+                [self processJSONCollection:value
+                                  forObject:object
+                      withEntityDescription:description
+                            forRelationship:property 
+                                  inContext:aContext];
+            }
             
         } else {
-            // It's an attribute
+            [object setValue:[subDictionary valueForKey:property]
+                      forKey:property];        
+        }
+    }
+}
+
++ (NSDictionary *)transformJSONDictionary:(NSDictionary *)jsonDictionary 
+         usingEntityPropertiesDescription:(BKEntityPropertiesDescription *)propertiesDescription {
+        
+    NSMutableDictionary *transformedDict = [[[NSMutableDictionary alloc] init] autorelease];
+    
+    for (NSString *property in jsonDictionary) {
+
+        // Get the property description
+        BKPropertyDescription *description = [propertiesDescription descriptionForLocalProperty:property];
+        if (!description) {
+            // if no description, it could be a network property
+            description = [propertiesDescription descriptionForNetworkProperty:property];
+            if (!description) DLog(@"No description for property %@ found on entity %@!", property, propertiesDescription.entityName); continue;
+        }
+
+        // get the original value
+        id value = [jsonDictionary valueForKey:property];
+
+        // Test to see if networkProperty is relationship or attribute
+        if ([propertiesDescription isPropertyRelationship:property]) {
+            [transformedDict setObject:value forKey:description.localPropertyName];
+        } else {
             
-            // grab the map
-            BKAttributeDescription *attrMap = [entityMap attributeDescriptionForNetworkProperty:networkProperty];
-            
-            // get the original value
-            id value = [jsonDictionary valueForKey:networkProperty];
-            
-            // transform it using the attribute map
-            id valueAsObject = [attrMap objectForValue:value];
+            // transform it using the attribute desc
+            id valueAsObject = [(BKAttributeDescription *)description objectForValue:value];
             
             // Add it to the transformed dictionary
             if (valueAsObject) {
                 [transformedDict setObject:valueAsObject
-                                    forKey:attrMap.localAttributeName];
+                                    forKey:description.localPropertyName];
             }
         }
+    }
+    
+    if ([transformedDict count] == 0) {
+        // empty
+        return nil;
     }
     
     return [NSDictionary dictionaryWithDictionary:transformedDict];
@@ -142,5 +252,29 @@ static dispatch_queue_t jsonProcessingQueue = nil;
     return nil;
 }
 
++ (NSManagedObject *)findOrCreateObjectForEntityDescribedBy:(BKEntityPropertiesDescription *)description 
+                                        withPrimaryKeyValue:(id)value
+                                                  inContext:(NSManagedObjectContext *)aContext
+                                               shouldCreate:(BOOL)create {  
+    
+    NSAssert(description, @"Must have a description");
+    if (!description) return nil;
+    
+    NSFetchRequest *request = [[[NSFetchRequest alloc] init] autorelease];
+    
+    [request setEntity:description.entityDescription];
+    [request setPredicate:[NSPredicate predicateWithFormat:@"%@ = %@", description.primaryKey, value]];
+    
+    NSError *error;
+    NSArray *array = [aContext executeFetchRequest:request error:&error];
+    
+    if (create && array.count == 0) {
+        NSManagedObject *object = [NSEntityDescription insertNewObjectForEntityForName:description.entityName 
+                                                                inManagedObjectContext:aContext];
+        return object;
+    }
+    
+    return nil;
+}
 
 @end

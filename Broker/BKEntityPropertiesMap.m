@@ -24,7 +24,7 @@
 
 + (BKEntityPropertiesMap *)mapFromNetworkProperties:(NSArray *)networkProperties 
                                   toLocalProperties:(NSArray *)localProperties 
-                                          forEntity:(NSString *)entityName {
+                                          forEntityName:(NSString *)entityName {
     
     NSAssert((networkProperties.count == localProperties.count), @"Mapping network properties to local properties expects arrays of the same size");
     

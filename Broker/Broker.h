@@ -28,12 +28,18 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 /**
- * Regsister object where network attribute names are the same as local 
+ * Regsister entity where network attribute names are the same as local 
  * attribute names.
  */
-+ (void)registerEntityNamed:(NSString *)entityName;
-
 + (void)registerEntityNamed:(NSString *)entityName 
+             withPrimaryKey:(NSString *)primaryKey;
+
+/**
+ * Regsister entity where network attribute names are the same as local 
+ * attribute names.
+ */
++ (void)registerEntityNamed:(NSString *)entityName
+             withPrimaryKey:(NSString *)primaryKey
       andMapNetworkProperty:(NSString *)networkProperty 
             toLocalProperty:(NSString *)localProperty;
 
@@ -43,6 +49,7 @@
  * network attribute 'id' to local attribute of 'myObjectID.'
  */
 + (void)registerEntityNamed:(NSString *)entityName 
+             withPrimaryKey:(NSString *)primaryKey
     andMapNetworkProperties:(NSArray *)networkProperties 
           toLocalProperties:(NSArray *)localProperties;
 
@@ -73,12 +80,15 @@
 //                                 Accessors                                  //
 ////////////////////////////////////////////////////////////////////////////////
 
-+ (BKEntityPropertiesDescription *)entityPropertyMapForEntityName:(NSString *)entityName;
++ (BKEntityPropertiesDescription *)entityPropertyDescriptionForEntityName:(NSString *)entityName;
 
 + (BKAttributeDescription *)attributeDescriptionForProperty:(NSString *)attribute 
                                                onEntityName:(NSString *)entityName;
 
 + (BKRelationshipDescription *)relationshipDescriptionForProperty:(NSString *)relationship 
-                                                         onEntityName:(NSString *)entityName;
+                                                     onEntityName:(NSString *)entityName;
+
++ (BKEntityPropertiesDescription *)destinationEntityPropertiesDescriptionForRelationship:(NSString *)relationship
+                                                                           onEntityNamed:(NSString *)entityName;
 
 @end

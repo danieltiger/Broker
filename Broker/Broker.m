@@ -19,7 +19,7 @@ static NSMutableDictionary *entityDescriptions = nil;
 
 static JSONDecoder *decoder = nil;
 
-static dispatch_queue_t jsonParsingQueue = nil;
+//static dispatch_queue_t jsonParsingQueue = nil;
 
 #pragma mark - Setup
 
@@ -35,29 +35,33 @@ static dispatch_queue_t jsonParsingQueue = nil;
 
 #pragma mark - Registration
 
-+ (void)registerEntityNamed:(NSString *)entityName {
-    [self registerEntityNamed:entityName 
++ (void)registerEntityNamed:(NSString *)entityName withPrimaryKey:(NSString *)primaryKey {
+    [self registerEntityNamed:entityName
+               withPrimaryKey:primaryKey
       andMapNetworkProperties:nil 
             toLocalProperties:nil];
 }
 
-+ (void)registerEntityNamed:(NSString *)entityName 
++ (void)registerEntityNamed:(NSString *)entityName
+             withPrimaryKey:(NSString *)primaryKey
       andMapNetworkProperty:(NSString *)networkProperty 
             toLocalProperty:(NSString *)localProperty {
     
-    [self registerEntityNamed:entityName 
+    [self registerEntityNamed:entityName
+               withPrimaryKey:primaryKey
       andMapNetworkProperties:[NSArray arrayWithObject:networkProperty] 
             toLocalProperties:[NSArray arrayWithObject:localProperty]];
     
 }
 
-+ (void)registerEntityNamed:(NSString *)entityName 
++ (void)registerEntityNamed:(NSString *)entityName
+             withPrimaryKey:(NSString *)primaryKey
     andMapNetworkProperties:(NSArray *)networkProperties 
           toLocalProperties:(NSArray *)localProperties {
     
     NSAssert(context, @"Broker must be setup with setupWithContext!");
     
-    if ([self entityPropertyMapForEntityName:entityName]) {
+    if ([self entityPropertyDescriptionForEntityName:entityName]) {
         WLog(@"Entity named %@ already registered with Broker", entityName);
         return;
     }
@@ -66,12 +70,14 @@ static dispatch_queue_t jsonParsingQueue = nil;
     NSManagedObject *object = [NSEntityDescription insertNewObjectForEntityForName:entityName 
                                                             inManagedObjectContext:context];
     
-    
     // Build description of entity properties
-    BKEntityPropertiesDescription *desc = [BKEntityPropertiesDescription descriptionForEntityName:entityName 
-                                                                             withPropertiesByName:object.entity.propertiesByName
-                                                                          andMapNetworkProperties:networkProperties
-                                                                                toLocalProperties:localProperties];
+    BKEntityPropertiesDescription *desc = [BKEntityPropertiesDescription descriptionForEntity:object.entity 
+                                                                         withPropertiesByName:object.entity.propertiesByName
+                                                                      andMapNetworkProperties:networkProperties
+                                                                            toLocalProperties:localProperties];
+    
+    // Set primary key
+    desc.primaryKey = primaryKey;
     
     // Add to descriptions
     [entityDescriptions setObject:desc forKey:entityName];
@@ -98,9 +104,7 @@ static dispatch_queue_t jsonParsingQueue = nil;
            forRelationship:(NSString *)relationshipName
        withCompletionBlock:(void (^)())CompletionBlock{
 
-    if (!jsonParsingQueue) {
-        jsonParsingQueue = dispatch_queue_create("com.Broker.jsonParsingQueue", NULL);
-    }
+    dispatch_queue_t jsonParsingQueue = dispatch_queue_create("com.Broker.jsonParsingQueue", NULL);
 
     // dispatch parsing on separate thread
     dispatch_async(jsonParsingQueue, ^{ 
@@ -126,13 +130,12 @@ static dispatch_queue_t jsonParsingQueue = nil;
     SEL selector = @selector(mergeChangesFromContextDidSaveNotification:);
 
     NSManagedObjectContext *threadContext = (NSManagedObjectContext *)notification.object;
-    WLog(@"MOC changes: %d",threadContext.hasChanges);
     
     [context performSelectorOnMainThread:selector withObject:notification waitUntilDone:NO];
 
     [[NSNotificationCenter defaultCenter] removeObserver:self 
                                                     name:NSManagedObjectContextDidSaveNotification 
-                                                  object:notification];
+                                                  object:threadContext];
 }
 
 + (NSManagedObjectContext *)newMainStoreManagedObjectContext {
@@ -158,19 +161,17 @@ static dispatch_queue_t jsonParsingQueue = nil;
 
 #pragma mark - Accessors
 
-+ (BKEntityPropertiesDescription *)entityPropertyMapForEntityName:(NSString *)entityName {
++ (BKEntityPropertiesDescription *)entityPropertyDescriptionForEntityName:(NSString *)entityName {
     return (BKEntityPropertiesDescription *)[entityDescriptions objectForKey:entityName];
 }
 
 + (BKAttributeDescription *)attributeDescriptionForProperty:(NSString *)property 
                                                onEntityName:(NSString *)entityName {
-
-    BKEntityPropertiesDescription *desc = [entityDescriptions objectForKey:entityName];
     
+    BKEntityPropertiesDescription *desc = [entityDescriptions objectForKey:entityName];
     if (desc) {
         return [desc attributeDescriptionForLocalProperty:property];
     }
-    
     return nil;
 }
 
@@ -179,12 +180,17 @@ static dispatch_queue_t jsonParsingQueue = nil;
                                                      onEntityName:(NSString *)entityName {
     
     BKEntityPropertiesDescription *desc = [entityDescriptions objectForKey:entityName];
-        
     if (desc) {
         return [desc relationshipDescriptionForProperty:property];
     }
-    
     return nil;
+}
+
++ (BKEntityPropertiesDescription *)destinationEntityPropertiesDescriptionForRelationship:(NSString *)relationship
+                                                                           onEntityNamed:(NSString *)entityName {
+    
+    BKRelationshipDescription *desc = [self relationshipDescriptionForProperty:relationship onEntityName:entityName];
+    return [self entityPropertyDescriptionForEntityName:desc.destinationEntityName];
 }
 
 @end

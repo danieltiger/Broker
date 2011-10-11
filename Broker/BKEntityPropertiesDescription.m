@@ -12,29 +12,35 @@
 
 @implementation BKEntityPropertiesDescription
 
-@synthesize entityName, 
+@synthesize entityName,
+            primaryKey,
             propertiesDescriptions,
-            propertiesMap;
+            propertiesMap,
+            entityDescription;
 
 - (void)dealloc {
     [entityName release];
+    [primaryKey release];
     [propertiesDescriptions release];
     [propertiesMap release];
+    [entityDescription release];
     
     [super dealloc];
 }
 
-+ (BKEntityPropertiesDescription *)descriptionForEntityName:(NSString *)entityName 
-                                       withPropertiesByName:(NSDictionary *)properties
-                                    andMapNetworkProperties:(NSArray *)networkProperties
-                                          toLocalProperties:(NSArray *)localProperties {
++ (BKEntityPropertiesDescription *)descriptionForEntity:(NSEntityDescription *)entity 
+                                   withPropertiesByName:(NSDictionary *)properties
+                                andMapNetworkProperties:(NSArray *)networkProperties
+                                      toLocalProperties:(NSArray *)localProperties {
     
     BKEntityPropertiesDescription *description = [[[BKEntityPropertiesDescription alloc] init] autorelease];
-    description.entityName = entityName;
+    
+    description.entityDescription = entity;
+    description.entityName = entity.name;
     
     BKEntityPropertiesMap *map = [BKEntityPropertiesMap mapFromNetworkProperties:networkProperties
                                                                toLocalProperties:localProperties
-                                                                       forEntity:entityName];
+                                                                   forEntityName:entity.name];
     
     NSMutableDictionary *tempPropertiesDescriptions = [[[NSMutableDictionary alloc] init] autorelease];
     
@@ -51,9 +57,8 @@
         }
         
         if ([description isKindOfClass:[NSRelationshipDescription class]]) {
-            BKRelationshipDescription *relationshipDescription = [BKRelationshipDescription descriptionWithRelationshipDescription:(NSRelationshipDescription *)description];
-            
-            
+            BKRelationshipDescription *relationshipDescription = 
+                    [BKRelationshipDescription descriptionWithRelationshipDescription:(NSRelationshipDescription *)description];            
             [tempPropertiesDescriptions setObject:relationshipDescription forKey:property];
         }
     }
@@ -64,25 +69,51 @@
     return description;
 }
 
-- (BKAttributeDescription *)attributeDescriptionForLocalProperty:(NSString *)property {
-   
-    id description = [self.propertiesDescriptions objectForKey:property];
+- (BKPropertyDescription *)descriptionForLocalProperty:(NSString *)property {
+    return (BKPropertyDescription *)[self.propertiesDescriptions objectForKey:property];
+}
+
+- (BKPropertyDescription *)descriptionForNetworkProperty:(NSString *)property {
+    __block id result = nil;
     
+    [self.propertiesDescriptions enumerateKeysAndObjectsWithOptions:NSEnumerationConcurrent
+                                                         usingBlock:^(id key, id obj, BOOL *stop) {
+                                                             
+                                                             BKPropertyDescription *description = [self descriptionForLocalProperty:key];
+                                                             
+                                                             if (description && [description.networkPropertyName isEqualToString:property]) {
+                                                                 result = obj;
+                                                                 *stop = YES;
+                                                             }
+                                                         }];
+    
+    if (!result) {
+        DLog(@"%@ is not a known network property on entity %@", property, self.entityName);
+        return nil;
+    }
+    
+    return (BKPropertyDescription *)result;
+}
+
+- (BKAttributeDescription *)attributeDescriptionForLocalProperty:(NSString *)property {
+    id description = [self descriptionForLocalProperty:property];
     if (description && [description isKindOfClass:[BKAttributeDescription class]]) {
         return (BKAttributeDescription *)description;
     } else {
         return nil;
     }
-    
 }
 
 - (BKAttributeDescription *)attributeDescriptionForNetworkProperty:(NSString *)property {
-    // TODO: Support network/local property name mismatch
-    return [self attributeDescriptionForLocalProperty:property];
+    id description = [self descriptionForNetworkProperty:property];
+    if (description && [description isKindOfClass:[BKAttributeDescription class]]) {
+        return (BKAttributeDescription *)description;
+    } else {
+        return nil;
+    }
 }
 
 - (BKRelationshipDescription *)relationshipDescriptionForProperty:(NSString *)property {
-    
     id description = [self.propertiesDescriptions objectForKey:property];
     
     if (description && [description isKindOfClass:[BKRelationshipDescription class]]) {
@@ -90,11 +121,9 @@
     } else {
         return nil;
     }
-    
 }
 
 - (BOOL)isPropertyRelationship:(NSString *)property {
-    
     id description = [self.propertiesDescriptions objectForKey:property];
     
     if (description && [description isKindOfClass:[BKRelationshipDescription class]]) {
@@ -102,7 +131,11 @@
     } else {
         return NO;
     }
-                
+}
+
+- (NSString *)destinationEntityNameForRelationship:(NSString *)relationship {
+    BKRelationshipDescription *desc = [self relationshipDescriptionForProperty:relationship];
+    return desc.destinationEntityName;
 }
 
 @end

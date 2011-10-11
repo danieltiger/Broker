@@ -1,0 +1,11 @@
+{
+    "firstname": "Andrew",
+    "lastname": "Smith",
+    "employeeID": 5678,
+    "startDate": "2011/10/06 00:51:10 -0700",
+    "bunk": "This isn't in the model",
+    "contactInfo": {
+        "email": "andrew@smith.com",
+        "phone": 4155556666
+    }
+}
