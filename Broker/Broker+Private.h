@@ -22,18 +22,24 @@
                     inContext:(NSManagedObjectContext *)aContext
           withCompletionBlock:(void (^)())CompletionBlock;
 
-+ (void)processCollection:(NSArray *)collection
-          ofEntitiesNamed:(NSString *)entityName
-          withDescription:(BKEntityPropertiesDescription *)description
-             objectBucket:(NSMutableSet *)bucket;
++ (void)processJSONCollection:(NSArray *)collection
+        withEntityDescription:(BKEntityPropertiesDescription *)description
+              forRelationship:(NSString *)relationship
+                    inContext:(NSManagedObjectContext *)aContext;
 
-
-
-
++ (void)processSubJSONObject:(NSDictionary *)subDictionary 
+                   forObject:(NSManagedObject *)object 
+             withDescription:(BKEntityPropertiesDescription *)description
+                   inContext:(NSManagedObjectContext *)aContext;
 
 + (NSDictionary *)transformJSONDictionary:(NSDictionary *)jsonDictionary 
-                 usingEntityPropertiesMap:(BKEntityPropertiesDescription *)entityMap;
+                 usingEntityPropertiesDescription:(BKEntityPropertiesDescription *)entityMap;
 
 + (NSManagedObject *)objectWithURI:(NSURL *)objectURI inContext:(NSManagedObjectContext *)aContext;
+
++ (NSManagedObject *)findEntityDescribedBy:(BKEntityPropertiesDescription *)description 
+                        withPrimaryKeyName:(NSString *)primaryKeyName 
+                        andPrimaryKeyValue:(id)value
+                                 inContext:(NSManagedObjectContext *)aContext;
 
 @end

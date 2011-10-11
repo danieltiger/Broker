@@ -9,19 +9,15 @@
 #import <Foundation/Foundation.h>
 #import <CoreData/CoreData.h>
 
-@interface BKRelationshipDescription : NSObject {
+#import "BKPropertyDescription.h"
+
+@interface BKRelationshipDescription : BKPropertyDescription {
 @private
-    NSString *localRelationshipName;
-    NSString *networkRelationshipName;
     NSString *destinationEntityName;
-    NSString *entityName;
     BOOL isToMany;
 }
 
-@property (nonatomic, copy) NSString *localRelationshipName;
-@property (nonatomic, copy) NSString *networkRelationshipName;
 @property (nonatomic, copy) NSString *destinationEntityName;
-@property (nonatomic, copy) NSString *entityName;
 @property (nonatomic, assign) BOOL isToMany;
 
 + (BKRelationshipDescription *)descriptionWithRelationshipDescription:(NSRelationshipDescription *)description;

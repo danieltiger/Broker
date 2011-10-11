@@ -26,6 +26,8 @@
 		DBCD6738143F61ED000FD78D /* BKEntityPropertiesMap.m in Sources */ = {isa = PBXBuildFile; fileRef = DBCD6736143F61EC000FD78D /* BKEntityPropertiesMap.m */; };
 		DBCD673E1441036F000FD78D /* Broker+Private.h in Headers */ = {isa = PBXBuildFile; fileRef = DBCD673C1441036F000FD78D /* Broker+Private.h */; };
 		DBCD673F1441036F000FD78D /* Broker+Private.m in Sources */ = {isa = PBXBuildFile; fileRef = DBCD673D1441036F000FD78D /* Broker+Private.m */; };
+		DBCD67521443F47A000FD78D /* BKPropertyDescription.h in Headers */ = {isa = PBXBuildFile; fileRef = DBCD67501443F47A000FD78D /* BKPropertyDescription.h */; };
+		DBCD67531443F47A000FD78D /* BKPropertyDescription.m in Sources */ = {isa = PBXBuildFile; fileRef = DBCD67511443F47A000FD78D /* BKPropertyDescription.m */; };
 		DBFF95C9143D8D80008511EA /* BrokerTestModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = DBFF95C7143D8D80008511EA /* BrokerTestModel.xcdatamodeld */; };
 		DBFF95CD143D9060008511EA /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DB4C0E58143D34E50090F5E3 /* CoreData.framework */; };
 		DBFF95D3143E17D9008511EA /* BrokerTestsHelpers.m in Sources */ = {isa = PBXBuildFile; fileRef = DBFF95D2143E17D9008511EA /* BrokerTestsHelpers.m */; };
@@ -68,6 +70,8 @@
 		DBCD6736143F61EC000FD78D /* BKEntityPropertiesMap.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BKEntityPropertiesMap.m; sourceTree = "<group>"; };
 		DBCD673C1441036F000FD78D /* Broker+Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Broker+Private.h"; sourceTree = "<group>"; };
 		DBCD673D1441036F000FD78D /* Broker+Private.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "Broker+Private.m"; sourceTree = "<group>"; };
+		DBCD67501443F47A000FD78D /* BKPropertyDescription.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BKPropertyDescription.h; sourceTree = "<group>"; };
+		DBCD67511443F47A000FD78D /* BKPropertyDescription.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BKPropertyDescription.m; sourceTree = "<group>"; };
 		DBFF95C8143D8D80008511EA /* BrokerTestModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = BrokerTestModel.xcdatamodel; sourceTree = "<group>"; };
 		DBFF95D1143E17D9008511EA /* BrokerTestsHelpers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BrokerTestsHelpers.h; sourceTree = "<group>"; };
 		DBFF95D2143E17D9008511EA /* BrokerTestsHelpers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BrokerTestsHelpers.m; sourceTree = "<group>"; };
@@ -141,6 +145,8 @@
 				DBCD673D1441036F000FD78D /* Broker+Private.m */,
 				DBFF95E9143E568C008511EA /* BKEntityPropertiesDescription.h */,
 				DBFF95EA143E568C008511EA /* BKEntityPropertiesDescription.m */,
+				DBCD67501443F47A000FD78D /* BKPropertyDescription.h */,
+				DBCD67511443F47A000FD78D /* BKPropertyDescription.m */,
 				DB4C0E54143D334C0090F5E3 /* BKAttributeDescription.h */,
 				DB4C0E55143D334C0090F5E3 /* BKAttributeDescription.m */,
 				DB4C0E76143D84560090F5E3 /* BKRelationshipDescription.h */,
@@ -213,6 +219,7 @@
 				DBFF95EB143E568C008511EA /* BKEntityPropertiesDescription.h in Headers */,
 				DBCD6737143F61ED000FD78D /* BKEntityPropertiesMap.h in Headers */,
 				DBCD673E1441036F000FD78D /* Broker+Private.h in Headers */,
+				DBCD67521443F47A000FD78D /* BKPropertyDescription.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -321,6 +328,7 @@
 				DBFF95EC143E568C008511EA /* BKEntityPropertiesDescription.m in Sources */,
 				DBCD6738143F61ED000FD78D /* BKEntityPropertiesMap.m in Sources */,
 				DBCD673F1441036F000FD78D /* Broker+Private.m in Sources */,
+				DBCD67531443F47A000FD78D /* BKPropertyDescription.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

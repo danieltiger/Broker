@@ -77,25 +77,15 @@ static NSString *kDepartmentRelationship = @"department";
 
 #pragma mark - Registration
 
-- (void)testRegisterRelationshipDescriptionExists {
-    
-    [Broker registerEntityNamed:kDepartment];
-
-    BKRelationshipDescription *map = [Broker relationshipDescriptionForProperty:kEmployeesRelationship 
-                                                       onEntityName:kDepartment];
-    
-    STAssertNotNil(map, @"Broker should have an employee relationship map for Department after registration!");
-
-}
-
 - (void)testRegisterRelationshipDescription {
     
-    [Broker registerEntityNamed:kDepartment];
+    [Broker registerEntityNamed:kDepartment withPrimaryKey:nil];
     
     BKRelationshipDescription *desc = [Broker relationshipDescriptionForProperty:kEmployeesRelationship 
                                                                 onEntityName:kDepartment];
     
-    STAssertEqualObjects(desc.localRelationshipName, kEmployeesRelationship, @"Relationship map should be named correctly");    
+    STAssertNotNil(desc, @"Should have an relationship description for property on registered entity");
+    STAssertEqualObjects(desc.localPropertyName, kEmployeesRelationship, @"Relationship map should be named correctly");    
     STAssertEqualObjects(desc.destinationEntityName, kEmployee, @"Relationship map should have correct destination entity name");
     STAssertEqualObjects(desc.entityName, kDepartment, @"Relationship map should have correct entity name");
     STAssertTrue(desc.isToMany, @"Relationship map should be isToMany");
@@ -103,49 +93,134 @@ static NSString *kDepartmentRelationship = @"department";
 
 - (void)testRegisterAttributeDescription {
     
-    [Broker registerEntityNamed:kEmployee];
+    [Broker registerEntityNamed:kEmployee withPrimaryKey:nil];
     
     BKAttributeDescription *desc = [Broker attributeDescriptionForProperty:@"firstname"
                                                               onEntityName:kEmployee];
     
+    STAssertNotNil(desc, @"Should have an attribute description for property on registered entity");
     STAssertEqualObjects(desc.entityName, kEmployee, @"Attribute description entity name should be set correctly");
-    STAssertEqualObjects(desc.localAttributeName, kEmployeeFirstname, @"Attribute description local attribute name should be set correctly");
-    STAssertNil(desc.networkAttributeName, @"Attribute description shouldn't have a network attribute name");
+    STAssertEqualObjects(desc.localPropertyName, kEmployeeFirstname, @"Attribute description local attribute name should be set correctly");
+    STAssertNil(desc.networkPropertyName, @"Attribute description shouldn't have a network attribute name");
 }
 
 - (void)testRegisterAttributeDescriptionWithPropertyMap {
     
-    [Broker registerEntityNamed:kEmployee andMapNetworkProperties:[NSArray arrayWithObject:@"first-name"]
-                                               toLocalProperties:[NSArray arrayWithObject:@"firstname"]];
+    [Broker registerEntityNamed:kEmployee 
+                 withPrimaryKey:nil 
+          andMapNetworkProperty:@"first-name"
+                toLocalProperty:@"firstname"];
     
     BKAttributeDescription *desc = [Broker attributeDescriptionForProperty:@"firstname"
                                                               onEntityName:kEmployee];
     
     STAssertEqualObjects(desc.entityName, kEmployee, @"Attribute description entity name should be set correctly");
-    STAssertEqualObjects(desc.localAttributeName, kEmployeeFirstname, @"Attribute description local attribute name should be set correctly");
-    STAssertEqualObjects(desc.networkAttributeName, @"first-name", @"Attribute description network attribute name should be set correctly");
+    STAssertEqualObjects(desc.localPropertyName, kEmployeeFirstname, @"Attribute description local attribute name should be set correctly");
+    STAssertEqualObjects(desc.networkPropertyName, @"first-name", @"Attribute description network attribute name should be set correctly");
 }
+
+#pragma mark - Entity Properties Description
+
+- (void)testDescriptionForLocalProperty {
+    [Broker registerEntityNamed:kEmployee withPrimaryKey:@"employeeID"];
+    
+    BKEntityPropertiesDescription *desc = [Broker entityPropertyDescriptionForEntityName:kEmployee];
+    BKPropertyDescription *localPropDesc = [desc descriptionForLocalProperty:@"employeeID"];
+    
+    STAssertNotNil(localPropDesc, @"Should have an attribute description for a property on a registered entity");
+}
+
+- (void)testDescriptionForLocalPropertyThatDoesntExist {
+    [Broker registerEntityNamed:kEmployee withPrimaryKey:@"employeeID"];
+    
+    BKEntityPropertiesDescription *desc = [Broker entityPropertyDescriptionForEntityName:kEmployee];
+    BKPropertyDescription *localPropDesc = [desc descriptionForLocalProperty:@"blah"];
+    
+    STAssertNil(localPropDesc, @"Should not have an attribute description for a fake property on a registered entity");
+}
+
+- (void)testDescriptionForNetworkPropertyThatDoesntExist {
+    [Broker registerEntityNamed:kEmployee 
+                 withPrimaryKey:@"employeeID" 
+          andMapNetworkProperty:@"first-name" 
+                toLocalProperty:@"firstname"];
+    
+    BKEntityPropertiesDescription *desc = [Broker entityPropertyDescriptionForEntityName:kEmployee];
+    BKPropertyDescription *networkPropDesc = [desc descriptionForNetworkProperty:@"blah"];
+    
+    STAssertNil(networkPropDesc, @"Should not have an attribute description for a fake network property on a registered entity");
+}
+
+#pragma mark - Attribute Description
+
+- (void)testDescriptionWithAttributeDescription {
+    STFail(@"FAIL!");
+}
+
+- (void)testDescriptionWithAttributeDescriptionAndMapToNetworkAttributeName {
+    STFail(@"FAIL!");
+}
+
+- (void)testObjectForValue {
+    STFail(@"FAIL!");
+}
+
+#pragma mark - Accessors
+
+- (void)testEntityPropertyDescriptionForEntityName {
+    [Broker registerEntityNamed:kEmployee withPrimaryKey:@"employeeID"];
+    
+    BKEntityPropertiesDescription *desc = [Broker entityPropertyDescriptionForEntityName:kEmployee];
+    
+    STAssertNotNil(desc, @"Should have entity property description for registered entity");
+}
+
+- (void)testAttributeDescriptionForPropertyOnEntityName {
+    [Broker registerEntityNamed:kEmployee withPrimaryKey:@"employeeID"];
+
+    BKAttributeDescription *desc = [Broker attributeDescriptionForProperty:@"employeeID" 
+                                                              onEntityName:kEmployee];
+    
+    STAssertNotNil(desc, @"Should have an attribute description for a property on a registered entity");
+}
+
+- (void)testRelationshipDescriptionForPropertyOnEntityName {
+    [Broker registerEntityNamed:kEmployee withPrimaryKey:@"employeeID"];
+    
+    BKRelationshipDescription *desc = [Broker relationshipDescriptionForProperty:@"department"
+                                                                    onEntityName:@"Employee"];
+    
+    STAssertNotNil(desc, @"Should have a relationship description for a property on a registered entity");
+}
+
+#pragma mark - Transform
 
 - (void)testTransformEmployeeJSONDictionary {
     
-    [Broker registerEntityNamed:kEmployee];
+    [Broker registerEntityNamed:kEmployee withPrimaryKey:nil];
     
     NSDictionary *fakeJSON = [NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"Andrew", @"Smith", @"5678", nil]
                                                          forKeys:[NSArray arrayWithObjects:@"firstname", @"lastname", @"employeeID", nil]];
     
+    BKEntityPropertiesDescription *desc = [Broker entityPropertyDescriptionForEntityName:kEmployee];
+    
+    STAssertNotNil(desc, @"Should have an entity properties description for registered entity");
+    
     NSDictionary *transformedDict = [Broker transformJSONDictionary:fakeJSON 
-                                           usingEntityPropertiesMap:[Broker entityPropertyMapForEntityName:kEmployee]];
+                                   usingEntityPropertiesDescription:desc];
         
     STAssertTrue([[transformedDict objectForKey:@"firstname"] isKindOfClass:[NSString class]], @"Transform dictionary should properly set class type");
     STAssertTrue([[transformedDict objectForKey:@"lastname"] isKindOfClass:[NSString class]], @"Transform dictionary should properly set class type");
     STAssertTrue([[transformedDict objectForKey:@"employeeID"] isKindOfClass:[NSNumber class]], @"Transform dictionary should properly set class type");
 }
 
+#pragma mark - Processing
+
 - (void)testFlatEmployeeJSONProcessing {
     
     NSData *jsonData = DataFromFile(@"employee_flat.json");
     
-    [Broker registerEntityNamed:kEmployee];
+    [Broker registerEntityNamed:kEmployee withPrimaryKey:nil];
     
     // Add a new Employee to the store
     NSURL *employeeURI = [BrokerTestsHelpers createNewEmployee:context];
@@ -178,8 +253,8 @@ static NSString *kDepartmentRelationship = @"department";
     NSData *jsonData = DataFromFile(@"department_nested.json");
     
     // Register Entities
-    [Broker registerEntityNamed:kDepartment];
-    [Broker registerEntityNamed:kEmployee];
+    [Broker registerEntityNamed:kDepartment withPrimaryKey:nil];
+    [Broker registerEntityNamed:kEmployee withPrimaryKey:nil];
     
     // Build Deparment
     NSURL *departmentURI = [BrokerTestsHelpers createNewDepartment:context];
@@ -202,7 +277,7 @@ static NSString *kDepartmentRelationship = @"department";
     
     [context refreshObject:dept mergeChanges:YES];
     
-    STFail(@"Implement this test bitch!");
+    STFail(@"Fail!");
 }
 
 - (void)testDepartmentEmployeesJSON {
@@ -210,8 +285,8 @@ static NSString *kDepartmentRelationship = @"department";
     NSData *jsonData = DataFromFile(@"department_employees.json");
     
     // Register Entities
-    [Broker registerEntityNamed:kDepartment];
-    [Broker registerEntityNamed:kEmployee];
+    [Broker registerEntityNamed:kDepartment withPrimaryKey:nil];
+    [Broker registerEntityNamed:kEmployee withPrimaryKey:@"employeeID"];
     
     // Build Deparment
     NSURL *departmentURI = [BrokerTestsHelpers createNewDepartment:context];
@@ -235,7 +310,10 @@ static NSString *kDepartmentRelationship = @"department";
     
     [context refreshObject:dept mergeChanges:YES];
     
-    STFail(@"Implement this test bitch!");
+    NSSet *employees = (NSSet *)[dept valueForKey:@"employees"];
+    int num = [employees count];
+    
+    STAssertEquals(num, 7, @"Should have 7 employee objects");
 }
 
 #pragma mark - Core Data
@@ -249,6 +327,10 @@ static NSString *kDepartmentRelationship = @"department";
                                                      inContext:context];
      
     STAssertEqualObjects(department, fetchedDepartment, @"Should get the same object");
+}
+
+- (void)testFindEntityDescribedWithPrimaryKeyNameAndPrimaryKeyValueInContext {
+    STFail(@"FAIL!");
 }
 
 @end

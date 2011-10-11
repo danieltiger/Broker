@@ -21,7 +21,7 @@
 
 + (BKEntityPropertiesMap *)mapFromNetworkProperties:(NSArray *)networkProperties 
                                   toLocalProperties:(NSArray *)localProperties 
-                                          forEntity:(NSString *)entityName;
+                                          forEntityName:(NSString *)entityName;
 
 - (NSString *)networkPropertyNameForLocalProperty:(NSString *)localProperty;
 - (NSString *)localPropertyNameForNetworkProperty:(NSString *)networkProperty;

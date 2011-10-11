@@ -15,22 +15,33 @@
 @interface BKEntityPropertiesDescription : NSObject {
 @private
     NSString *entityName;
+    NSString *primaryKey;
     NSMutableDictionary *propertiesDescriptions;
     BKEntityPropertiesMap *propertiesMap;
+    NSEntityDescription *entityDescription;
 }
 
 @property (nonatomic, copy) NSString *entityName;
+@property (nonatomic, copy) NSString *primaryKey;
 @property (nonatomic, retain) NSMutableDictionary *propertiesDescriptions;
 @property (nonatomic, retain) BKEntityPropertiesMap *propertiesMap;
+@property (nonatomic, retain) NSEntityDescription *entityDescription;
 
 /**
  * Creates a new BKEntityPropertiesDescription where the entityName is the name 
  * of the entity, the properties is the
  */
-+ (BKEntityPropertiesDescription *)descriptionForEntityName:(NSString *)entityName 
-                                       withPropertiesByName:(NSDictionary *)properties
-                                    andMapNetworkProperties:(NSArray *)networkProperties
-                                          toLocalProperties:(NSArray *)localProperties;
++ (BKEntityPropertiesDescription *)descriptionForEntity:(NSEntityDescription *)entity 
+                                   withPropertiesByName:(NSDictionary *)properties
+                                andMapNetworkProperties:(NSArray *)networkProperties
+                                      toLocalProperties:(NSArray *)localProperties;
+
+/**
+ *
+ */
+- (BKPropertyDescription *)descriptionForLocalProperty:(NSString *)property;
+
+- (BKPropertyDescription *)descriptionForNetworkProperty:(NSString *)property;
 
 /**
  * Returns the attribute description for the local property name on the enity

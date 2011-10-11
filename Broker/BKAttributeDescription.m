@@ -10,18 +10,7 @@
 
 @implementation BKAttributeDescription
 
-@synthesize entityName, 
-            localAttributeName, 
-            networkAttributeName, 
-            attributeType;
-
-- (void)dealloc {
-    [entityName release];
-    [localAttributeName release];
-    [networkAttributeName release];
-    
-    [super dealloc];
-}
+@synthesize attributeType;
 
 + (BKAttributeDescription *)descriptionWithAttributeDescription:(NSAttributeDescription *)description {
     return [self descriptionWithAttributeDescription:description
@@ -34,8 +23,8 @@
     BKAttributeDescription *map = [[[BKAttributeDescription alloc] init] autorelease];
     
     map.entityName = description.entity.name;
-    map.localAttributeName = description.name;
-    map.networkAttributeName = networkAttributeName;
+    map.localPropertyName = description.name;
+    map.networkPropertyName = networkAttributeName;
     map.attributeType = description.attributeType;
     
     return map;
