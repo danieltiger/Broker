@@ -3,7 +3,7 @@
 //  BrokerTests
 //
 //  Created by Andrew Smith on 10/5/11.
-//  Copyright (c) 2011 __MyCompanyName__. All rights reserved.
+//  Copyright (c) 2011 Andrew B. Smith. All rights reserved.
 //
 
 #import "BrokerTests.h"
@@ -24,6 +24,7 @@ static NSString *kEmployeesRelationship = @"employees";
 static NSString *kEmployee = @"Employee";
 static NSString *kEmployeeFirstname = @"firstname";
 static NSString *kDepartmentRelationship = @"department";
+static NSString *kEmployeeStartDateFormat = @"yyyy/MM/dd HH:mm:ss zzzz";
 
 
 @implementation BrokerTests
@@ -195,23 +196,53 @@ static NSString *kDepartmentRelationship = @"department";
 
 #pragma mark - Transform
 
-- (void)testTransformEmployeeJSONDictionary {
+- (void)testTransformJSONDictionaryClassesAreCorrect {
+        
+    NSDictionary *fakeJSON = [NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"Andrew", @"Smith", @"5678", @"2011/10/06 00:51:10 -0700", nil]
+                                                         forKeys:[NSArray arrayWithObjects:@"firstname", @"lastname", @"employeeID", @"startDate", nil]];
     
     [Broker registerEntityNamed:kEmployee withPrimaryKey:nil];
     
-    NSDictionary *fakeJSON = [NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"Andrew", @"Smith", @"5678", nil]
-                                                         forKeys:[NSArray arrayWithObjects:@"firstname", @"lastname", @"employeeID", nil]];
+    [Broker setDateFormat:kEmployeeStartDateFormat 
+              forProperty:@"startDate" 
+                 onEntity:kEmployee];
     
     BKEntityPropertiesDescription *desc = [Broker entityPropertyDescriptionForEntityName:kEmployee];
-    
-    STAssertNotNil(desc, @"Should have an entity properties description for registered entity");
-    
+        
     NSDictionary *transformedDict = [Broker transformJSONDictionary:fakeJSON 
                                    usingEntityPropertiesDescription:desc];
-        
+
     STAssertTrue([[transformedDict objectForKey:@"firstname"] isKindOfClass:[NSString class]], @"Transform dictionary should properly set class type");
     STAssertTrue([[transformedDict objectForKey:@"lastname"] isKindOfClass:[NSString class]], @"Transform dictionary should properly set class type");
     STAssertTrue([[transformedDict objectForKey:@"employeeID"] isKindOfClass:[NSNumber class]], @"Transform dictionary should properly set class type");
+    STAssertTrue([[transformedDict objectForKey:@"startDate"] isKindOfClass:[NSDate class]], @"Transform dictionary should properly set class type");
+}
+
+- (void)testTransformJSONDictionaryValuesAreCorrect {
+    
+    NSDictionary *fakeJSON = [NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"Andrew", @"Smith", @"5678", @"2011/10/06 00:51:10 -0700", nil]
+                                                         forKeys:[NSArray arrayWithObjects:@"firstname", @"lastname", @"employeeID", @"startDate", nil]];
+    
+    [Broker registerEntityNamed:kEmployee withPrimaryKey:nil];
+    
+    [Broker setDateFormat:kEmployeeStartDateFormat 
+              forProperty:@"startDate" 
+                 onEntity:kEmployee];
+    
+    BKEntityPropertiesDescription *desc = [Broker entityPropertyDescriptionForEntityName:kEmployee];
+    
+    NSDictionary *transformedDict = [Broker transformJSONDictionary:fakeJSON 
+                                   usingEntityPropertiesDescription:desc];
+    
+    
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    [formatter setDateFormat:kEmployeeStartDateFormat];
+    NSDate *date = [formatter dateFromString:@"2011/10/06 00:51:10 -0700"];
+    
+    STAssertEqualObjects([transformedDict valueForKey:@"firstname"], @"Andrew", @"Attributes should be set correctly");
+    STAssertEqualObjects([transformedDict valueForKey:@"lastname"], @"Smith", @"Attributes should be set correctly");
+    STAssertEqualObjects([transformedDict valueForKey:@"employeeID"], [NSNumber numberWithInt:5678], @"Attributes should be set correctly");
+    STAssertEqualObjects([transformedDict valueForKey:@"startDate"], date, @"Attributes should be set correctly");
 }
 
 #pragma mark - Processing
@@ -221,7 +252,10 @@ static NSString *kDepartmentRelationship = @"department";
     NSData *jsonData = DataFromFile(@"employee_flat.json");
     
     [Broker registerEntityNamed:kEmployee withPrimaryKey:nil];
-    
+    [Broker setDateFormat:kEmployeeStartDateFormat 
+              forProperty:@"startDate" 
+                 onEntity:kEmployee];
+
     // Add a new Employee to the store
     NSURL *employeeURI = [BrokerTestsHelpers createNewEmployee:context];
     
@@ -242,10 +276,15 @@ static NSString *kDepartmentRelationship = @"department";
     NSManagedObject *employee = [Broker objectWithURI:employeeURI inContext:context];
     
     [context refreshObject:employee mergeChanges:YES];
-        
+    
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    [formatter setDateFormat:kEmployeeStartDateFormat];
+    NSDate *date = [formatter dateFromString:@"2011/10/06 00:51:10 -0700"];
+    
     STAssertEqualObjects([employee valueForKey:@"firstname"], @"Andrew", @"Attributes should be set correctly");
     STAssertEqualObjects([employee valueForKey:@"lastname"], @"Smith", @"Attributes should be set correctly");
     STAssertEqualObjects([employee valueForKey:@"employeeID"], [NSNumber numberWithInt:5678], @"Attributes should be set correctly");
+    STAssertEqualObjects([employee valueForKey:@"startDate"], date, @"Attributes should be set correctly");
 }
 
 - (void)testNestedEmployeeJSONProcessing {
@@ -254,7 +293,10 @@ static NSString *kDepartmentRelationship = @"department";
     
     [Broker registerEntityNamed:kEmployee withPrimaryKey:nil];
     [Broker registerEntityNamed:@"ContactInfo" withPrimaryKey:nil];
-    
+    [Broker setDateFormat:kEmployeeStartDateFormat 
+              forProperty:@"startDate" 
+                 onEntity:kEmployee];
+
     // Add a new Employee to the store
     NSURL *employeeURI = [BrokerTestsHelpers createNewEmployee:context];
     
@@ -280,12 +322,18 @@ static NSString *kDepartmentRelationship = @"department";
     
     id contactInfo = [employee valueForKey:@"contactInfo"];
     
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    [formatter setDateFormat:kEmployeeStartDateFormat];
+    NSDate *date = [formatter dateFromString:@"2011/10/06 00:51:10 -0700"];
+
+    
     STAssertEqualObjects([contactInfo valueForKey:@"email"], @"andrew@smith.com", @"Should set nested object attributes correctly");
     STAssertEqualObjects([contactInfo valueForKey:@"phone"], [NSNumber numberWithInt:4155556666], @"Should set nested object attributes correctly");
     
     STAssertEqualObjects([employee valueForKey:@"firstname"], @"Andrew", @"Should set attributes correctly");
     STAssertEqualObjects([employee valueForKey:@"lastname"], @"Smith", @"Should set nested object attributes correctly");
     STAssertEqualObjects([employee valueForKey:@"employeeID"], [NSNumber numberWithInt:5678], @"Should set nested object attributes correctly");
+    STAssertEqualObjects([employee valueForKey:@"startDate"], date, @"Attributes should be set correctly");
 }
 
 - (void)testNestedDepartmentJSONProcessing {
@@ -295,7 +343,10 @@ static NSString *kDepartmentRelationship = @"department";
     // Register Entities
     [Broker registerEntityNamed:kDepartment withPrimaryKey:nil];
     [Broker registerEntityNamed:kEmployee withPrimaryKey:nil];
-    
+    [Broker setDateFormat:kEmployeeStartDateFormat
+              forProperty:@"startDate" 
+                 onEntity:kEmployee];
+
     // Build Deparment
     NSURL *departmentURI = [BrokerTestsHelpers createNewDepartment:context];
     
@@ -327,6 +378,9 @@ static NSString *kDepartmentRelationship = @"department";
     // Register Entities
     [Broker registerEntityNamed:kDepartment withPrimaryKey:nil];
     [Broker registerEntityNamed:kEmployee withPrimaryKey:@"employeeID"];
+    [Broker setDateFormat:kEmployeeStartDateFormat 
+              forProperty:@"startDate" 
+                 onEntity:kEmployee];
     
     // Build Deparment
     NSURL *departmentURI = [BrokerTestsHelpers createNewDepartment:context];
@@ -365,7 +419,10 @@ static NSString *kDepartmentRelationship = @"department";
     // Register Entities
     [Broker registerEntityNamed:kDepartment withPrimaryKey:@"departmentID"];
     [Broker registerEntityNamed:kEmployee withPrimaryKey:@"employeeID"];
-    
+    [Broker setDateFormat:kEmployeeStartDateFormat 
+              forProperty:@"startDate" 
+                 onEntity:kEmployee];
+
     // Build Deparment
     NSURL *departmentURI = [BrokerTestsHelpers createNewDepartment:context];
     

@@ -3,7 +3,7 @@
 //  Broker
 //
 //  Created by Andrew Smith on 10/5/11.
-//  Copyright (c) 2011 __MyCompanyName__. All rights reserved.
+//  Copyright (c) 2011 Andrew B. Smith. All rights reserved.
 //
 
 #import "Broker.h"
@@ -84,6 +84,15 @@ static JSONDecoder *decoder = nil;
     
     // cleanup
     [context deleteObject:object];
+}
+
++ (void)setDateFormat:(NSString *)dateFormat 
+          forProperty:(NSString *)property 
+             onEntity:(NSString *)entity {
+    
+    BKAttributeDescription *desc = [Broker attributeDescriptionForProperty:property onEntityName:entity];;
+    desc.dateFormat = dateFormat;
+    
 }
 
 #pragma mark - JSON
