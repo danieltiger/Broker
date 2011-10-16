@@ -86,6 +86,15 @@ static JSONDecoder *decoder = nil;
     [context deleteObject:object];
 }
 
++ (void)setDateFormat:(NSString *)dateFormat 
+          forProperty:(NSString *)property 
+             onEntity:(NSString *)entity {
+    
+    BKAttributeDescription *desc = [Broker attributeDescriptionForProperty:property onEntityName:entity];;
+    desc.dateFormat = dateFormat;
+    
+}
+
 #pragma mark - JSON
 
 + (void)processJSONPayload:(id)jsonPayload 

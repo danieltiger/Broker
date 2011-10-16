@@ -11,7 +11,14 @@
 
 #import "BKPropertyDescription.h"
 
-@interface BKAttributeDescription : BKPropertyDescription
+@interface BKAttributeDescription : BKPropertyDescription {
+@private
+    NSString *dateFormat;
+    NSDateFormatter *dateFormatter;
+}
+
+@property (nonatomic, copy) NSString *dateFormat;
+@property (nonatomic, readonly) NSDateFormatter *dateFormatter;
 
 @property (nonatomic, assign) NSAttributeType attributeType;
 

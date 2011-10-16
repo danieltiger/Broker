@@ -10,7 +10,15 @@
 
 @implementation BKAttributeDescription
 
-@synthesize attributeType;
+@synthesize dateFormat,
+            attributeType;
+
+- (void)dealloc {
+    [dateFormat release];
+    [dateFormatter release];
+    
+    [super dealloc];
+}
 
 + (BKAttributeDescription *)descriptionWithAttributeDescription:(NSAttributeDescription *)description {
     return [self descriptionWithAttributeDescription:description
@@ -55,7 +63,12 @@
         case NSBooleanAttributeType:
             return [NSNumber numberWithBool:[value boolValue]];
         case NSDateAttributeType:
-            return nil;
+            
+            NSAssert(self.dateFormat, @"NSDate attribute on entity %@ requires " 
+                     @"date format to be set.  Use [Broker setDateFormat:forProperty:onEntity:]", self.entityName);
+            if (!self.dateFormat) return nil;
+            
+            return [self.dateFormatter dateFromString:value];
         case NSBinaryDataAttributeType:
             return nil;
         case NSTransformableAttributeType:
@@ -67,6 +80,17 @@
             return nil;
             break;
     }
+}
+
+#pragma mark - Accessors
+
+- (NSDateFormatter *)dateFormatter {
+    if (dateFormatter) return [[dateFormatter retain] autorelease];
+    
+    dateFormatter = [[NSDateFormatter alloc] init];
+    [dateFormatter setDateFormat:self.dateFormat];
+    
+    return [[dateFormatter retain] autorelease];
 }
 
 @end
