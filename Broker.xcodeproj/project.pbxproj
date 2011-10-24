@@ -18,8 +18,6 @@
 		DB4C0E56143D334C0090F5E3 /* BKAttributeDescription.h in Headers */ = {isa = PBXBuildFile; fileRef = DB4C0E54143D334C0090F5E3 /* BKAttributeDescription.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		DB4C0E57143D334C0090F5E3 /* BKAttributeDescription.m in Sources */ = {isa = PBXBuildFile; fileRef = DB4C0E55143D334C0090F5E3 /* BKAttributeDescription.m */; };
 		DB4C0E59143D34E50090F5E3 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DB4C0E58143D34E50090F5E3 /* CoreData.framework */; };
-		DB4C0E5E143D356C0090F5E3 /* JSONKit.h in Headers */ = {isa = PBXBuildFile; fileRef = DB4C0E5C143D356C0090F5E3 /* JSONKit.h */; };
-		DB4C0E5F143D356C0090F5E3 /* JSONKit.m in Sources */ = {isa = PBXBuildFile; fileRef = DB4C0E5D143D356C0090F5E3 /* JSONKit.m */; };
 		DB4C0E78143D84560090F5E3 /* BKRelationshipDescription.h in Headers */ = {isa = PBXBuildFile; fileRef = DB4C0E76143D84560090F5E3 /* BKRelationshipDescription.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		DB4C0E79143D84560090F5E3 /* BKRelationshipDescription.m in Sources */ = {isa = PBXBuildFile; fileRef = DB4C0E77143D84560090F5E3 /* BKRelationshipDescription.m */; };
 		DBA5F95C145610C500EBFF68 /* Broker.h in Headers */ = {isa = PBXBuildFile; fileRef = DB4C0E2A143D2F4F0090F5E3 /* Broker.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -63,8 +61,6 @@
 		DB4C0E54143D334C0090F5E3 /* BKAttributeDescription.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BKAttributeDescription.h; sourceTree = "<group>"; };
 		DB4C0E55143D334C0090F5E3 /* BKAttributeDescription.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BKAttributeDescription.m; sourceTree = "<group>"; };
 		DB4C0E58143D34E50090F5E3 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
-		DB4C0E5C143D356C0090F5E3 /* JSONKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JSONKit.h; path = Vendors/JSONKit/JSONKit.h; sourceTree = "<group>"; };
-		DB4C0E5D143D356C0090F5E3 /* JSONKit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = JSONKit.m; path = Vendors/JSONKit/JSONKit.m; sourceTree = "<group>"; };
 		DB4C0E76143D84560090F5E3 /* BKRelationshipDescription.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BKRelationshipDescription.h; sourceTree = "<group>"; };
 		DB4C0E77143D84560090F5E3 /* BKRelationshipDescription.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BKRelationshipDescription.m; sourceTree = "<group>"; };
 		DBCD6735143F61EC000FD78D /* BKEntityPropertiesMap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BKEntityPropertiesMap.h; sourceTree = "<group>"; };
@@ -113,7 +109,6 @@
 				DB4C0E3B143D2F4F0090F5E3 /* BrokerTests */,
 				DB4C0E24143D2F4F0090F5E3 /* Frameworks */,
 				DB4C0E23143D2F4F0090F5E3 /* Products */,
-				DB4C0E5A143D34FE0090F5E3 /* Vendors */,
 			);
 			sourceTree = "<group>";
 		};
@@ -190,23 +185,6 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		DB4C0E5A143D34FE0090F5E3 /* Vendors */ = {
-			isa = PBXGroup;
-			children = (
-				DB4C0E5B143D35560090F5E3 /* JSONKit */,
-			);
-			name = Vendors;
-			sourceTree = "<group>";
-		};
-		DB4C0E5B143D35560090F5E3 /* JSONKit */ = {
-			isa = PBXGroup;
-			children = (
-				DB4C0E5C143D356C0090F5E3 /* JSONKit.h */,
-				DB4C0E5D143D356C0090F5E3 /* JSONKit.m */,
-			);
-			name = JSONKit;
-			sourceTree = "<group>";
-		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -215,7 +193,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				DB4C0E56143D334C0090F5E3 /* BKAttributeDescription.h in Headers */,
-				DB4C0E5E143D356C0090F5E3 /* JSONKit.h in Headers */,
 				DB4C0E78143D84560090F5E3 /* BKRelationshipDescription.h in Headers */,
 				DBFF95EB143E568C008511EA /* BKEntityPropertiesDescription.h in Headers */,
 				DBCD6737143F61ED000FD78D /* BKEntityPropertiesMap.h in Headers */,
@@ -326,7 +303,6 @@
 			files = (
 				DB4C0E2C143D2F4F0090F5E3 /* Broker.m in Sources */,
 				DB4C0E57143D334C0090F5E3 /* BKAttributeDescription.m in Sources */,
-				DB4C0E5F143D356C0090F5E3 /* JSONKit.m in Sources */,
 				DB4C0E79143D84560090F5E3 /* BKRelationshipDescription.m in Sources */,
 				DBFF95EC143E568C008511EA /* BKEntityPropertiesDescription.m in Sources */,
 				DBCD6738143F61ED000FD78D /* BKEntityPropertiesMap.m in Sources */,

@@ -54,9 +54,6 @@ static NSString *kEmployeeStartDateFormat = @"yyyy/MM/dd HH:mm:ss zzzz";
 
     // Setup Broker
     [Broker setupWithContext:context];
-    
-    // Setup JSONKit
-    decoder = [[JSONDecoder alloc] initWithParseOptions:JKParseOptionNone];
 }
 
 - (void)tearDown {

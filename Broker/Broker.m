@@ -8,7 +8,6 @@
 
 #import "Broker.h"
 #import "Broker+Private.h"
-#import "JSONKit.h"
 
 @implementation Broker
 
@@ -26,7 +25,6 @@ static dispatch_queue_t broker_get_json_parsing_queue() {
 static NSManagedObjectContext *context = nil;
 static NSMutableDictionary *entityDescriptions = nil;
 
-static JSONDecoder *decoder = nil;
 
 //static dispatch_queue_t jsonParsingQueue = nil;
 
@@ -37,9 +35,6 @@ static JSONDecoder *decoder = nil;
     
     // All entity descriptions
     entityDescriptions = [[NSMutableDictionary alloc] init];
-    
-    // JSONKit Decoder
-    decoder = [[JSONDecoder alloc] initWithParseOptions:JKParseOptionNone];
 }
 
 #pragma mark - Registration
@@ -125,8 +120,10 @@ static JSONDecoder *decoder = nil;
     // dispatch parsing on separate thread
     dispatch_async(broker_get_json_parsing_queue(), ^{ 
         
-        // JSONKit decoder
-        id jsonObject = [decoder objectWithData:jsonPayload]; 
+        NSError *error = nil;
+        id jsonObject = [NSJSONSerialization JSONObjectWithData:jsonPayload 
+                                                        options:NSJSONReadingMutableContainers 
+                                                          error:&error];
         
         // process the parsed json in new context
         [Broker asyncProcessJSONObject:jsonObject 
