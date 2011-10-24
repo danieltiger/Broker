@@ -14,6 +14,15 @@
 
 #pragma mark - Class Instances
 
+static dispatch_queue_t json_parsing_queue;
+static dispatch_queue_t broker_get_json_parsing_queue() {
+    if (json_parsing_queue == NULL) {
+        json_parsing_queue = dispatch_queue_create("com.Broker.jsonParsingQueue", 0);
+    }
+    return json_parsing_queue;
+}
+
+
 static NSManagedObjectContext *context = nil;
 static NSMutableDictionary *entityDescriptions = nil;
 
@@ -113,10 +122,8 @@ static JSONDecoder *decoder = nil;
            forRelationship:(NSString *)relationshipName
        withCompletionBlock:(void (^)())CompletionBlock{
 
-    dispatch_queue_t jsonParsingQueue = dispatch_queue_create("com.Broker.jsonParsingQueue", NULL);
-
     // dispatch parsing on separate thread
-    dispatch_async(jsonParsingQueue, ^{ 
+    dispatch_async(broker_get_json_parsing_queue(), ^{ 
         
         // JSONKit decoder
         id jsonObject = [decoder objectWithData:jsonPayload]; 
@@ -129,8 +136,6 @@ static JSONDecoder *decoder = nil;
                    withCompletionBlock:CompletionBlock];
 
     });
-
-    dispatch_release(jsonParsingQueue);
 }
 
 #pragma mark - CoreData

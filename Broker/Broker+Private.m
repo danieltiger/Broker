@@ -10,23 +10,28 @@
 
 @implementation Broker (Private)
 
+static dispatch_queue_t json_processing_queue;
+static dispatch_queue_t broker_get_json_processing_queue() {
+    if (json_processing_queue == NULL) {
+        json_processing_queue = dispatch_queue_create("com.Broker.jsonProcessingQueue", 0);
+    }
+    return json_processing_queue;
+}
+
+
 + (void)asyncProcessJSONObject:(id)jsonObject 
                   targetEntity:(NSURL *)entityURI 
             targetRelationship:(NSString *)relationshipName
                      inContext:(NSManagedObjectContext *)aContext
            withCompletionBlock:(void (^)())CompletionBlock {
     
-    dispatch_queue_t jsonProcessingQueue = dispatch_queue_create("com.Broker.jsonProcessingQueue", NULL);
-    
-    dispatch_async(jsonProcessingQueue, ^{
+    dispatch_async(broker_get_json_processing_queue(), ^{
         [self syncProcessJSONObject:jsonObject
                        targetEntity:entityURI
                  targetRelationship:relationshipName
                           inContext:aContext
                 withCompletionBlock:CompletionBlock];
     });
-    
-    //dispatch_release(jsonProcessingQueue);
 }
 
 + (void)syncProcessJSONObject:(id)jsonObject 
