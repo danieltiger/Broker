@@ -17,6 +17,18 @@
     return employee.objectID.URIRepresentation;
 }
 
++ (NSURL *)createNewFilledOutEmployee:(NSManagedObjectContext *)context {
+    NSManagedObject *employee = [NSEntityDescription insertNewObjectForEntityForName:@"Employee" 
+                                                              inManagedObjectContext:context];
+    
+    [employee setValue:[NSNumber numberWithInt:12345] forKey:@"employeeID"];
+    [employee setValue:@"Kevin" forKey:@"firstname"];
+    [employee setValue:@"Bacon" forKey:@"lastname"];
+    
+    [context save:nil];
+    return employee.objectID.URIRepresentation;
+}
+
 + (NSURL *)createNewDepartment:(NSManagedObjectContext *)context {
     NSManagedObject *dept = [NSEntityDescription insertNewObjectForEntityForName:@"Department" 
                                                               inManagedObjectContext:context];

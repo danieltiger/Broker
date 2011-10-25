@@ -7,46 +7,47 @@
 //
 
 #import "Broker.h"
-#import "Broker+Private.h"
+
+#import "BKJSONOperation.h"
 
 @implementation Broker
 
-#pragma mark - Class Instances
+@synthesize context;
 
-static dispatch_queue_t json_parsing_queue;
-static dispatch_queue_t broker_get_json_parsing_queue() {
-    if (json_parsing_queue == NULL) {
-        json_parsing_queue = dispatch_queue_create("com.Broker.jsonParsingQueue", 0);
-    }
-    return json_parsing_queue;
+- (void)dealloc {
+    [context release], context = nil;
+    [entityDescriptions release], entityDescriptions = nil;
+    
+    [super dealloc];
 }
-
-
-static NSManagedObjectContext *context = nil;
-static NSMutableDictionary *entityDescriptions = nil;
-
-
-//static dispatch_queue_t jsonParsingQueue = nil;
 
 #pragma mark - Setup
 
-+ (void)setupWithContext:(NSManagedObjectContext *)aContext {
-    context = aContext;
-    
-    // All entity descriptions
-    entityDescriptions = [[NSMutableDictionary alloc] init];
++ (id)brokerWithContext:(NSManagedObjectContext *)context {    
+    Broker *broker = [[[self alloc] init] autorelease];
+    broker.context = context;
+    return broker;
+}
+
+- (void)setupWithContext:(NSManagedObjectContext *)aContext {
+    self.context = aContext;
+}
+
+- (void)reset {
+    [context release], context = nil;
+    [entityDescriptions release], entityDescriptions = nil;
 }
 
 #pragma mark - Registration
 
-+ (void)registerEntityNamed:(NSString *)entityName withPrimaryKey:(NSString *)primaryKey {
+- (void)registerEntityNamed:(NSString *)entityName withPrimaryKey:(NSString *)primaryKey {
     [self registerEntityNamed:entityName
                withPrimaryKey:primaryKey
       andMapNetworkProperties:nil 
             toLocalProperties:nil];
 }
 
-+ (void)registerEntityNamed:(NSString *)entityName
+- (void)registerEntityNamed:(NSString *)entityName
              withPrimaryKey:(NSString *)primaryKey
       andMapNetworkProperty:(NSString *)networkProperty 
             toLocalProperty:(NSString *)localProperty {
@@ -58,12 +59,12 @@ static NSMutableDictionary *entityDescriptions = nil;
     
 }
 
-+ (void)registerEntityNamed:(NSString *)entityName
+- (void)registerEntityNamed:(NSString *)entityName
              withPrimaryKey:(NSString *)primaryKey
     andMapNetworkProperties:(NSArray *)networkProperties 
           toLocalProperties:(NSArray *)localProperties {
     
-    NSAssert(context, @"Broker must be setup with setupWithContext!");
+    NSAssert(self.context, @"Broker must be setup with setupWithContext!");
     
     if ([self entityPropertyDescriptionForEntityName:entityName]) {
         WLog(@"Entity named %@ already registered with Broker", entityName);
@@ -72,7 +73,7 @@ static NSMutableDictionary *entityDescriptions = nil;
     
     // create new object
     NSManagedObject *object = [NSEntityDescription insertNewObjectForEntityForName:entityName 
-                                                            inManagedObjectContext:context];
+                                                            inManagedObjectContext:self.context];
     
     // Build description of entity properties
     BKEntityPropertiesDescription *desc = [BKEntityPropertiesDescription descriptionForEntity:object.entity 
@@ -84,24 +85,24 @@ static NSMutableDictionary *entityDescriptions = nil;
     desc.primaryKey = primaryKey;
     
     // Add to descriptions
-    [entityDescriptions setObject:desc forKey:entityName];
+    [self.entityDescriptions setObject:desc forKey:entityName];
     
     // cleanup
-    [context deleteObject:object];
+    [self.context deleteObject:object];
 }
 
-+ (void)setDateFormat:(NSString *)dateFormat 
+- (void)setDateFormat:(NSString *)dateFormat 
           forProperty:(NSString *)property 
              onEntity:(NSString *)entity {
     
-    BKAttributeDescription *desc = [Broker attributeDescriptionForProperty:property onEntityName:entity];;
+    BKAttributeDescription *desc = [self attributeDescriptionForProperty:property onEntityName:entity];;
     desc.dateFormat = dateFormat;
     
 }
 
 #pragma mark - JSON
 
-+ (void)processJSONPayload:(id)jsonPayload 
+- (void)processJSONPayload:(id)jsonPayload 
             targetEntity:(NSURL *)entityURI
      withCompletionBlock:(void (^)())CompletionBlock{
     
@@ -112,47 +113,41 @@ static NSMutableDictionary *entityDescriptions = nil;
 
 }
 
-+ (void)processJSONPayload:(id)jsonPayload 
+- (void)processJSONPayload:(id)jsonPayload 
               targetEntity:(NSURL *)entityURI
            forRelationship:(NSString *)relationshipName
        withCompletionBlock:(void (^)())CompletionBlock{
 
-    // dispatch parsing on separate thread
-    dispatch_async(broker_get_json_parsing_queue(), ^{ 
-        
-        NSError *error = nil;
-        id jsonObject = [NSJSONSerialization JSONObjectWithData:jsonPayload 
-                                                        options:NSJSONReadingMutableContainers 
-                                                          error:&error];
-        
-        // process the parsed json in new context
-        [Broker asyncProcessJSONObject:jsonObject 
-                          targetEntity:entityURI
-                    targetRelationship:relationshipName
-                             inContext:[self newMainStoreManagedObjectContext]
-                   withCompletionBlock:CompletionBlock];
-
-    });
+    BKJSONOperation *operation = [BKJSONOperation operation];
+    
+    operation.jsonPayload = jsonPayload;
+    operation.entityURI = entityURI;
+    operation.relationshipName = relationshipName;
+    operation.context = [self newMainStoreManagedObjectContext];
+    
+    operation.completionBlock = CompletionBlock;
+    
+    [self addOperation:operation];
 }
 
 #pragma mark - CoreData
 
-+ (void)contextDidSave:(NSNotification *)notification {
+- (void)contextDidSave:(NSNotification *)notification {
     SEL selector = @selector(mergeChangesFromContextDidSaveNotification:);
 
     NSManagedObjectContext *threadContext = (NSManagedObjectContext *)notification.object;
     
-    [context performSelectorOnMainThread:selector withObject:notification waitUntilDone:NO];
+    [self.context performSelectorOnMainThread:selector withObject:notification waitUntilDone:NO];
 
     [[NSNotificationCenter defaultCenter] removeObserver:self 
                                                     name:NSManagedObjectContextDidSaveNotification 
                                                   object:threadContext];
 }
 
-+ (NSManagedObjectContext *)newMainStoreManagedObjectContext {
+- (NSManagedObjectContext *)newMainStoreManagedObjectContext {
     
     // Grab the main coordinator
-    NSPersistentStoreCoordinator *coord = [context persistentStoreCoordinator];
+    NSPersistentStoreCoordinator *coord = [self.context persistentStoreCoordinator];
 
     // Create new context with default concurrency type
     NSManagedObjectContext *newContext = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSConfinementConcurrencyType];
@@ -172,14 +167,14 @@ static NSMutableDictionary *entityDescriptions = nil;
 
 #pragma mark - Accessors
 
-+ (BKEntityPropertiesDescription *)entityPropertyDescriptionForEntityName:(NSString *)entityName {
-    return (BKEntityPropertiesDescription *)[entityDescriptions objectForKey:entityName];
+- (BKEntityPropertiesDescription *)entityPropertyDescriptionForEntityName:(NSString *)entityName {
+    return (BKEntityPropertiesDescription *)[self.entityDescriptions objectForKey:entityName];
 }
 
-+ (BKAttributeDescription *)attributeDescriptionForProperty:(NSString *)property 
+- (BKAttributeDescription *)attributeDescriptionForProperty:(NSString *)property 
                                                onEntityName:(NSString *)entityName {
     
-    BKEntityPropertiesDescription *desc = [entityDescriptions objectForKey:entityName];
+    BKEntityPropertiesDescription *desc = [self.entityDescriptions objectForKey:entityName];
     if (desc) {
         return [desc attributeDescriptionForLocalProperty:property];
     }
@@ -187,21 +182,132 @@ static NSMutableDictionary *entityDescriptions = nil;
 }
 
 
-+ (BKRelationshipDescription *)relationshipDescriptionForProperty:(NSString *)property 
+- (BKRelationshipDescription *)relationshipDescriptionForProperty:(NSString *)property 
                                                      onEntityName:(NSString *)entityName {
     
-    BKEntityPropertiesDescription *desc = [entityDescriptions objectForKey:entityName];
+    BKEntityPropertiesDescription *desc = [self.entityDescriptions objectForKey:entityName];
     if (desc) {
         return [desc relationshipDescriptionForProperty:property];
     }
     return nil;
 }
 
-+ (BKEntityPropertiesDescription *)destinationEntityPropertiesDescriptionForRelationship:(NSString *)relationship
+- (BKEntityPropertiesDescription *)destinationEntityPropertiesDescriptionForRelationship:(NSString *)relationship
                                                                            onEntityNamed:(NSString *)entityName {
     
     BKRelationshipDescription *desc = [self relationshipDescriptionForProperty:relationship onEntityName:entityName];
     return [self entityPropertyDescriptionForEntityName:desc.destinationEntityName];
 }
+
+- (NSMutableDictionary *)entityDescriptions {
+    if (entityDescriptions) return [[entityDescriptions retain] autorelease];
+    entityDescriptions = [[NSMutableDictionary alloc] init];
+    return [[entityDescriptions retain] autorelease];
+}
+
+- (NSDictionary *)transformJSONDictionary:(NSDictionary *)jsonDictionary 
+         usingEntityPropertiesDescription:(BKEntityPropertiesDescription *)propertiesDescription {
+    
+    NSMutableDictionary *transformedDict = [[[NSMutableDictionary alloc] init] autorelease];
+    
+    for (NSString *property in jsonDictionary) {
+        
+        // Get the property description
+        BKPropertyDescription *description = [propertiesDescription descriptionForLocalProperty:property];
+        if (!description) {
+            // if no description, it could be a network property
+            description = [propertiesDescription descriptionForNetworkProperty:property];
+            if (!description) DLog(@"No description for property %@ found on entity %@!", property, propertiesDescription.entityName); continue;
+        }
+        
+        // get the original value
+        id value = [jsonDictionary valueForKey:property];
+        
+        // Test to see if networkProperty is relationship or attribute
+        if ([propertiesDescription isPropertyRelationship:property]) {
+            [transformedDict setObject:value forKey:description.localPropertyName];
+        } else {
+            
+            // transform it using the attribute desc
+            id valueAsObject = [(BKAttributeDescription *)description objectForValue:value];
+            
+            // Add it to the transformed dictionary
+            if (valueAsObject) {
+                [transformedDict setObject:valueAsObject
+                                    forKey:description.localPropertyName];
+            }
+        }
+    }
+    
+    if ([transformedDict count] == 0) {
+        // empty
+        return nil;
+    }
+    
+    return [NSDictionary dictionaryWithDictionary:transformedDict];
+}
+
+#pragma mark - CoreData
+
+- (NSManagedObject *)objectForURI:(NSURL *)objectURI inContext:(NSManagedObjectContext *)aContext {
+    NSManagedObjectID *objectID = [[aContext persistentStoreCoordinator] managedObjectIDForURIRepresentation:objectURI];
+    
+    if (!objectID) return nil;
+    
+    NSManagedObject *objectForID = [aContext objectWithID:objectID];
+    
+    if (![objectForID isFault]) return objectForID;
+    
+    NSFetchRequest *request = [[[NSFetchRequest alloc] init] autorelease];
+    [request setEntity:[objectID entity]];
+    
+    // Predicate for fetching self.  Code is faster than string predicate equivalent of 
+    // [NSPredicate predicateWithFormat:@"SELF = %@", objectForID];
+    NSPredicate *predicate = [NSComparisonPredicate predicateWithLeftExpression:[NSExpression expressionForEvaluatedObject] 
+                                                                rightExpression:[NSExpression expressionForConstantValue:objectForID]
+                                                                       modifier:NSDirectPredicateModifier
+                                                                           type:NSEqualToPredicateOperatorType
+                                                                        options:0];
+    
+    [request setPredicate:predicate];
+    
+    NSArray *results = [aContext executeFetchRequest:request error:nil];
+    if ([results count] > 0 ) {
+        return [results objectAtIndex:0];
+    }
+    
+    return nil;
+}
+
+- (NSManagedObject *)findOrCreateObjectForEntityDescribedBy:(BKEntityPropertiesDescription *)description 
+                                        withPrimaryKeyValue:(id)value
+                                                  inContext:(NSManagedObjectContext *)aContext
+                                               shouldCreate:(BOOL)create {  
+    
+    NSAssert(description, @"Must have a description");
+    if (!description) return nil;
+    
+    NSFetchRequest *request = [[[NSFetchRequest alloc] init] autorelease];
+    
+    [request setEntity:description.entityDescription];
+    
+    if (description.primaryKey) {
+        [request setPredicate:[NSPredicate predicateWithFormat:@"SELF.%@ == %@", description.primaryKey, value]];
+    }
+        
+    NSError *error;
+    NSArray *array = [aContext executeFetchRequest:request error:&error];
+    
+    if (create && array.count == 0) {
+        NSManagedObject *object = [NSEntityDescription insertNewObjectForEntityForName:description.entityName 
+                                                                inManagedObjectContext:aContext];
+        return object;
+    } else if (array.count == 1) {
+        return (NSManagedObject *)[array objectAtIndex:0];
+    }
+    
+    return nil;
+}
+
 
 @end

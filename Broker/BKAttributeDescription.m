@@ -64,9 +64,11 @@
             return [NSNumber numberWithBool:[value boolValue]];
         case NSDateAttributeType:
             
-            NSAssert(self.dateFormat, @"NSDate attribute on entity %@ requires " 
+            if (!self.dateFormat) {
+                WLog(@"NSDate attribute on entity %@ requires " 
                      @"date format to be set.  Use [Broker setDateFormat:forProperty:onEntity:]", self.entityName);
-            if (!self.dateFormat) return nil;
+                return nil;
+            }
             
             return [self.dateFormatter dateFromString:value];
         case NSBinaryDataAttributeType:

@@ -7,12 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		DB24BB32145767A200BDAD0A /* libConductor.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DB394878145737D900BFF50E /* libConductor.a */; };
 		DB4C0E26143D2F4F0090F5E3 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DB4C0E25143D2F4F0090F5E3 /* Foundation.framework */; };
 		DB4C0E2C143D2F4F0090F5E3 /* Broker.m in Sources */ = {isa = PBXBuildFile; fileRef = DB4C0E2B143D2F4F0090F5E3 /* Broker.m */; };
 		DB4C0E34143D2F4F0090F5E3 /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DB4C0E33143D2F4F0090F5E3 /* SenTestingKit.framework */; };
-		DB4C0E36143D2F4F0090F5E3 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DB4C0E35143D2F4F0090F5E3 /* UIKit.framework */; };
 		DB4C0E37143D2F4F0090F5E3 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DB4C0E25143D2F4F0090F5E3 /* Foundation.framework */; };
-		DB4C0E3A143D2F4F0090F5E3 /* libBroker.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DB4C0E22143D2F4F0090F5E3 /* libBroker.a */; };
 		DB4C0E40143D2F4F0090F5E3 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = DB4C0E3E143D2F4F0090F5E3 /* InfoPlist.strings */; };
 		DB4C0E43143D2F4F0090F5E3 /* BrokerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = DB4C0E42143D2F4F0090F5E3 /* BrokerTests.m */; };
 		DB4C0E56143D334C0090F5E3 /* BKAttributeDescription.h in Headers */ = {isa = PBXBuildFile; fileRef = DB4C0E54143D334C0090F5E3 /* BKAttributeDescription.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -20,11 +19,14 @@
 		DB4C0E59143D34E50090F5E3 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DB4C0E58143D34E50090F5E3 /* CoreData.framework */; };
 		DB4C0E78143D84560090F5E3 /* BKRelationshipDescription.h in Headers */ = {isa = PBXBuildFile; fileRef = DB4C0E76143D84560090F5E3 /* BKRelationshipDescription.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		DB4C0E79143D84560090F5E3 /* BKRelationshipDescription.m in Sources */ = {isa = PBXBuildFile; fileRef = DB4C0E77143D84560090F5E3 /* BKRelationshipDescription.m */; };
+		DB576E0D14572D0F006021CE /* BKJSONOperation.h in Headers */ = {isa = PBXBuildFile; fileRef = DB576E0B14572D0F006021CE /* BKJSONOperation.h */; };
+		DB576E0E14572D0F006021CE /* BKJSONOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = DB576E0C14572D0F006021CE /* BKJSONOperation.m */; };
+		DB6B69AC14573D9200CCAE96 /* libBroker.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DB4C0E22143D2F4F0090F5E3 /* libBroker.a */; };
+		DB6B69AD14573D9900CCAE96 /* libConductor.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DB394878145737D900BFF50E /* libConductor.a */; };
+		DB6B69AF14573DA300CCAE96 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DB6B69AE14573DA300CCAE96 /* UIKit.framework */; };
 		DBA5F95C145610C500EBFF68 /* Broker.h in Headers */ = {isa = PBXBuildFile; fileRef = DB4C0E2A143D2F4F0090F5E3 /* Broker.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		DBCD6737143F61ED000FD78D /* BKEntityPropertiesMap.h in Headers */ = {isa = PBXBuildFile; fileRef = DBCD6735143F61EC000FD78D /* BKEntityPropertiesMap.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		DBCD6738143F61ED000FD78D /* BKEntityPropertiesMap.m in Sources */ = {isa = PBXBuildFile; fileRef = DBCD6736143F61EC000FD78D /* BKEntityPropertiesMap.m */; };
-		DBCD673E1441036F000FD78D /* Broker+Private.h in Headers */ = {isa = PBXBuildFile; fileRef = DBCD673C1441036F000FD78D /* Broker+Private.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		DBCD673F1441036F000FD78D /* Broker+Private.m in Sources */ = {isa = PBXBuildFile; fileRef = DBCD673D1441036F000FD78D /* Broker+Private.m */; };
 		DBCD67521443F47A000FD78D /* BKPropertyDescription.h in Headers */ = {isa = PBXBuildFile; fileRef = DBCD67501443F47A000FD78D /* BKPropertyDescription.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		DBCD67531443F47A000FD78D /* BKPropertyDescription.m in Sources */ = {isa = PBXBuildFile; fileRef = DBCD67511443F47A000FD78D /* BKPropertyDescription.m */; };
 		DBFF95C9143D8D80008511EA /* BrokerTestModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = DBFF95C7143D8D80008511EA /* BrokerTestModel.xcdatamodeld */; };
@@ -36,6 +38,27 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		DB394877145737D900BFF50E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = DB39486F145737D900BFF50E /* Conductor.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = DB83D19A1451F1B200D94890;
+			remoteInfo = Conductor;
+		};
+		DB394879145737D900BFF50E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = DB39486F145737D900BFF50E /* Conductor.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = DB83D1AA1451F1B200D94890;
+			remoteInfo = ConductorTests;
+		};
+		DB39487B145737E400BFF50E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = DB39486F145737D900BFF50E /* Conductor.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = DB83D1991451F1B200D94890;
+			remoteInfo = Conductor;
+		};
 		DB4C0E38143D2F4F0090F5E3 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = DB4C0E17143D2E770090F5E3 /* Project object */;
@@ -43,38 +66,46 @@
 			remoteGlobalIDString = DB4C0E21143D2F4F0090F5E3;
 			remoteInfo = Broker;
 		};
+		DB6B69B014573DF800CCAE96 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = DB39486F145737D900BFF50E /* Conductor.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = DB83D1991451F1B200D94890;
+			remoteInfo = Conductor;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		DB39486F145737D900BFF50E /* Conductor.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Conductor.xcodeproj; path = ../Conductor/Conductor.xcodeproj; sourceTree = "<group>"; };
 		DB4C0E22143D2F4F0090F5E3 /* libBroker.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libBroker.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		DB4C0E25143D2F4F0090F5E3 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
-		DB4C0E29143D2F4F0090F5E3 /* Broker-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Broker-Prefix.pch"; sourceTree = "<group>"; };
+		DB4C0E29143D2F4F0090F5E3 /* Broker-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = "Broker-Prefix.pch"; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		DB4C0E2A143D2F4F0090F5E3 /* Broker.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Broker.h; sourceTree = "<group>"; };
 		DB4C0E2B143D2F4F0090F5E3 /* Broker.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Broker.m; sourceTree = "<group>"; };
 		DB4C0E32143D2F4F0090F5E3 /* BrokerTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BrokerTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
 		DB4C0E33143D2F4F0090F5E3 /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
-		DB4C0E35143D2F4F0090F5E3 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = Library/Frameworks/UIKit.framework; sourceTree = DEVELOPER_DIR; };
 		DB4C0E3D143D2F4F0090F5E3 /* BrokerTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "BrokerTests-Info.plist"; sourceTree = "<group>"; };
 		DB4C0E3F143D2F4F0090F5E3 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		DB4C0E41143D2F4F0090F5E3 /* BrokerTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BrokerTests.h; sourceTree = "<group>"; };
 		DB4C0E42143D2F4F0090F5E3 /* BrokerTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BrokerTests.m; sourceTree = "<group>"; };
-		DB4C0E54143D334C0090F5E3 /* BKAttributeDescription.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BKAttributeDescription.h; sourceTree = "<group>"; };
-		DB4C0E55143D334C0090F5E3 /* BKAttributeDescription.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BKAttributeDescription.m; sourceTree = "<group>"; };
+		DB4C0E54143D334C0090F5E3 /* BKAttributeDescription.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = BKAttributeDescription.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
+		DB4C0E55143D334C0090F5E3 /* BKAttributeDescription.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = BKAttributeDescription.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		DB4C0E58143D34E50090F5E3 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
-		DB4C0E76143D84560090F5E3 /* BKRelationshipDescription.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BKRelationshipDescription.h; sourceTree = "<group>"; };
-		DB4C0E77143D84560090F5E3 /* BKRelationshipDescription.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BKRelationshipDescription.m; sourceTree = "<group>"; };
-		DBCD6735143F61EC000FD78D /* BKEntityPropertiesMap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BKEntityPropertiesMap.h; sourceTree = "<group>"; };
-		DBCD6736143F61EC000FD78D /* BKEntityPropertiesMap.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BKEntityPropertiesMap.m; sourceTree = "<group>"; };
-		DBCD673C1441036F000FD78D /* Broker+Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Broker+Private.h"; sourceTree = "<group>"; };
-		DBCD673D1441036F000FD78D /* Broker+Private.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "Broker+Private.m"; sourceTree = "<group>"; };
-		DBCD67501443F47A000FD78D /* BKPropertyDescription.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BKPropertyDescription.h; sourceTree = "<group>"; };
-		DBCD67511443F47A000FD78D /* BKPropertyDescription.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BKPropertyDescription.m; sourceTree = "<group>"; };
+		DB4C0E76143D84560090F5E3 /* BKRelationshipDescription.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = BKRelationshipDescription.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
+		DB4C0E77143D84560090F5E3 /* BKRelationshipDescription.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = BKRelationshipDescription.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
+		DB576E0B14572D0F006021CE /* BKJSONOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BKJSONOperation.h; sourceTree = "<group>"; };
+		DB576E0C14572D0F006021CE /* BKJSONOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BKJSONOperation.m; sourceTree = "<group>"; };
+		DB6B69AE14573DA300CCAE96 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		DBCD6735143F61EC000FD78D /* BKEntityPropertiesMap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = BKEntityPropertiesMap.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
+		DBCD6736143F61EC000FD78D /* BKEntityPropertiesMap.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = BKEntityPropertiesMap.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
+		DBCD67501443F47A000FD78D /* BKPropertyDescription.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = BKPropertyDescription.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
+		DBCD67511443F47A000FD78D /* BKPropertyDescription.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = BKPropertyDescription.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		DBFF95C8143D8D80008511EA /* BrokerTestModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = BrokerTestModel.xcdatamodel; sourceTree = "<group>"; };
 		DBFF95D1143E17D9008511EA /* BrokerTestsHelpers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BrokerTestsHelpers.h; sourceTree = "<group>"; };
 		DBFF95D2143E17D9008511EA /* BrokerTestsHelpers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BrokerTestsHelpers.m; sourceTree = "<group>"; };
 		DBFF95D4143E187D008511EA /* TestResources.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = TestResources.bundle; sourceTree = "<group>"; };
-		DBFF95E9143E568C008511EA /* BKEntityPropertiesDescription.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BKEntityPropertiesDescription.h; sourceTree = "<group>"; };
-		DBFF95EA143E568C008511EA /* BKEntityPropertiesDescription.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BKEntityPropertiesDescription.m; sourceTree = "<group>"; };
+		DBFF95E9143E568C008511EA /* BKEntityPropertiesDescription.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = BKEntityPropertiesDescription.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
+		DBFF95EA143E568C008511EA /* BKEntityPropertiesDescription.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = BKEntityPropertiesDescription.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -82,6 +113,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DB24BB32145767A200BDAD0A /* libConductor.a in Frameworks */,
 				DB4C0E59143D34E50090F5E3 /* CoreData.framework in Frameworks */,
 				DB4C0E26143D2F4F0090F5E3 /* Foundation.framework in Frameworks */,
 			);
@@ -91,17 +123,35 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DB6B69AF14573DA300CCAE96 /* UIKit.framework in Frameworks */,
+				DB6B69AD14573D9900CCAE96 /* libConductor.a in Frameworks */,
+				DB6B69AC14573D9200CCAE96 /* libBroker.a in Frameworks */,
 				DBFF95CD143D9060008511EA /* CoreData.framework in Frameworks */,
 				DB4C0E34143D2F4F0090F5E3 /* SenTestingKit.framework in Frameworks */,
-				DB4C0E36143D2F4F0090F5E3 /* UIKit.framework in Frameworks */,
 				DB4C0E37143D2F4F0090F5E3 /* Foundation.framework in Frameworks */,
-				DB4C0E3A143D2F4F0090F5E3 /* libBroker.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		DB39486D145737C100BFF50E /* Vendors */ = {
+			isa = PBXGroup;
+			children = (
+				DB39486F145737D900BFF50E /* Conductor.xcodeproj */,
+			);
+			name = Vendors;
+			sourceTree = "<group>";
+		};
+		DB394870145737D900BFF50E /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				DB394878145737D900BFF50E /* libConductor.a */,
+				DB39487A145737D900BFF50E /* ConductorTests.octest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		DB4C0E15143D2E770090F5E3 = {
 			isa = PBXGroup;
 			children = (
@@ -109,6 +159,7 @@
 				DB4C0E3B143D2F4F0090F5E3 /* BrokerTests */,
 				DB4C0E24143D2F4F0090F5E3 /* Frameworks */,
 				DB4C0E23143D2F4F0090F5E3 /* Products */,
+				DB39486D145737C100BFF50E /* Vendors */,
 			);
 			sourceTree = "<group>";
 		};
@@ -124,10 +175,10 @@
 		DB4C0E24143D2F4F0090F5E3 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				DB6B69AE14573DA300CCAE96 /* UIKit.framework */,
 				DB4C0E58143D34E50090F5E3 /* CoreData.framework */,
 				DB4C0E25143D2F4F0090F5E3 /* Foundation.framework */,
 				DB4C0E33143D2F4F0090F5E3 /* SenTestingKit.framework */,
-				DB4C0E35143D2F4F0090F5E3 /* UIKit.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -137,8 +188,6 @@
 			children = (
 				DB4C0E2A143D2F4F0090F5E3 /* Broker.h */,
 				DB4C0E2B143D2F4F0090F5E3 /* Broker.m */,
-				DBCD673C1441036F000FD78D /* Broker+Private.h */,
-				DBCD673D1441036F000FD78D /* Broker+Private.m */,
 				DBFF95E9143E568C008511EA /* BKEntityPropertiesDescription.h */,
 				DBFF95EA143E568C008511EA /* BKEntityPropertiesDescription.m */,
 				DBCD67501443F47A000FD78D /* BKPropertyDescription.h */,
@@ -149,6 +198,8 @@
 				DB4C0E77143D84560090F5E3 /* BKRelationshipDescription.m */,
 				DBCD6735143F61EC000FD78D /* BKEntityPropertiesMap.h */,
 				DBCD6736143F61EC000FD78D /* BKEntityPropertiesMap.m */,
+				DB576E0B14572D0F006021CE /* BKJSONOperation.h */,
+				DB576E0C14572D0F006021CE /* BKJSONOperation.m */,
 				DB4C0E28143D2F4F0090F5E3 /* Supporting Files */,
 			);
 			path = Broker;
@@ -196,9 +247,9 @@
 				DB4C0E78143D84560090F5E3 /* BKRelationshipDescription.h in Headers */,
 				DBFF95EB143E568C008511EA /* BKEntityPropertiesDescription.h in Headers */,
 				DBCD6737143F61ED000FD78D /* BKEntityPropertiesMap.h in Headers */,
-				DBCD673E1441036F000FD78D /* Broker+Private.h in Headers */,
 				DBCD67521443F47A000FD78D /* BKPropertyDescription.h in Headers */,
 				DBA5F95C145610C500EBFF68 /* Broker.h in Headers */,
+				DB576E0D14572D0F006021CE /* BKJSONOperation.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -216,6 +267,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				DB39487C145737E400BFF50E /* PBXTargetDependency */,
 			);
 			name = Broker;
 			productName = Broker;
@@ -234,6 +286,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				DB6B69B114573DF800CCAE96 /* PBXTargetDependency */,
 				DB4C0E39143D2F4F0090F5E3 /* PBXTargetDependency */,
 			);
 			name = BrokerTests;
@@ -260,6 +313,12 @@
 			mainGroup = DB4C0E15143D2E770090F5E3;
 			productRefGroup = DB4C0E23143D2F4F0090F5E3 /* Products */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = DB394870145737D900BFF50E /* Products */;
+					ProjectRef = DB39486F145737D900BFF50E /* Conductor.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
 				DB4C0E21143D2F4F0090F5E3 /* Broker */,
@@ -267,6 +326,23 @@
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		DB394878145737D900BFF50E /* libConductor.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libConductor.a;
+			remoteRef = DB394877145737D900BFF50E /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		DB39487A145737D900BFF50E /* ConductorTests.octest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = ConductorTests.octest;
+			remoteRef = DB394879145737D900BFF50E /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		DB4C0E2F143D2F4F0090F5E3 /* Resources */ = {
@@ -306,8 +382,8 @@
 				DB4C0E79143D84560090F5E3 /* BKRelationshipDescription.m in Sources */,
 				DBFF95EC143E568C008511EA /* BKEntityPropertiesDescription.m in Sources */,
 				DBCD6738143F61ED000FD78D /* BKEntityPropertiesMap.m in Sources */,
-				DBCD673F1441036F000FD78D /* Broker+Private.m in Sources */,
 				DBCD67531443F47A000FD78D /* BKPropertyDescription.m in Sources */,
+				DB576E0E14572D0F006021CE /* BKJSONOperation.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -324,10 +400,20 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		DB39487C145737E400BFF50E /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = Conductor;
+			targetProxy = DB39487B145737E400BFF50E /* PBXContainerItemProxy */;
+		};
 		DB4C0E39143D2F4F0090F5E3 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = DB4C0E21143D2F4F0090F5E3 /* Broker */;
 			targetProxy = DB4C0E38143D2F4F0090F5E3 /* PBXContainerItemProxy */;
+		};
+		DB6B69B114573DF800CCAE96 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = Conductor;
+			targetProxy = DB6B69B014573DF800CCAE96 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -346,21 +432,25 @@
 		DB4C0E1C143D2E770090F5E3 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				HEADER_SEARCH_PATHS = "";
 				SDKROOT = iphoneos;
+				USER_HEADER_SEARCH_PATHS = "$(BUILT_PRODUCTS_DIR)/**";
 			};
 			name = Debug;
 		};
 		DB4C0E1D143D2E770090F5E3 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				HEADER_SEARCH_PATHS = "";
 				SDKROOT = iphoneos;
+				USER_HEADER_SEARCH_PATHS = "$(BUILT_PRODUCTS_DIR)/**";
 			};
 			name = Release;
 		};
 		DB4C0E45143D2F4F0090F5E3 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
+				ALWAYS_SEARCH_USER_PATHS = YES;
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				COPY_PHASE_STRIP = NO;
 				DSTROOT = /tmp/Broker.dst;
@@ -379,19 +469,20 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
-				OTHER_LDFLAGS = "-ObjC";
+				OTHER_LDFLAGS = "";
 				PRIVATE_HEADERS_FOLDER_PATH = include/Broker/Private;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PUBLIC_HEADERS_FOLDER_PATH = include/Broker;
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
+				USER_HEADER_SEARCH_PATHS = "$(BUILT_PRODUCTS_DIR)/include/Conductor $(BUILT_PRODUCTS_DIR)/**";
 			};
 			name = Debug;
 		};
 		DB4C0E46143D2F4F0090F5E3 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
+				ALWAYS_SEARCH_USER_PATHS = YES;
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				COPY_PHASE_STRIP = YES;
 				DSTROOT = /tmp/Broker.dst;
@@ -404,12 +495,13 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
-				OTHER_LDFLAGS = "-ObjC";
+				OTHER_LDFLAGS = "";
 				PRIVATE_HEADERS_FOLDER_PATH = include/Broker/Private;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PUBLIC_HEADERS_FOLDER_PATH = include/Broker;
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
+				USER_HEADER_SEARCH_PATHS = "$(BUILT_PRODUCTS_DIR)/include/Conductor $(BUILT_PRODUCTS_DIR)/**";
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
@@ -417,7 +509,7 @@
 		DB4C0E48143D2F4F0090F5E3 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
+				ALWAYS_SEARCH_USER_PATHS = YES;
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				COPY_PHASE_STRIP = NO;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -440,9 +532,10 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				INFOPLIST_FILE = "BrokerTests/BrokerTests-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
-				OTHER_LDFLAGS = "-ObjC";
+				OTHER_LDFLAGS = "";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
+				USER_HEADER_SEARCH_PATHS = "$(BUILT_PRODUCTS_DIR)/include/Conductor $(BUILT_PRODUCTS_DIR)/**";
 				WRAPPER_EXTENSION = octest;
 			};
 			name = Debug;
@@ -450,7 +543,7 @@
 		DB4C0E49143D2F4F0090F5E3 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
+				ALWAYS_SEARCH_USER_PATHS = YES;
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				COPY_PHASE_STRIP = YES;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -466,9 +559,10 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				INFOPLIST_FILE = "BrokerTests/BrokerTests-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
-				OTHER_LDFLAGS = "-ObjC";
+				OTHER_LDFLAGS = "";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
+				USER_HEADER_SEARCH_PATHS = "$(BUILT_PRODUCTS_DIR)/include/Conductor $(BUILT_PRODUCTS_DIR)/**";
 				VALIDATE_PRODUCT = YES;
 				WRAPPER_EXTENSION = octest;
 			};

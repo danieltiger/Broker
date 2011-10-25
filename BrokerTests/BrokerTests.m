@@ -9,7 +9,6 @@
 #import "BrokerTests.h"
 
 #import "Broker.h"
-#import "Broker+Private.h"
 
 #import "BrokerTestsHelpers.h"
 
@@ -53,7 +52,7 @@ static NSString *kEmployeeStartDateFormat = @"yyyy/MM/dd HH:mm:ss zzzz";
     [context setPersistentStoreCoordinator:coord];
 
     // Setup Broker
-    [Broker setupWithContext:context];
+    [[Broker sharedInstance] setupWithContext:context];
 }
 
 - (void)tearDown {
@@ -68,6 +67,8 @@ static NSString *kEmployeeStartDateFormat = @"yyyy/MM/dd HH:mm:ss zzzz";
     [coord release], coord = nil;
     [model release], model = nil;  
     
+    [[Broker sharedInstance] reset];
+    
     DeleteDataStore();
     
     [super tearDown];
@@ -77,10 +78,10 @@ static NSString *kEmployeeStartDateFormat = @"yyyy/MM/dd HH:mm:ss zzzz";
 
 - (void)testRegisterRelationshipDescription {
     
-    [Broker registerEntityNamed:kDepartment withPrimaryKey:nil];
+    [[Broker sharedInstance] registerEntityNamed:kDepartment withPrimaryKey:nil];
     
-    BKRelationshipDescription *desc = [Broker relationshipDescriptionForProperty:kEmployeesRelationship 
-                                                                onEntityName:kDepartment];
+    BKRelationshipDescription *desc = [[Broker sharedInstance] relationshipDescriptionForProperty:kEmployeesRelationship 
+                                                                                     onEntityName:kDepartment];
     
     STAssertNotNil(desc, @"Should have an relationship description for property on registered entity");
     STAssertEqualObjects(desc.localPropertyName, kEmployeesRelationship, @"Relationship map should be named correctly");    
@@ -91,10 +92,10 @@ static NSString *kEmployeeStartDateFormat = @"yyyy/MM/dd HH:mm:ss zzzz";
 
 - (void)testRegisterAttributeDescription {
     
-    [Broker registerEntityNamed:kEmployee withPrimaryKey:nil];
+    [[Broker sharedInstance] registerEntityNamed:kEmployee withPrimaryKey:nil];
     
-    BKAttributeDescription *desc = [Broker attributeDescriptionForProperty:@"firstname"
-                                                              onEntityName:kEmployee];
+    BKAttributeDescription *desc = [[Broker sharedInstance] attributeDescriptionForProperty:@"firstname"
+                                                                               onEntityName:kEmployee];
     
     STAssertNotNil(desc, @"Should have an attribute description for property on registered entity");
     STAssertEqualObjects(desc.entityName, kEmployee, @"Attribute description entity name should be set correctly");
@@ -104,46 +105,55 @@ static NSString *kEmployeeStartDateFormat = @"yyyy/MM/dd HH:mm:ss zzzz";
 
 - (void)testRegisterAttributeDescriptionWithPropertyMap {
     
-    [Broker registerEntityNamed:kEmployee 
-                 withPrimaryKey:nil 
-          andMapNetworkProperty:@"first-name"
-                toLocalProperty:@"firstname"];
+    [[Broker sharedInstance] registerEntityNamed:kEmployee 
+                                  withPrimaryKey:nil 
+                           andMapNetworkProperty:@"first-name"
+                                 toLocalProperty:@"firstname"];
     
-    BKAttributeDescription *desc = [Broker attributeDescriptionForProperty:@"firstname"
-                                                              onEntityName:kEmployee];
+    BKAttributeDescription *desc = [[Broker sharedInstance] attributeDescriptionForProperty:@"firstname"
+                                                                               onEntityName:kEmployee];
     
     STAssertEqualObjects(desc.entityName, kEmployee, @"Attribute description entity name should be set correctly");
     STAssertEqualObjects(desc.localPropertyName, kEmployeeFirstname, @"Attribute description local attribute name should be set correctly");
     STAssertEqualObjects(desc.networkPropertyName, @"first-name", @"Attribute description network attribute name should be set correctly");
 }
 
+- (void)testRegisterAttributeDescriptionWithPrimaryKey {
+    
+    [[Broker sharedInstance] registerEntityNamed:kEmployee withPrimaryKey:@"employeeID"];
+    
+    BKEntityPropertiesDescription *desc = [[Broker sharedInstance] entityPropertyDescriptionForEntityName:kEmployee];
+
+    STAssertEqualObjects(desc.primaryKey, @"employeeID", @"Attribute description should have a primary key");
+}
+
 #pragma mark - Entity Properties Description
 
 - (void)testDescriptionForLocalProperty {
-    [Broker registerEntityNamed:kEmployee withPrimaryKey:@"employeeID"];
+    [[Broker sharedInstance] registerEntityNamed:kEmployee withPrimaryKey:@"employeeID"];
     
-    BKEntityPropertiesDescription *desc = [Broker entityPropertyDescriptionForEntityName:kEmployee];
+    BKEntityPropertiesDescription *desc = [[Broker sharedInstance] entityPropertyDescriptionForEntityName:kEmployee];
     BKPropertyDescription *localPropDesc = [desc descriptionForLocalProperty:@"employeeID"];
     
     STAssertNotNil(localPropDesc, @"Should have an attribute description for a property on a registered entity");
 }
 
 - (void)testDescriptionForLocalPropertyThatDoesntExist {
-    [Broker registerEntityNamed:kEmployee withPrimaryKey:@"employeeID"];
+    [[Broker sharedInstance] registerEntityNamed:kEmployee withPrimaryKey:@"employeeID"];
     
-    BKEntityPropertiesDescription *desc = [Broker entityPropertyDescriptionForEntityName:kEmployee];
+    BKEntityPropertiesDescription *desc = [[Broker sharedInstance] entityPropertyDescriptionForEntityName:kEmployee];
     BKPropertyDescription *localPropDesc = [desc descriptionForLocalProperty:@"blah"];
     
     STAssertNil(localPropDesc, @"Should not have an attribute description for a fake property on a registered entity");
 }
 
 - (void)testDescriptionForNetworkPropertyThatDoesntExist {
-    [Broker registerEntityNamed:kEmployee 
-                 withPrimaryKey:@"employeeID" 
-          andMapNetworkProperty:@"first-name" 
-                toLocalProperty:@"firstname"];
+    [[Broker sharedInstance] registerEntityNamed:kEmployee 
+                                  withPrimaryKey:@"employeeID" 
+                           andMapNetworkProperty:@"first-name" 
+                                 toLocalProperty:@"firstname"];
     
-    BKEntityPropertiesDescription *desc = [Broker entityPropertyDescriptionForEntityName:kEmployee];
+    BKEntityPropertiesDescription *desc = [[Broker sharedInstance] entityPropertyDescriptionForEntityName:kEmployee];
     BKPropertyDescription *networkPropDesc = [desc descriptionForNetworkProperty:@"blah"];
     
     STAssertNil(networkPropDesc, @"Should not have an attribute description for a fake network property on a registered entity");
@@ -152,40 +162,62 @@ static NSString *kEmployeeStartDateFormat = @"yyyy/MM/dd HH:mm:ss zzzz";
 #pragma mark - Attribute Description
 
 - (void)testDescriptionWithAttributeDescription {
-    STFail(@"TODO!");
+    
+    NSURL *employeeURI = [BrokerTestsHelpers createNewEmployee:context];
+    NSManagedObject *object = [[Broker sharedInstance] objectForURI:employeeURI inContext:context];
+    
+    NSDictionary *attributes = object.entity.attributesByName;
+    
+    NSAttributeDescription *desc = (NSAttributeDescription *)[attributes objectForKey:@"firstname"];
+    
+    BKAttributeDescription *bkdesc = [BKAttributeDescription descriptionWithAttributeDescription:desc];
+    
+    NSInteger a = bkdesc.attributeType;
+    NSInteger b = NSStringAttributeType;
+    
+    STAssertEquals(a, b, @"Attributes description should have correct attribute type");
+    STAssertEqualObjects(bkdesc.entityName, @"Employee", @"Attribute description should have correct entity name");
 }
 
 - (void)testDescriptionWithAttributeDescriptionAndMapToNetworkAttributeName {
-    STFail(@"TODO!");
-}
-
-- (void)testObjectForValue {
-    STFail(@"TODO!");
+    
+    NSURL *employeeURI = [BrokerTestsHelpers createNewEmployee:context];
+    NSManagedObject *object = [[Broker sharedInstance] objectForURI:employeeURI inContext:context];
+    
+    NSDictionary *attributes = object.entity.attributesByName;
+    
+    NSAttributeDescription *desc = (NSAttributeDescription *)[attributes objectForKey:@"firstname"];
+    
+    BKAttributeDescription *bkdesc = [BKAttributeDescription descriptionWithAttributeDescription:desc 
+                                                                    andMapToNetworkAttributeName:@"first-name"];
+    
+    STAssertEqualObjects(bkdesc.networkPropertyName, @"first-name", @"Attribute description should have correct network name");
+    STAssertEqualObjects(bkdesc.localPropertyName, @"firstname", @"Attribute description should have correct local name");
 }
 
 #pragma mark - Accessors
 
 - (void)testEntityPropertyDescriptionForEntityName {
-    [Broker registerEntityNamed:kEmployee withPrimaryKey:@"employeeID"];
+    [[Broker sharedInstance] registerEntityNamed:kEmployee withPrimaryKey:@"employeeID"];
     
-    BKEntityPropertiesDescription *desc = [Broker entityPropertyDescriptionForEntityName:kEmployee];
+    BKEntityPropertiesDescription *desc = [[Broker sharedInstance] entityPropertyDescriptionForEntityName:kEmployee];
     
     STAssertNotNil(desc, @"Should have entity property description for registered entity");
 }
 
 - (void)testAttributeDescriptionForPropertyOnEntityName {
-    [Broker registerEntityNamed:kEmployee withPrimaryKey:@"employeeID"];
+    [[Broker sharedInstance] registerEntityNamed:kEmployee withPrimaryKey:@"employeeID"];
 
-    BKAttributeDescription *desc = [Broker attributeDescriptionForProperty:@"employeeID" 
+    BKAttributeDescription *desc = [[Broker sharedInstance] attributeDescriptionForProperty:@"employeeID" 
                                                               onEntityName:kEmployee];
     
     STAssertNotNil(desc, @"Should have an attribute description for a property on a registered entity");
 }
 
 - (void)testRelationshipDescriptionForPropertyOnEntityName {
-    [Broker registerEntityNamed:kEmployee withPrimaryKey:@"employeeID"];
+    [[Broker sharedInstance] registerEntityNamed:kEmployee withPrimaryKey:@"employeeID"];
     
-    BKRelationshipDescription *desc = [Broker relationshipDescriptionForProperty:@"department"
+    BKRelationshipDescription *desc = [[Broker sharedInstance] relationshipDescriptionForProperty:@"department"
                                                                     onEntityName:@"Employee"];
     
     STAssertNotNil(desc, @"Should have a relationship description for a property on a registered entity");
@@ -198,15 +230,15 @@ static NSString *kEmployeeStartDateFormat = @"yyyy/MM/dd HH:mm:ss zzzz";
     NSDictionary *fakeJSON = [NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"Andrew", @"Smith", @"5678", @"2011/10/06 00:51:10 -0700", nil]
                                                          forKeys:[NSArray arrayWithObjects:@"firstname", @"lastname", @"employeeID", @"startDate", nil]];
     
-    [Broker registerEntityNamed:kEmployee withPrimaryKey:nil];
+    [[Broker sharedInstance] registerEntityNamed:kEmployee withPrimaryKey:nil];
     
-    [Broker setDateFormat:kEmployeeStartDateFormat 
+    [[Broker sharedInstance] setDateFormat:kEmployeeStartDateFormat 
               forProperty:@"startDate" 
                  onEntity:kEmployee];
     
-    BKEntityPropertiesDescription *desc = [Broker entityPropertyDescriptionForEntityName:kEmployee];
+    BKEntityPropertiesDescription *desc = [[Broker sharedInstance] entityPropertyDescriptionForEntityName:kEmployee];
         
-    NSDictionary *transformedDict = [Broker transformJSONDictionary:fakeJSON 
+    NSDictionary *transformedDict = [[Broker sharedInstance] transformJSONDictionary:fakeJSON 
                                    usingEntityPropertiesDescription:desc];
 
     STAssertTrue([[transformedDict objectForKey:@"firstname"] isKindOfClass:[NSString class]], @"Transform dictionary should properly set class type");
@@ -220,15 +252,15 @@ static NSString *kEmployeeStartDateFormat = @"yyyy/MM/dd HH:mm:ss zzzz";
     NSDictionary *fakeJSON = [NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"Andrew", @"Smith", @"5678", @"2011/10/06 00:51:10 -0700", nil]
                                                          forKeys:[NSArray arrayWithObjects:@"firstname", @"lastname", @"employeeID", @"startDate", nil]];
     
-    [Broker registerEntityNamed:kEmployee withPrimaryKey:nil];
+    [[Broker sharedInstance] registerEntityNamed:kEmployee withPrimaryKey:nil];
     
-    [Broker setDateFormat:kEmployeeStartDateFormat 
+    [[Broker sharedInstance] setDateFormat:kEmployeeStartDateFormat 
               forProperty:@"startDate" 
                  onEntity:kEmployee];
     
-    BKEntityPropertiesDescription *desc = [Broker entityPropertyDescriptionForEntityName:kEmployee];
+    BKEntityPropertiesDescription *desc = [[Broker sharedInstance] entityPropertyDescriptionForEntityName:kEmployee];
     
-    NSDictionary *transformedDict = [Broker transformJSONDictionary:fakeJSON 
+    NSDictionary *transformedDict = [[Broker sharedInstance] transformJSONDictionary:fakeJSON 
                                    usingEntityPropertiesDescription:desc];
     
     
@@ -248,8 +280,8 @@ static NSString *kEmployeeStartDateFormat = @"yyyy/MM/dd HH:mm:ss zzzz";
     
     NSData *jsonData = DataFromFile(@"employee_flat.json");
     
-    [Broker registerEntityNamed:kEmployee withPrimaryKey:nil];
-    [Broker setDateFormat:kEmployeeStartDateFormat 
+    [[Broker sharedInstance] registerEntityNamed:kEmployee withPrimaryKey:nil];
+    [[Broker sharedInstance] setDateFormat:kEmployeeStartDateFormat 
               forProperty:@"startDate" 
                  onEntity:kEmployee];
 
@@ -261,7 +293,7 @@ static NSString *kEmployeeStartDateFormat = @"yyyy/MM/dd HH:mm:ss zzzz";
     void (^CompletionBlock)(void) = ^{dispatch_semaphore_signal(sema);}; 
 
     // Chunk dat
-    [Broker processJSONPayload:jsonData
+    [[Broker sharedInstance] processJSONPayload:jsonData
                   targetEntity:employeeURI
            withCompletionBlock:CompletionBlock];
     
@@ -270,7 +302,7 @@ static NSString *kEmployeeStartDateFormat = @"yyyy/MM/dd HH:mm:ss zzzz";
     dispatch_release(sema);
     
     // Re-fetch
-    NSManagedObject *employee = [Broker objectWithURI:employeeURI inContext:context];
+    NSManagedObject *employee = [[Broker sharedInstance] objectForURI:employeeURI inContext:context];
     
     [context refreshObject:employee mergeChanges:YES];
     
@@ -288,11 +320,11 @@ static NSString *kEmployeeStartDateFormat = @"yyyy/MM/dd HH:mm:ss zzzz";
     
     NSData *jsonData = DataFromFile(@"employee_nested.json");
     
-    [Broker registerEntityNamed:kEmployee withPrimaryKey:nil];
-    [Broker registerEntityNamed:@"ContactInfo" withPrimaryKey:nil];
-    [Broker setDateFormat:kEmployeeStartDateFormat 
-              forProperty:@"startDate" 
-                 onEntity:kEmployee];
+    [[Broker sharedInstance] registerEntityNamed:kEmployee withPrimaryKey:nil];
+    [[Broker sharedInstance] registerEntityNamed:@"ContactInfo" withPrimaryKey:nil];
+    [[Broker sharedInstance] setDateFormat:kEmployeeStartDateFormat 
+                               forProperty:@"startDate" 
+                                  onEntity:kEmployee];
 
     // Add a new Employee to the store
     NSURL *employeeURI = [BrokerTestsHelpers createNewEmployee:context];
@@ -302,7 +334,7 @@ static NSString *kEmployeeStartDateFormat = @"yyyy/MM/dd HH:mm:ss zzzz";
     void (^CompletionBlock)(void) = ^{dispatch_semaphore_signal(sema);}; 
     
     // Chunk dat
-    [Broker processJSONPayload:jsonData
+    [[Broker sharedInstance] processJSONPayload:jsonData
                   targetEntity:employeeURI
            withCompletionBlock:CompletionBlock];
     
@@ -311,7 +343,7 @@ static NSString *kEmployeeStartDateFormat = @"yyyy/MM/dd HH:mm:ss zzzz";
     dispatch_release(sema);
     
     // Re-fetch
-    NSManagedObject *employee = [Broker objectWithURI:employeeURI inContext:context];
+    NSManagedObject *employee = [[Broker sharedInstance] objectForURI:employeeURI inContext:context];
     
     [context refreshObject:employee mergeChanges:YES];
     
@@ -338,11 +370,11 @@ static NSString *kEmployeeStartDateFormat = @"yyyy/MM/dd HH:mm:ss zzzz";
     NSData *jsonData = DataFromFile(@"department_nested.json");
     
     // Register Entities
-    [Broker registerEntityNamed:kDepartment withPrimaryKey:nil];
-    [Broker registerEntityNamed:kEmployee withPrimaryKey:nil];
-    [Broker setDateFormat:kEmployeeStartDateFormat
-              forProperty:@"startDate" 
-                 onEntity:kEmployee];
+    [[Broker sharedInstance] registerEntityNamed:kDepartment withPrimaryKey:@"departmentID"];
+    [[Broker sharedInstance] registerEntityNamed:kEmployee withPrimaryKey:@"employeeID"];
+    [[Broker sharedInstance] setDateFormat:kEmployeeStartDateFormat
+                               forProperty:@"startDate" 
+                                  onEntity:kEmployee];
 
     // Build Deparment
     NSURL *departmentURI = [BrokerTestsHelpers createNewDepartment:context];
@@ -352,20 +384,26 @@ static NSString *kEmployeeStartDateFormat = @"yyyy/MM/dd HH:mm:ss zzzz";
     void (^CompletionBlock)(void) = ^{dispatch_semaphore_signal(sema);}; 
     
     // Chunk dat
-    [Broker processJSONPayload:jsonData
-                  targetEntity:departmentURI
-           withCompletionBlock:CompletionBlock];
+    [[Broker sharedInstance] processJSONPayload:jsonData
+                                   targetEntity:departmentURI
+                            withCompletionBlock:CompletionBlock];
     
     // Wait for async code to finish
     dispatch_semaphore_wait(sema, DISPATCH_TIME_FOREVER);
     dispatch_release(sema);
     
     // Re-fetch
-    NSManagedObject *dept = [Broker objectWithURI:departmentURI inContext:context];
+    NSManagedObject *dept = [[Broker sharedInstance] objectForURI:departmentURI inContext:context];
     
     [context refreshObject:dept mergeChanges:YES];
     
-    STFail(@"TODO!");
+    STAssertEqualObjects([dept valueForKey:@"name"], @"Engineering", @"Attribute should be set correctly");
+    STAssertEqualObjects([dept valueForKey:@"departmentID"], [NSNumber numberWithInt:1234], @"Attribute should be set correctly");
+
+    NSSet *employees = (NSSet *)[dept valueForKey:@"employees"];
+    int num = [employees count];
+    
+    STAssertEquals(num, 6, @"Should have 7 employee objects");
 }
 
 - (void)testDepartmentEmployeesJSON {
@@ -373,11 +411,11 @@ static NSString *kEmployeeStartDateFormat = @"yyyy/MM/dd HH:mm:ss zzzz";
     NSData *jsonData = DataFromFile(@"department_employees.json");
     
     // Register Entities
-    [Broker registerEntityNamed:kDepartment withPrimaryKey:nil];
-    [Broker registerEntityNamed:kEmployee withPrimaryKey:@"employeeID"];
-    [Broker setDateFormat:kEmployeeStartDateFormat 
-              forProperty:@"startDate" 
-                 onEntity:kEmployee];
+    [[Broker sharedInstance] registerEntityNamed:kDepartment withPrimaryKey:nil];
+    [[Broker sharedInstance] registerEntityNamed:kEmployee withPrimaryKey:@"employeeID"];
+    [[Broker sharedInstance] setDateFormat:kEmployeeStartDateFormat 
+                               forProperty:@"startDate" 
+                                  onEntity:kEmployee];
     
     // Build Deparment
     NSURL *departmentURI = [BrokerTestsHelpers createNewDepartment:context];
@@ -387,7 +425,7 @@ static NSString *kEmployeeStartDateFormat = @"yyyy/MM/dd HH:mm:ss zzzz";
     void (^CompletionBlock)(void) = ^{dispatch_semaphore_signal(sema);}; 
     
     // Chunk dat
-    [Broker processJSONPayload:jsonData 
+    [[Broker sharedInstance] processJSONPayload:jsonData 
                   targetEntity:departmentURI 
                forRelationship:@"employees" 
            withCompletionBlock:CompletionBlock];
@@ -397,7 +435,7 @@ static NSString *kEmployeeStartDateFormat = @"yyyy/MM/dd HH:mm:ss zzzz";
     dispatch_release(sema);
     
     // Fetch
-    NSManagedObject *dept = [Broker objectWithURI:departmentURI 
+    NSManagedObject *dept = [[Broker sharedInstance] objectForURI:departmentURI 
                                         inContext:context];
     
     // Refresh
@@ -414,9 +452,9 @@ static NSString *kEmployeeStartDateFormat = @"yyyy/MM/dd HH:mm:ss zzzz";
     NSData *jsonData = DataFromFile(@"department_nested.json");
     
     // Register Entities
-    [Broker registerEntityNamed:kDepartment withPrimaryKey:@"departmentID"];
-    [Broker registerEntityNamed:kEmployee withPrimaryKey:@"employeeID"];
-    [Broker setDateFormat:kEmployeeStartDateFormat 
+    [[Broker sharedInstance] registerEntityNamed:kDepartment withPrimaryKey:@"departmentID"];
+    [[Broker sharedInstance] registerEntityNamed:kEmployee withPrimaryKey:@"employeeID"];
+    [[Broker sharedInstance] setDateFormat:kEmployeeStartDateFormat 
               forProperty:@"startDate" 
                  onEntity:kEmployee];
 
@@ -428,7 +466,7 @@ static NSString *kEmployeeStartDateFormat = @"yyyy/MM/dd HH:mm:ss zzzz";
     void (^CompletionBlock)(void) = ^{dispatch_semaphore_signal(sema);}; 
     
     // Chunk dat
-    [Broker processJSONPayload:jsonData 
+    [[Broker sharedInstance] processJSONPayload:jsonData 
                   targetEntity:departmentURI 
                forRelationship:nil 
            withCompletionBlock:CompletionBlock];
@@ -438,7 +476,7 @@ static NSString *kEmployeeStartDateFormat = @"yyyy/MM/dd HH:mm:ss zzzz";
     dispatch_release(sema);
     
     // Fetch
-    NSManagedObject *dept = [Broker objectWithURI:departmentURI 
+    NSManagedObject *dept = [[Broker sharedInstance] objectForURI:departmentURI 
                                         inContext:context];
     
     // Refresh
@@ -447,7 +485,7 @@ static NSString *kEmployeeStartDateFormat = @"yyyy/MM/dd HH:mm:ss zzzz";
     NSSet *employees = (NSSet *)[dept valueForKey:@"employees"];
     int num = [employees count];
     
-    STAssertEquals(num, 6, @"Should have 7 employee objects");
+    STAssertEquals(num, 6, @"Should have 6 employee objects");
 }
 
 #pragma mark - Core Data
@@ -457,14 +495,28 @@ static NSString *kEmployeeStartDateFormat = @"yyyy/MM/dd HH:mm:ss zzzz";
     NSManagedObject *department = [NSEntityDescription insertNewObjectForEntityForName:kDepartment 
                                                                 inManagedObjectContext:context];
     
-    NSManagedObject *fetchedDepartment = [Broker objectWithURI:department.objectID.URIRepresentation 
+    NSManagedObject *fetchedDepartment = [[Broker sharedInstance] objectForURI:department.objectID.URIRepresentation 
                                                      inContext:context];
      
     STAssertEqualObjects(department, fetchedDepartment, @"Should get the same object");
 }
 
-- (void)testFindEntityDescribedWithPrimaryKeyNameAndPrimaryKeyValueInContext {
-    STFail(@"TODO!");
+- (void)testFindEntityWithPrimaryKey {
+
+    [[Broker sharedInstance] registerEntityNamed:kEmployee withPrimaryKey:@"employeeID"];
+    
+    NSURL *employeeURI = [BrokerTestsHelpers createNewFilledOutEmployee:context];
+    NSManagedObject *employee = [[Broker sharedInstance] objectForURI:employeeURI inContext:context];
+    //[context refreshObject:employee mergeChanges:YES];
+    
+    BKEntityPropertiesDescription *desc = [[Broker sharedInstance] entityPropertyDescriptionForEntityName:kEmployee];
+    
+    NSManagedObject *foundEmployee = [[Broker sharedInstance] findOrCreateObjectForEntityDescribedBy:desc
+                                                                                 withPrimaryKeyValue:[NSNumber numberWithInt:12345]
+                                                                                           inContext:context
+                                                                                        shouldCreate:NO];
+    
+    STAssertEqualObjects(employee, foundEmployee, @"Found URI should be the same as the first created");
 }
 
 @end

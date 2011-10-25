@@ -12,6 +12,7 @@
 @interface BrokerTestsHelpers : NSObject
 
 + (NSURL *)createNewEmployee:(NSManagedObjectContext *)context;
++ (NSURL *)createNewFilledOutEmployee:(NSManagedObjectContext *)context;
 + (NSURL *)createNewDepartment:(NSManagedObjectContext *)context;
 
 NSString *PathForTestResource(NSString *resouce);
