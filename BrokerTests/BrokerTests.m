@@ -488,6 +488,88 @@ static NSString *kEmployeeStartDateFormat = @"yyyy/MM/dd HH:mm:ss zzzz";
     STAssertEquals(num, 6, @"Should have 6 employee objects");
 }
 
+- (void)testShouldIgnoreNonRegisteredEntity {
+    
+    NSData *jsonData = DataFromFile(@"employee_nested.json");
+    
+    [[Broker sharedInstance] registerEntityNamed:kEmployee withPrimaryKey:@"employeeID"];
+    [[Broker sharedInstance] setDateFormat:kEmployeeStartDateFormat 
+                               forProperty:@"startDate" 
+                                  onEntity:kEmployee];
+    
+    // Add a new Employee to the store
+    NSURL *employeeURI = [BrokerTestsHelpers createNewEmployee:context];
+    
+    // Use to hold main thread while bg tasks complete
+    dispatch_semaphore_t sema = dispatch_semaphore_create(0);
+    void (^CompletionBlock)(void) = ^{dispatch_semaphore_signal(sema);}; 
+    
+    // Chunk dat
+    [[Broker sharedInstance] processJSONPayload:jsonData
+                                   targetEntity:employeeURI
+                            withCompletionBlock:CompletionBlock];
+    
+    // Wait for async code to finish
+    dispatch_semaphore_wait(sema, DISPATCH_TIME_FOREVER);
+    dispatch_release(sema);
+    
+    // Re-fetch
+    NSManagedObject *employee = [[Broker sharedInstance] objectForURI:employeeURI inContext:context];
+    
+    [context refreshObject:employee mergeChanges:YES];    
+    
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    [formatter setDateFormat:kEmployeeStartDateFormat];
+    NSDate *date = [formatter dateFromString:@"2011/10/06 00:51:10 -0700"];
+    
+    STAssertEqualObjects([employee valueForKey:@"firstname"], @"Andrew", @"Should set attributes correctly");
+    STAssertEqualObjects([employee valueForKey:@"lastname"], @"Smith", @"Should set nested object attributes correctly");
+    STAssertEqualObjects([employee valueForKey:@"employeeID"], [NSNumber numberWithInt:5678], @"Should set nested object attributes correctly");
+    STAssertEqualObjects([employee valueForKey:@"startDate"], date, @"Attributes should be set correctly");    
+}
+
+
+- (void)testEmployeeWithRootKeyPath {
+    
+    NSData *jsonData = DataFromFile(@"employee_root_key.json");
+    
+    [[Broker sharedInstance] registerEntityNamed:kEmployee withPrimaryKey:@"employeeID"];
+    
+    [[Broker sharedInstance] setDateFormat:kEmployeeStartDateFormat 
+                               forProperty:@"startDate" 
+                                  onEntity:kEmployee];
+    
+    // Add a new Employee to the store
+    NSURL *employeeURI = [BrokerTestsHelpers createNewEmployee:context];
+    
+    // Use to hold main thread while bg tasks complete
+    dispatch_semaphore_t sema = dispatch_semaphore_create(0);
+    void (^CompletionBlock)(void) = ^{dispatch_semaphore_signal(sema);}; 
+    
+    // Chunk dat
+    [[Broker sharedInstance] processJSONPayload:jsonData
+                                   targetEntity:employeeURI
+                            withCompletionBlock:CompletionBlock];
+    
+    // Wait for async code to finish
+    dispatch_semaphore_wait(sema, DISPATCH_TIME_FOREVER);
+    dispatch_release(sema);
+    
+    // Re-fetch
+    NSManagedObject *employee = [[Broker sharedInstance] objectForURI:employeeURI inContext:context];
+    
+    [context refreshObject:employee mergeChanges:YES];    
+
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    [formatter setDateFormat:kEmployeeStartDateFormat];
+    NSDate *date = [formatter dateFromString:@"2011/10/06 00:51:10 -0700"];
+        
+    STAssertEqualObjects([employee valueForKey:@"firstname"], @"Andrew", @"Should set attributes correctly");
+    STAssertEqualObjects([employee valueForKey:@"lastname"], @"Smith", @"Should set nested object attributes correctly");
+    STAssertEqualObjects([employee valueForKey:@"employeeID"], [NSNumber numberWithInt:5678], @"Should set nested object attributes correctly");
+    STAssertEqualObjects([employee valueForKey:@"startDate"], date, @"Attributes should be set correctly");    
+}
+
 #pragma mark - Core Data
 
 - (void)testObjectWithURI {

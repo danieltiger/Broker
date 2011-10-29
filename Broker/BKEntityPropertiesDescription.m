@@ -88,7 +88,7 @@
                                                          }];
     
     if (!result) {
-        DLog(@"%@ is not a known network property on entity %@", property, self.entityName);
+        DLog(@"\"%@\" is not a known network property on entity \"%@\"", property, self.entityName);
         return nil;
     }
     

@@ -149,6 +149,11 @@
             BKEntityPropertiesDescription *destinationEntityDesc = [[Broker sharedInstance] destinationEntityPropertiesDescriptionForRelationship:property
                                                                                                                                     onEntityNamed:object.entity.name];
             
+            if (!destinationEntityDesc) {
+                WLog(@"Destination entity for relationship \"%@\" on entity \"%@\" not registered with Broker!  Skipping...", property, [object.objectID.entity name]);
+                continue;
+            }
+            
             // Flat
             if ([value isKindOfClass:[NSDictionary class]]) {
                 

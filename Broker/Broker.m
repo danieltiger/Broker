@@ -217,7 +217,7 @@
         if (!description) {
             // if no description, it could be a network property
             description = [propertiesDescription descriptionForNetworkProperty:property];
-            if (!description) DLog(@"No description for property %@ found on entity %@!", property, propertiesDescription.entityName); continue;
+            if (!description) DLog(@"No description for property \"%@\" found on entity \"%@\"!  It's not in your data model.  Skipping...", property, propertiesDescription.entityName); continue;
         }
         
         // get the original value
