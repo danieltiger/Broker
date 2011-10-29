@@ -35,7 +35,7 @@
 - (void)setupWithContext:(NSManagedObjectContext *)aContext;
 
 /**
- * Resets Broker instance by clearing the context and entityDescriptions
+ * Resets Broker instance by clearing the context and entityDescriptions.
  */
 - (void)reset;
 
@@ -46,6 +46,13 @@
 /**
  * Regsister entity where network attribute names are the same as local 
  * attribute names.
+ */
+- (void)registerEntityNamed:(NSString *)entityName 
+             withPrimaryKey:(NSString *)primaryKey;
+
+/**
+ * Regsister entity where network attribute names are the same as local 
+ * attribute names, and resource exists in a nested dictionary at root key path
  */
 - (void)registerEntityNamed:(NSString *)entityName 
              withPrimaryKey:(NSString *)primaryKey;
@@ -77,6 +84,14 @@
 - (void)setDateFormat:(NSString *)dateFormat 
           forProperty:(NSString *)property 
              onEntity:(NSString *)entity;
+
+- (void)setRootKeyPath:(NSString *)rootKeyPath 
+             forEntity:(NSString *)entity;
+
+//- (void)setRootKeyPath:(NSString *)rootKeyPath 
+//           forProperty:(NSString *)property
+//              onEntity:(NSString *)entity;
+
 
 ////////////////////////////////////////////////////////////////////////////////
 //                                 Processing                                 //
@@ -120,7 +135,6 @@
 
 - (BKEntityPropertiesDescription *)destinationEntityPropertiesDescriptionForRelationship:(NSString *)relationship
                                                                            onEntityNamed:(NSString *)entityName;
-
 
 #pragma mark - Private
 

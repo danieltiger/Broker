@@ -27,6 +27,9 @@
 + (BKAttributeDescription *)descriptionWithAttributeDescription:(NSAttributeDescription *)description
                                    andMapToNetworkAttributeName:(NSString *)networkAttributeName;
 
+/**
+ * Returns the correct object type with the given value
+ */
 - (id)objectForValue:(id)value;
 
 @end

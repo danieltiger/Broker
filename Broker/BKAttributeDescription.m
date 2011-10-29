@@ -14,8 +14,8 @@
             attributeType;
 
 - (void)dealloc {
-    [dateFormat release];
-    [dateFormatter release];
+    [dateFormat release], dateFormat = nil;
+    [dateFormatter release], dateFormatter = nil;
     
     [super dealloc];
 }

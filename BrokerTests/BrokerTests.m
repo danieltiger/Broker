@@ -127,6 +127,13 @@ static NSString *kEmployeeStartDateFormat = @"yyyy/MM/dd HH:mm:ss zzzz";
     STAssertEqualObjects(desc.primaryKey, @"employeeID", @"Attribute description should have a primary key");
 }
 
+- (void)testRegistrationShouldntLeaveEntitiesInStore {
+    // registration creates objects in the store.  These shouldnt be saved.
+    // Could even register on a separate thread, using separate MOC to be super
+    // safe and fast.  Use isReady flag to know if it can start processing shit.
+    STFail(@"TODO");
+}
+
 #pragma mark - Entity Properties Description
 
 - (void)testDescriptionForLocalProperty {
@@ -528,13 +535,12 @@ static NSString *kEmployeeStartDateFormat = @"yyyy/MM/dd HH:mm:ss zzzz";
     STAssertEqualObjects([employee valueForKey:@"startDate"], date, @"Attributes should be set correctly");    
 }
 
-
 - (void)testEmployeeWithRootKeyPath {
     
     NSData *jsonData = DataFromFile(@"employee_root_key.json");
-    
+        
     [[Broker sharedInstance] registerEntityNamed:kEmployee withPrimaryKey:@"employeeID"];
-    
+    [[Broker sharedInstance] setRootKeyPath:@"response.employee" forEntity:kEmployee];
     [[Broker sharedInstance] setDateFormat:kEmployeeStartDateFormat 
                                forProperty:@"startDate" 
                                   onEntity:kEmployee];

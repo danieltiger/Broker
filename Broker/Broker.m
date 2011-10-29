@@ -21,6 +21,15 @@
     [super dealloc];
 }
 
++ (Broker *)sharedInstance {
+    static dispatch_once_t pred = 0;
+    __strong static id _sharedInstance = nil;
+    dispatch_once(&pred, ^{
+        _sharedInstance = [[Broker alloc] init];
+    });
+    return _sharedInstance;
+}
+
 #pragma mark - Setup
 
 + (id)brokerWithContext:(NSManagedObjectContext *)context {    
@@ -40,7 +49,8 @@
 
 #pragma mark - Registration
 
-- (void)registerEntityNamed:(NSString *)entityName withPrimaryKey:(NSString *)primaryKey {
+- (void)registerEntityNamed:(NSString *)entityName 
+             withPrimaryKey:(NSString *)primaryKey {
     [self registerEntityNamed:entityName
                withPrimaryKey:primaryKey
       andMapNetworkProperties:nil 
@@ -97,7 +107,13 @@
     
     BKAttributeDescription *desc = [self attributeDescriptionForProperty:property onEntityName:entity];;
     desc.dateFormat = dateFormat;
-    
+}
+
+- (void)setRootKeyPath:(NSString *)rootKeyPath 
+             forEntity:(NSString *)entity {
+
+    BKEntityPropertiesDescription *desc = [self entityPropertyDescriptionForEntityName:entity];
+    desc.rootKeyPath = rootKeyPath;
 }
 
 #pragma mark - JSON
@@ -209,6 +225,10 @@
          usingEntityPropertiesDescription:(BKEntityPropertiesDescription *)propertiesDescription {
     
     NSMutableDictionary *transformedDict = [[[NSMutableDictionary alloc] init] autorelease];
+    
+    if (propertiesDescription.rootKeyPath) {
+        jsonDictionary = [jsonDictionary valueForKeyPath:propertiesDescription.rootKeyPath];
+    }
     
     for (NSString *property in jsonDictionary) {
         
