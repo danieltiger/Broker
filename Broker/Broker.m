@@ -21,15 +21,6 @@
     [super dealloc];
 }
 
-+ (Broker *)sharedInstance {
-    static dispatch_once_t pred = 0;
-    __strong static id _sharedInstance = nil;
-    dispatch_once(&pred, ^{
-        _sharedInstance = [[Broker alloc] init];
-    });
-    return _sharedInstance;
-}
-
 #pragma mark - Setup
 
 + (id)brokerWithContext:(NSManagedObjectContext *)context {    
