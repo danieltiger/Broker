@@ -9,21 +9,29 @@
 #import "BKEntityPropertiesDescription.h"
 #import <CoreData/CoreData.h>
 
+@interface BKEntityPropertiesDescription ()
+@property (readwrite, nonatomic, copy) NSString *entityName;
+@property (readwrite, nonatomic, retain) NSMutableDictionary *propertiesDescriptions;
+@property (readwrite, nonatomic, retain) BKEntityPropertiesMap *propertiesMap;
+@property (readwrite, nonatomic, retain) NSEntityDescription *entityDescription;
+@end
 
 @implementation BKEntityPropertiesDescription
 
 @synthesize entityName,
             primaryKey,
+            rootKeyPath,
             propertiesDescriptions,
             propertiesMap,
             entityDescription;
 
 - (void)dealloc {
-    [entityName release];
-    [primaryKey release];
-    [propertiesDescriptions release];
-    [propertiesMap release];
-    [entityDescription release];
+    [entityName release], entityName = nil;
+    [primaryKey release], primaryKey = nil;
+    [rootKeyPath release], rootKeyPath = nil;
+    [propertiesDescriptions release], propertiesDescriptions = nil;
+    [propertiesMap release], propertiesMap = nil;
+    [entityDescription release], entityDescription = nil;
     
     [super dealloc];
 }
@@ -33,22 +41,25 @@
                                 andMapNetworkProperties:(NSArray *)networkProperties
                                       toLocalProperties:(NSArray *)localProperties {
     
+    // Build initial description
     BKEntityPropertiesDescription *description = [[[BKEntityPropertiesDescription alloc] init] autorelease];
-    
     description.entityDescription = entity;
     description.entityName = entity.name;
     
+    // Map any network properties to local properties
     BKEntityPropertiesMap *map = [BKEntityPropertiesMap mapFromNetworkProperties:networkProperties
                                                                toLocalProperties:localProperties
                                                                    forEntityName:entity.name];
     
     NSMutableDictionary *tempPropertiesDescriptions = [[[NSMutableDictionary alloc] init] autorelease];
     
+    // For each property, create a property description
     for (NSString *property in properties) {
         
         // Either an NSAttributeDescription or an NSRelationshipDescription
         id description = [properties objectForKey:property];
         
+        // Attribute
         if ([description isKindOfClass:[NSAttributeDescription class]]) {
             BKAttributeDescription *attrDescription = [BKAttributeDescription descriptionWithAttributeDescription:(NSAttributeDescription *)description
                                                                                      andMapToNetworkAttributeName:[map networkPropertyNameForLocalProperty:property]];
@@ -56,6 +67,7 @@
             [tempPropertiesDescriptions setObject:attrDescription forKey:property];
         }
         
+        // Relationship
         if ([description isKindOfClass:[NSRelationshipDescription class]]) {
             BKRelationshipDescription *relationshipDescription = 
                     [BKRelationshipDescription descriptionWithRelationshipDescription:(NSRelationshipDescription *)description];            
@@ -63,7 +75,7 @@
         }
     }
     
-    // Done!
+    // Set property descriptions
     description.propertiesDescriptions = tempPropertiesDescriptions;
     
     return description;
