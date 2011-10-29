@@ -21,6 +21,15 @@
     [super dealloc];
 }
 
++ (Broker *)sharedInstance {
+    static dispatch_once_t pred = 0;
+    __strong static id _sharedInstance = nil;
+    dispatch_once(&pred, ^{
+        _sharedInstance = [[Broker alloc] init];
+    });
+    return _sharedInstance;
+}
+
 #pragma mark - Setup
 
 + (id)brokerWithContext:(NSManagedObjectContext *)context {    
@@ -40,7 +49,8 @@
 
 #pragma mark - Registration
 
-- (void)registerEntityNamed:(NSString *)entityName withPrimaryKey:(NSString *)primaryKey {
+- (void)registerEntityNamed:(NSString *)entityName 
+             withPrimaryKey:(NSString *)primaryKey {
     [self registerEntityNamed:entityName
                withPrimaryKey:primaryKey
       andMapNetworkProperties:nil 
@@ -97,7 +107,13 @@
     
     BKAttributeDescription *desc = [self attributeDescriptionForProperty:property onEntityName:entity];;
     desc.dateFormat = dateFormat;
-    
+}
+
+- (void)setRootKeyPath:(NSString *)rootKeyPath 
+             forEntity:(NSString *)entity {
+
+    BKEntityPropertiesDescription *desc = [self entityPropertyDescriptionForEntityName:entity];
+    desc.rootKeyPath = rootKeyPath;
 }
 
 #pragma mark - JSON
@@ -210,6 +226,10 @@
     
     NSMutableDictionary *transformedDict = [[[NSMutableDictionary alloc] init] autorelease];
     
+    if (propertiesDescription.rootKeyPath) {
+        jsonDictionary = [jsonDictionary valueForKeyPath:propertiesDescription.rootKeyPath];
+    }
+    
     for (NSString *property in jsonDictionary) {
         
         // Get the property description
@@ -217,7 +237,7 @@
         if (!description) {
             // if no description, it could be a network property
             description = [propertiesDescription descriptionForNetworkProperty:property];
-            if (!description) DLog(@"No description for property %@ found on entity %@!", property, propertiesDescription.entityName); continue;
+            if (!description) DLog(@"No description for property \"%@\" found on entity \"%@\"!  It's not in your data model.  Skipping...", property, propertiesDescription.entityName); continue;
         }
         
         // get the original value
