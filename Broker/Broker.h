@@ -26,12 +26,22 @@
 @property (nonatomic, retain) NSManagedObjectContext *context;
 @property (nonatomic, readonly) NSMutableDictionary *entityDescriptions;
 
-////////////////////////////////////////////////////////////////////////////////
-//                                  Setup                                     //
-////////////////////////////////////////////////////////////////////////////////
+/** @name Setup */
 
+/**
+ * Blah blah, this is the description
+ *
+ * This is the longer description
+ *
+ * @return A new Broker instance setup with the provided NSManagedObjectContext
+ * @param A NSManagedObjectContext.  Typically this is the main app context.
+ */
 + (id)brokerWithContext:(NSManagedObjectContext *)context;
 
+/**
+ * Performs basic setup operations with the provided NSManagedObjectContext
+ * @param A NSManagedObjectContext.  Typically this is the main app context.
+ */
 - (void)setupWithContext:(NSManagedObjectContext *)aContext;
 
 /**
@@ -39,9 +49,7 @@
  */
 - (void)reset;
 
-////////////////////////////////////////////////////////////////////////////////
-//                               Registration                                 //
-////////////////////////////////////////////////////////////////////////////////
+/** @name Registration */
 
 /**
  * Regsister entity where network attribute names are the same as local 
@@ -93,9 +101,8 @@
 //              onEntity:(NSString *)entity;
 
 
-////////////////////////////////////////////////////////////////////////////////
-//                                 Processing                                 //
-////////////////////////////////////////////////////////////////////////////////
+/** @name Processing */
+
 /**
  *
  */
@@ -111,9 +118,7 @@
            forRelationship:(NSString *)relationshipName
        withCompletionBlock:(void (^)())CompletionBlock;
 
-////////////////////////////////////////////////////////////////////////////////
-//                                 Core Data                                  //
-////////////////////////////////////////////////////////////////////////////////
+/** @name Core Data */
 
 /**
  * Returns a new instance of the NSManagedObjectContext sharing the main 
@@ -121,9 +126,7 @@
  */
 - (NSManagedObjectContext *)newMainStoreManagedObjectContext;
 
-////////////////////////////////////////////////////////////////////////////////
-//                                 Accessors                                  //
-////////////////////////////////////////////////////////////////////////////////
+/** @name Accessors */
 
 - (BKEntityPropertiesDescription *)entityPropertyDescriptionForEntityName:(NSString *)entityName;
 
@@ -136,7 +139,7 @@
 - (BKEntityPropertiesDescription *)destinationEntityPropertiesDescriptionForRelationship:(NSString *)relationship
                                                                            onEntityNamed:(NSString *)entityName;
 
-#pragma mark - Private
+/** @name Private */
 
 - (NSDictionary *)transformJSONDictionary:(NSDictionary *)jsonDictionary 
          usingEntityPropertiesDescription:(BKEntityPropertiesDescription *)entityMap;
