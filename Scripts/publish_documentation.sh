@@ -2,8 +2,9 @@
 
 cd ../
 
-mkdir ~/tmp/BrokerDocumentation
-cp -R Documentation/com.andrewbsmith.broker.Broker.docset/Contents/Resources/Documents ~/tmp/BrokerDocumentation
+mkdir ~/Documents/tmp
+mkdir ~/Documentation/tmp/BrokerDocumentation
+cp -R Documentation/com.andrewbsmith.broker.Broker.docset/Contents/Resources/Documents ~/Documents/tmp/BrokerDocumentation
 git checkout gh-pages
-cp -R ~/tmp/BrokerDocumentation .
+cp -R ~/Documents/tmp/BrokerDocumentation .
 git push origin gh-pages
