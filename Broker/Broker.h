@@ -29,7 +29,7 @@
 /** @name Setup */
 
 /**
- * Blah blah, this is the description
+ * I changed the documentation!
  *
  * This is the longer description
  *
