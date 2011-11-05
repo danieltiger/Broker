@@ -36,6 +36,13 @@
 	
 	
 	
+	<option value="properties">Properties</option>
+	
+	<option value="//api/name/entityDescriptions">&nbsp;&nbsp;&nbsp;&nbsp;entityDescriptions</option>
+	
+	<option value="//api/name/mainContext">&nbsp;&nbsp;&nbsp;&nbsp;mainContext</option>
+	
+	
 	
 	
 	<option value="class_methods">Class Methods</option>
@@ -63,6 +70,8 @@
 	
 	<option value="//api/name/setDateFormat:forProperty:onEntity:">&nbsp;&nbsp;&nbsp;&nbsp;- setDateFormat:forProperty:onEntity:</option>
 	
+	<option value="//api/name/setRootKeyPath:forEntity:">&nbsp;&nbsp;&nbsp;&nbsp;- setRootKeyPath:forEntity:</option>
+	
 	<option value="//api/name/setupWithContext:">&nbsp;&nbsp;&nbsp;&nbsp;- setupWithContext:</option>
 	
 	
@@ -79,6 +88,8 @@
 
 <li role="treeitem" id="task_treeitem"><span class="nodisclosure"></span><span class="sectionName"><a href="#tasks">Tasks</a></span><ul>
 	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#task_Properties">Properties</a></span></li>
+	
 	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#task_Setup">Setup</a></span></li>
 	
 	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#task_Registration">Registration</a></span></li>
@@ -92,6 +103,14 @@
 
 
 
+
+<li role="treeitem" class="children"><span class="disclosure"></span><span class="sectionName"><a href="#properties">Properties</a></span><ul>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/entityDescriptions">entityDescriptions</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/mainContext">mainContext</a></span></li>
+	
+</ul></li>
 
 
 
@@ -120,6 +139,8 @@
 	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/reset">reset</a></span></li>
 	
 	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/setDateFormat:forProperty:onEntity:">setDateFormat:forProperty:onEntity:</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/setRootKeyPath:forEntity:">setRootKeyPath:forEntity:</a></span></li>
 	
 	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/setupWithContext:">setupWithContext:</a></span></li>
 	
@@ -164,6 +185,29 @@
 						<h2 class="subtitle subtitle-tasks">Tasks</h2>
 						
 						
+						<a title="Properties" name="task_Properties"></a>
+						<h3 class="subsubtitle task-title">Properties</h3>
+
+						<ul class="task-list">
+							<li>
+	<span class="tooltip">
+		<code><a href="#//api/name/mainContext">&nbsp;&nbsp;mainContext</a></code>
+		<span class="tooltip"><p>The NSManagedObjectContext in which the <a href="Broker.html">Broker</a> instance performs its operations</p></span>
+	</span>
+	<span class="task-item-suffix">property</span>
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/entityDescriptions">&nbsp;&nbsp;entityDescriptions</a></code>
+		<span class="tooltip"><p>The dictionary containing all BKEntityPropertiesDescriptions registered with
+the <a href="Broker.html">Broker</a> instance.</p></span>
+	</span>
+	<span class="task-item-suffix">property</span>
+	
+</li>
+						</ul>
+						
+						
 						<a title="Setup" name="task_Setup"></a>
 						<h3 class="subsubtitle task-title">Setup</h3>
 
@@ -171,7 +215,7 @@
 							<li>
 	<span class="tooltip">
 		<code><a href="#//api/name/brokerWithContext:">+&nbsp;brokerWithContext:</a></code>
-		<span class="tooltip"><p>I changed the documentation!</p></span>
+		<span class="tooltip"><p>This should be part of the larger summary</p></span>
 	</span>
 	
 	
@@ -185,7 +229,7 @@
 </li><li>
 	<span class="tooltip">
 		<code><a href="#//api/name/reset">&ndash;&nbsp;reset</a></code>
-		<span class="tooltip"><p>Resets <a href="Broker.html">Broker</a> instance by clearing the context and entityDescriptions.</p></span>
+		<span class="tooltip"><p>Resets <a href="Broker.html">Broker</a> instance by clearing the context and <a href="#//api/name/entityDescriptions">entityDescriptions</a>.</p></span>
 	</span>
 	
 	
@@ -208,9 +252,7 @@ attribute names.</p></span>
 </li><li>
 	<span class="tooltip">
 		<code><a href="#//api/name/registerEntityNamed:withPrimaryKey:andMapNetworkProperty:toLocalProperty:">&ndash;&nbsp;registerEntityNamed:withPrimaryKey:andMapNetworkProperty:toLocalProperty:</a></code>
-		<span class="tooltip"><p>Regsister entity and map a single network property to a local property.  A
-common map for &ldquo;MyObject&rdquo; might be mapping a network property &lsquo;id&rsquo; to
-local property of &lsquo;myObjectID.&rsquo;</p></span>
+		<span class="tooltip"><p>Regsister entity and map a single network property to a local property.</p></span>
 	</span>
 	
 	
@@ -218,8 +260,7 @@ local property of &lsquo;myObjectID.&rsquo;</p></span>
 	<span class="tooltip">
 		<code><a href="#//api/name/registerEntityNamed:withPrimaryKey:andMapNetworkProperties:toLocalProperties:">&ndash;&nbsp;registerEntityNamed:withPrimaryKey:andMapNetworkProperties:toLocalProperties:</a></code>
 		<span class="tooltip"><p>Register object where some of the network attribute names are not the same as
-local attribute names.  A common excpetion for &ldquo;MyObject&rdquo; might be mapping a
-network attribute &lsquo;id&rsquo; to local attribute of &lsquo;myObjectID.&rsquo;</p></span>
+local attribute names.</p></span>
 	</span>
 	
 	
@@ -227,7 +268,14 @@ network attribute &lsquo;id&rsquo; to local attribute of &lsquo;myObjectID.&rsqu
 	<span class="tooltip">
 		<code><a href="#//api/name/setDateFormat:forProperty:onEntity:">&ndash;&nbsp;setDateFormat:forProperty:onEntity:</a></code>
 		<span class="tooltip"><p>After registering an object you can set the expected date format to be used
-when transforming JSON date strings to NSDates</p></span>
+when transforming JSON date strings to NSDate objects</p></span>
+	</span>
+	
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/setRootKeyPath:forEntity:">&ndash;&nbsp;setRootKeyPath:forEntity:</a></code>
+		<span class="tooltip"><p>Set the root key path for a given entity previously registered</p></span>
 	</span>
 	
 	
@@ -278,6 +326,92 @@ persistent store.  Suitible for use with background qeueus.</p></span>
 					
 					
 					
+					<div class="section section-methods">
+						<a title="Properties" name="properties"></a>
+						<h2 class="subtitle subtitle-methods">Properties</h2>
+						
+						<div class="section-method">
+	<a name="//api/name/entityDescriptions" title="entityDescriptions"></a>
+	<h3 class="subsubtitle method-title">entityDescriptions</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>The dictionary containing all BKEntityPropertiesDescriptions registered with
+the <a href="Broker.html">Broker</a> instance.</p>
+	</div>		
+	
+	
+	<div class="method-subsection method-declaration"><code>@property (nonatomic, readonly) NSMutableDictionary *entityDescriptions</code></div>
+	
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection discussion-section">
+		<h4 class="method-subtitle">Discussion</h4>
+		<p>The dictionary containing all BKEntityPropertiesDescriptions registered with
+the <a href="Broker.html">Broker</a> instance.</p>
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">Broker.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/mainContext" title="mainContext"></a>
+	<h3 class="subsubtitle method-title">mainContext</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>The NSManagedObjectContext in which the <a href="Broker.html">Broker</a> instance performs its operations</p>
+	</div>		
+	
+	
+	<div class="method-subsection method-declaration"><code>@property (nonatomic, retain, readonly) NSManagedObjectContext *mainContext</code></div>
+	
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection discussion-section">
+		<h4 class="method-subtitle">Discussion</h4>
+		<p>The NSManagedObjectContext in which the <a href="Broker.html">Broker</a> instance performs its operations</p>
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">Broker.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+					</div>
+					
 					
 					
 					<div class="section section-methods">
@@ -291,7 +425,7 @@ persistent store.  Suitible for use with background qeueus.</p></span>
 	
 	
 	<div class="method-subsection brief-description">
-		<p>I changed the documentation!</p>
+		<p>This should be part of the larger summary</p>
 	</div>		
 	
 	
@@ -302,8 +436,8 @@ persistent store.  Suitible for use with background qeueus.</p></span>
 		<h4 class="method-subtitle parameter-title">Parameters</h4>
 		
 		<dl class="argument-def parameter-def">
-			<dt><em>A</em></dt>
-			<dd><p>NSManagedObjectContext.  Typically this is the main app context.</p></dd>
+			<dt><em>context</em></dt>
+			<dd><p>Typically this is apps main NSManagedObjectContext.</p></dd>
 		</dl>
 		
 	</div>
@@ -321,7 +455,7 @@ persistent store.  Suitible for use with background qeueus.</p></span>
 	
 	<div class="method-subsection discussion-section">
 		<h4 class="method-subtitle">Discussion</h4>
-		<p>I changed the documentation!</p>
+		<p>This should be part of the larger summary</p>
 
 <p>This is the longer description</p>
 	</div>
@@ -498,13 +632,38 @@ attribute names.</p>
 	
 	<div class="method-subsection brief-description">
 		<p>Register object where some of the network attribute names are not the same as
-local attribute names.  A common excpetion for &ldquo;MyObject&rdquo; might be mapping a
-network attribute &lsquo;id&rsquo; to local attribute of &lsquo;myObjectID.&rsquo;</p>
+local attribute names.</p>
 	</div>		
 	
 	
 	<div class="method-subsection method-declaration"><code>- (void)registerEntityNamed:(NSString *)<em>entityName</em> withPrimaryKey:(NSString *)<em>primaryKey</em> andMapNetworkProperties:(NSArray *)<em>networkProperties</em> toLocalProperties:(NSArray *)<em>localProperties</em></code></div>
 	
+	
+	<div class="method-subsection arguments-section parameters">
+		<h4 class="method-subtitle parameter-title">Parameters</h4>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>entityName</em></dt>
+			<dd><p>The entity name of the NSManagedObject.</p></dd>
+		</dl>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>primaryKey</em></dt>
+			<dd><p>The designated primary key of the entity</p></dd>
+		</dl>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>networkProperties</em></dt>
+			<dd><p>An array of</p></dd>
+		</dl>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>localProperties</em></dt>
+			<dd><p>An array of local property names that match with the
+networkProperties</p></dd>
+		</dl>
+		
+	</div>
 	
 	
 	
@@ -515,13 +674,24 @@ network attribute &lsquo;id&rsquo; to local attribute of &lsquo;myObjectID.&rsqu
 	<div class="method-subsection discussion-section">
 		<h4 class="method-subtitle">Discussion</h4>
 		<p>Register object where some of the network attribute names are not the same as
-local attribute names.  A common excpetion for &ldquo;MyObject&rdquo; might be mapping a
+local attribute names.</p>
+
+<p>A common excpetion for &ldquo;MyObject&rdquo; might be mapping a
 network attribute &lsquo;id&rsquo; to local attribute of &lsquo;myObjectID.&rsquo;</p>
 	</div>
 	
 	
 	
 	
+	
+	<div class="method-subsection see-also-section">
+		<h4 class="method-subtitle">See Also</h4>
+		<ul>
+			
+			<li><code><p><a href="../Classes/BKEntityPropertiesDescription.html#//api/name/primaryKey">[BKEntityPropertiesDescription primaryKey]</a></p></code></li>
+			
+		</ul>
+	</div>
 	
 	
 	
@@ -540,9 +710,7 @@ network attribute &lsquo;id&rsquo; to local attribute of &lsquo;myObjectID.&rsqu
 	
 	
 	<div class="method-subsection brief-description">
-		<p>Regsister entity and map a single network property to a local property.  A
-common map for &ldquo;MyObject&rdquo; might be mapping a network property &lsquo;id&rsquo; to
-local property of &lsquo;myObjectID.&rsquo;</p>
+		<p>Regsister entity and map a single network property to a local property.</p>
 	</div>		
 	
 	
@@ -557,9 +725,7 @@ local property of &lsquo;myObjectID.&rsquo;</p>
 	
 	<div class="method-subsection discussion-section">
 		<h4 class="method-subtitle">Discussion</h4>
-		<p>Regsister entity and map a single network property to a local property.  A
-common map for &ldquo;MyObject&rdquo; might be mapping a network property &lsquo;id&rsquo; to
-local property of &lsquo;myObjectID.&rsquo;</p>
+		<p>Regsister entity and map a single network property to a local property.</p>
 	</div>
 	
 	
@@ -583,7 +749,7 @@ local property of &lsquo;myObjectID.&rsquo;</p>
 	
 	
 	<div class="method-subsection brief-description">
-		<p>Resets <a href="Broker.html">Broker</a> instance by clearing the context and entityDescriptions.</p>
+		<p>Resets <a href="Broker.html">Broker</a> instance by clearing the context and <a href="#//api/name/entityDescriptions">entityDescriptions</a>.</p>
 	</div>		
 	
 	
@@ -598,7 +764,7 @@ local property of &lsquo;myObjectID.&rsquo;</p>
 	
 	<div class="method-subsection discussion-section">
 		<h4 class="method-subtitle">Discussion</h4>
-		<p>Resets <a href="Broker.html">Broker</a> instance by clearing the context and entityDescriptions.</p>
+		<p>Resets <a href="Broker.html">Broker</a> instance by clearing the context and <a href="#//api/name/entityDescriptions">entityDescriptions</a>.</p>
 	</div>
 	
 	
@@ -623,12 +789,33 @@ local property of &lsquo;myObjectID.&rsquo;</p>
 	
 	<div class="method-subsection brief-description">
 		<p>After registering an object you can set the expected date format to be used
-when transforming JSON date strings to NSDates</p>
+when transforming JSON date strings to NSDate objects</p>
 	</div>		
 	
 	
 	<div class="method-subsection method-declaration"><code>- (void)setDateFormat:(NSString *)<em>dateFormat</em> forProperty:(NSString *)<em>property</em> onEntity:(NSString *)<em>entity</em></code></div>
 	
+	
+	<div class="method-subsection arguments-section parameters">
+		<h4 class="method-subtitle parameter-title">Parameters</h4>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>dateFormat</em></dt>
+			<dd><p>String representation of the date format</p></dd>
+		</dl>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>property</em></dt>
+			<dd><p>The name of the property for the given entity that is an NSDate</p></dd>
+		</dl>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>entity</em></dt>
+			<dd><p>The name of the entity, previously registered with <a href="Broker.html">Broker</a>,
+to set the date format on</p></dd>
+		</dl>
+		
+	</div>
 	
 	
 	
@@ -639,7 +826,75 @@ when transforming JSON date strings to NSDates</p>
 	<div class="method-subsection discussion-section">
 		<h4 class="method-subtitle">Discussion</h4>
 		<p>After registering an object you can set the expected date format to be used
-when transforming JSON date strings to NSDates</p>
+when transforming JSON date strings to NSDate objects</p>
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">Broker.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/setRootKeyPath:forEntity:" title="setRootKeyPath:forEntity:"></a>
+	<h3 class="subsubtitle method-title">setRootKeyPath:forEntity:</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Set the root key path for a given entity previously registered</p>
+	</div>		
+	
+	
+	<div class="method-subsection method-declaration"><code>- (void)setRootKeyPath:(NSString *)<em>rootKeyPath</em> forEntity:(NSString *)<em>entity</em></code></div>
+	
+	
+	<div class="method-subsection arguments-section parameters">
+		<h4 class="method-subtitle parameter-title">Parameters</h4>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>rootKeyPath</em></dt>
+			<dd><p>The root key path of the entity resource.</p></dd>
+		</dl>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>entity</em></dt>
+			<dd><p>The name of the entity, previously registered with <a href="Broker.html">Broker</a></p></dd>
+		</dl>
+		
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection discussion-section">
+		<h4 class="method-subtitle">Discussion</h4>
+		<p>Set the root key path for a given entity previously registered</p>
+
+<p>The root key path is useful when the returned resources are nested. For a
+resource named &ldquo;User,&rdquo; the JSON might look like the following.</p>
+
+<pre><code>{ 
+    'response' : { 
+        'user' : {
+                  &lt;DATA&gt;
+                 }
+    }
+}
+</code></pre>
+
+<p>In this case, the rootKeyPath would be @&ldquo;response.user&rdquo;.</p>
 	</div>
 	
 	
@@ -667,15 +922,15 @@ when transforming JSON date strings to NSDates</p>
 	</div>		
 	
 	
-	<div class="method-subsection method-declaration"><code>- (void)setupWithContext:(NSManagedObjectContext *)<em>aContext</em></code></div>
+	<div class="method-subsection method-declaration"><code>- (void)setupWithContext:(NSManagedObjectContext *)<em>context</em></code></div>
 	
 	
 	<div class="method-subsection arguments-section parameters">
 		<h4 class="method-subtitle parameter-title">Parameters</h4>
 		
 		<dl class="argument-def parameter-def">
-			<dt><em>A</em></dt>
-			<dd><p>NSManagedObjectContext.  Typically this is the main app context.</p></dd>
+			<dt><em>context</em></dt>
+			<dd><p>Typically this is the main app context.</p></dd>
 		</dl>
 		
 	</div>
