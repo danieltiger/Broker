@@ -57,9 +57,14 @@
     NSManagedObject *object = [[Broker sharedInstance] objectForURI:self.entityURI 
                                                            inContext:self.context];
     
+    NSAssert(object, @"Object not found in store!  Did you remember to save the managed object context to get the URI?");
+    if (!object) return;
     
     BKEntityPropertiesDescription *description = [[Broker sharedInstance] entityPropertyDescriptionForEntityName:object.entity.name];
 
+    NSAssert(description, @"Entity named \"%@\" not registered with Broker instance!", object.entity.name);
+    if (!description) return;
+    
     // Flat
     if ([jsonObject isKindOfClass:[NSDictionary class]]) {
         

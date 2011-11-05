@@ -10,14 +10,27 @@
 
 #import "BKJSONOperation.h"
 
+@interface Broker ()
+@property (nonatomic, retain, readwrite) NSManagedObjectContext *mainContext;
+@end
+
 @implementation Broker
 
-@synthesize context;
+@synthesize mainContext;
+
++ (id)sharedInstance {
+    static dispatch_once_t pred = 0;
+    __strong static id _sharedInstance = nil;
+    dispatch_once(&pred, ^{
+        _sharedInstance = [[self alloc] init];
+    });
+    return _sharedInstance;
+}
 
 - (void)dealloc {
-    [context release], context = nil;
+    [mainContext release], mainContext = nil;
     [entityDescriptions release], entityDescriptions = nil;
-    
+        
     [super dealloc];
 }
 
@@ -25,16 +38,16 @@
 
 + (id)brokerWithContext:(NSManagedObjectContext *)context {    
     Broker *broker = [[[self alloc] init] autorelease];
-    broker.context = context;
+    broker.mainContext = context;
     return broker;
 }
 
-- (void)setupWithContext:(NSManagedObjectContext *)aContext {
-    self.context = aContext;
+- (void)setupWithContext:(NSManagedObjectContext *)context {
+    self.mainContext = context;
 }
 
 - (void)reset {
-    [context release], context = nil;
+    [mainContext release], mainContext = nil;
     [entityDescriptions release], entityDescriptions = nil;
 }
 
@@ -65,7 +78,7 @@
     andMapNetworkProperties:(NSArray *)networkProperties 
           toLocalProperties:(NSArray *)localProperties {
     
-    NSAssert(self.context, @"Broker must be setup with setupWithContext!");
+    NSAssert(self.mainContext, @"Broker must be setup with setupWithContext!");
     
     if ([self entityPropertyDescriptionForEntityName:entityName]) {
         WLog(@"Entity named %@ already registered with Broker", entityName);
@@ -74,7 +87,7 @@
     
     // create new object
     NSManagedObject *object = [NSEntityDescription insertNewObjectForEntityForName:entityName 
-                                                            inManagedObjectContext:self.context];
+                                                            inManagedObjectContext:self.mainContext];
     
     // Build description of entity properties
     BKEntityPropertiesDescription *desc = [BKEntityPropertiesDescription descriptionForEntity:object.entity 
@@ -89,7 +102,7 @@
     [self.entityDescriptions setObject:desc forKey:entityName];
     
     // cleanup
-    [self.context deleteObject:object];
+    [self.mainContext deleteObject:object];
 }
 
 - (void)setDateFormat:(NSString *)dateFormat 
@@ -111,7 +124,7 @@
 
 - (void)processJSONPayload:(id)jsonPayload 
             targetEntity:(NSURL *)entityURI
-     withCompletionBlock:(void (^)())CompletionBlock{
+     withCompletionBlock:(void (^)())CompletionBlock {
     
     [self processJSONPayload:jsonPayload
               targetEntity:entityURI
@@ -123,8 +136,11 @@
 - (void)processJSONPayload:(id)jsonPayload 
               targetEntity:(NSURL *)entityURI
            forRelationship:(NSString *)relationshipName
-       withCompletionBlock:(void (^)())CompletionBlock{
-
+       withCompletionBlock:(void (^)())CompletionBlock {
+    
+    NSAssert(self.mainContext, @"Broker must be setup with setupWithContext!");
+    if (!self.mainContext) return;
+    
     BKJSONOperation *operation = [BKJSONOperation operation];
     
     operation.jsonPayload = jsonPayload;
@@ -144,7 +160,7 @@
 
     NSManagedObjectContext *threadContext = (NSManagedObjectContext *)notification.object;
     
-    [self.context performSelectorOnMainThread:selector withObject:notification waitUntilDone:NO];
+    [self.mainContext performSelectorOnMainThread:selector withObject:notification waitUntilDone:NO];
 
     [[NSNotificationCenter defaultCenter] removeObserver:self 
                                                     name:NSManagedObjectContextDidSaveNotification 
@@ -154,7 +170,7 @@
 - (NSManagedObjectContext *)newMainStoreManagedObjectContext {
     
     // Grab the main coordinator
-    NSPersistentStoreCoordinator *coord = [self.context persistentStoreCoordinator];
+    NSPersistentStoreCoordinator *coord = [self.mainContext persistentStoreCoordinator];
 
     // Create new context with default concurrency type
     NSManagedObjectContext *newContext = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSConfinementConcurrencyType];
@@ -228,7 +244,7 @@
         if (!description) {
             // if no description, it could be a network property
             description = [propertiesDescription descriptionForNetworkProperty:property];
-            if (!description) DLog(@"No description for property \"%@\" found on entity \"%@\"!  It's not in your data model.  Skipping...", property, propertiesDescription.entityName); continue;
+            if (!description) {DLog(@"No description for property \"%@\" found on entity \"%@\"!  It's not in your data model.  Skipping...", property, propertiesDescription.entityName); continue;}
         }
         
         // get the original value
