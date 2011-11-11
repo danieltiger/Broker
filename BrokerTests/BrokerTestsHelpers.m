@@ -3,7 +3,7 @@
 //  Broker
 //
 //  Created by Andrew Smith on 10/6/11.
-//  Copyright (c) 2011 Andrew B. Smith. All rights reserved.
+//  Copyright (c) 2011 Andrew B. Smith ( http://github.com/drewsmits ). All rights reserved.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy 
 // of this software and associated documentation files (the "Software"), to deal 
