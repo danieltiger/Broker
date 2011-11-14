@@ -1,4 +1,4 @@
 Documentation set was installed to Xcode!
 
-Path: ../Documentation/com.andrewbsmith.broker.Broker.docset
-Time: 2011-11-05 00:40:35 +0000
+Path: /Users/andrewsmith/Library/Developer/Shared/Documentation/DocSets/com.andrewbsmith.broker.Broker.docset
+Time: 2011-11-11 23:37:08 +0000

@@ -19,10 +19,9 @@
 		DB4C0E59143D34E50090F5E3 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DB4C0E58143D34E50090F5E3 /* CoreData.framework */; };
 		DB4C0E78143D84560090F5E3 /* BKRelationshipDescription.h in Headers */ = {isa = PBXBuildFile; fileRef = DB4C0E76143D84560090F5E3 /* BKRelationshipDescription.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		DB4C0E79143D84560090F5E3 /* BKRelationshipDescription.m in Sources */ = {isa = PBXBuildFile; fileRef = DB4C0E77143D84560090F5E3 /* BKRelationshipDescription.m */; };
-		DB576E0D14572D0F006021CE /* BKJSONOperation.h in Headers */ = {isa = PBXBuildFile; fileRef = DB576E0B14572D0F006021CE /* BKJSONOperation.h */; };
+		DB576E0D14572D0F006021CE /* BKJSONOperation.h in Headers */ = {isa = PBXBuildFile; fileRef = DB576E0B14572D0F006021CE /* BKJSONOperation.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		DB576E0E14572D0F006021CE /* BKJSONOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = DB576E0C14572D0F006021CE /* BKJSONOperation.m */; };
 		DB6B69AC14573D9200CCAE96 /* libBroker.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DB4C0E22143D2F4F0090F5E3 /* libBroker.a */; };
-		DB6B69AF14573DA300CCAE96 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DB6B69AE14573DA300CCAE96 /* UIKit.framework */; };
 		DBA5F95C145610C500EBFF68 /* Broker.h in Headers */ = {isa = PBXBuildFile; fileRef = DB4C0E2A143D2F4F0090F5E3 /* Broker.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		DBCD6737143F61ED000FD78D /* BKEntityPropertiesMap.h in Headers */ = {isa = PBXBuildFile; fileRef = DBCD6735143F61EC000FD78D /* BKEntityPropertiesMap.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		DBCD6738143F61ED000FD78D /* BKEntityPropertiesMap.m in Sources */ = {isa = PBXBuildFile; fileRef = DBCD6736143F61EC000FD78D /* BKEntityPropertiesMap.m */; };
@@ -94,7 +93,6 @@
 		DB4C0E77143D84560090F5E3 /* BKRelationshipDescription.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = BKRelationshipDescription.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		DB576E0B14572D0F006021CE /* BKJSONOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = BKJSONOperation.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		DB576E0C14572D0F006021CE /* BKJSONOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = BKJSONOperation.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
-		DB6B69AE14573DA300CCAE96 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		DBCD6735143F61EC000FD78D /* BKEntityPropertiesMap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = BKEntityPropertiesMap.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		DBCD6736143F61EC000FD78D /* BKEntityPropertiesMap.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = BKEntityPropertiesMap.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		DBCD67501443F47A000FD78D /* BKPropertyDescription.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = BKPropertyDescription.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
@@ -112,8 +110,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DB4C0E59143D34E50090F5E3 /* CoreData.framework in Frameworks */,
 				DB4C0E26143D2F4F0090F5E3 /* Foundation.framework in Frameworks */,
+				DB4C0E59143D34E50090F5E3 /* CoreData.framework in Frameworks */,
 				DB24BB32145767A200BDAD0A /* libConductor.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -124,7 +122,6 @@
 			files = (
 				DB4C0E37143D2F4F0090F5E3 /* Foundation.framework in Frameworks */,
 				DB4C0E34143D2F4F0090F5E3 /* SenTestingKit.framework in Frameworks */,
-				DB6B69AF14573DA300CCAE96 /* UIKit.framework in Frameworks */,
 				DBFF95CD143D9060008511EA /* CoreData.framework in Frameworks */,
 				DB6B69AC14573D9200CCAE96 /* libBroker.a in Frameworks */,
 			);
@@ -173,7 +170,6 @@
 		DB4C0E24143D2F4F0090F5E3 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				DB6B69AE14573DA300CCAE96 /* UIKit.framework */,
 				DB4C0E58143D34E50090F5E3 /* CoreData.framework */,
 				DB4C0E25143D2F4F0090F5E3 /* Foundation.framework */,
 				DB4C0E33143D2F4F0090F5E3 /* SenTestingKit.framework */,
