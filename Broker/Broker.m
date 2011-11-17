@@ -165,6 +165,9 @@
     operation.jsonPayload = jsonPayload;
     operation.entityURI = entityURI;
     operation.relationshipName = relationshipName;
+    
+    // Thread safe managed object context.  Will call contextDidSave when saving,
+    // properly merges with main context on main thread
     operation.context = [self newMainStoreManagedObjectContext];
     
     operation.completionBlock = CompletionBlock;

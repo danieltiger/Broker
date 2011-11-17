@@ -70,6 +70,7 @@
         [self.context save:&error];
     }
     
+    // Calls finish on superclass CDOperation, part of Conductor
     [super finish];    
 }
 
