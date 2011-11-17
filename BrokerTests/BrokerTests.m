@@ -148,7 +148,21 @@ static NSString *kEmployeeStartDateFormat = @"yyyy/MM/dd HH:mm:ss zzzz";
     // registration creates objects in the store.  These shouldnt be saved.
     // Could even register on a separate thread, using separate MOC to be super
     // safe and fast.  Use isReady flag to know if it can start processing shit.
-    STFail(@"TODO");
+    
+    [[Broker sharedInstance] registerEntityNamed:kEmployee withPrimaryKey:@"employeeID"];
+    
+    NSEntityDescription *entityDescription = [NSEntityDescription entityForName:kEmployee 
+                                                         inManagedObjectContext:context];
+    
+    NSFetchRequest *request = [[[NSFetchRequest alloc] init] autorelease];
+    
+    [request setEntity:entityDescription];
+    [request setPredicate:[NSPredicate predicateWithFormat:@"1 = 1"]];
+    
+    NSError *error = nil;
+    NSArray *array = [context executeFetchRequest:request error:&error];
+    
+    STAssertFalse((array.count > 0), @"Broker should not leave straggling entities after registration!");
 }
 
 #pragma mark - Entity Properties Description
