@@ -60,6 +60,8 @@
 }
 
 - (void)setupWithContext:(NSManagedObjectContext *)context {
+    NSAssert(context, @"Context must not be nil!");
+    if (!context) return;
     self.mainContext = context;
 }
 

@@ -48,9 +48,13 @@
     @autoreleasepool {    
         [super start];
         
+        NSError *error;
         id jsonObject = [NSJSONSerialization JSONObjectWithData:self.jsonPayload 
                                                         options:NSJSONReadingMutableContainers 
-                                                          error:NULL];
+                                                          error:&error];
+        
+        NSAssert(jsonObject, @"Unable to create JSON object from JSON data. ERROR: %@", error);
+        if (!jsonObject) [self finish];
         
         [self processJSONObject:jsonObject];
         
@@ -96,15 +100,7 @@
     
     // Collection
     if ([jsonObject isKindOfClass:[NSArray class]]) {
-        
-        NSString *entityName = nil;
-        
-        if (self.relationshipName) {
-            entityName = [description destinationEntityNameForRelationship:self.relationshipName];
-        } else {
-            entityName = description.entityName;
-        }
-        
+    
         [self processJSONCollection:jsonObject
                           forObject:object
               withEntityDescription:description
@@ -126,6 +122,11 @@
     
     BKEntityPropertiesDescription *destinationEntityDesc = [[Broker sharedInstance] entityPropertyDescriptionForEntityName:destinationEntityName];
     
+    // Check for registration
+    NSAssert(destinationEntityDesc, @"Entity for relationship \"%@\" is not registered with Broker instance!", relationship);
+    if (!destinationEntityDesc) return;
+    
+    // Check for primary key
     NSAssert(destinationEntityDesc.primaryKey, @"Processing a collection of %@ objects requires registration of an %@ primaryKey using [Broker registerEntityName:withPrimaryKey]", destinationEntityName, destinationEntityName);
     if (!destinationEntityDesc.primaryKey) return;
     
